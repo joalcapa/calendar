@@ -1,5 +1,10 @@
 export interface Event {
   id: number;
-  createdAt: Date;
-  updatedAt: Date;
+  title: string;
+  description: string;
+  start_date: Date;
+  finish_date: Date;
+  is_all_day: Boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
