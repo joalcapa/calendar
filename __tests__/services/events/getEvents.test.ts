@@ -12,6 +12,7 @@ describe('GetEvents', () => {
 
   beforeEach(() => {
     findAllMock = eventRepository.findAll as unknown as jest.Mock<Promise<Event[]>>;
+    jest.clearAllMocks();
   });
 
   it('should get all events', async () => {
@@ -20,6 +21,7 @@ describe('GetEvents', () => {
     const service = new GetEvents();
     await service.call();
 
+    expect(service.valid).toBe(true);
     expect(service.getEvents()).toEqual(mockEvents);
     expect(findAllMock).toHaveBeenCalled();
   });
