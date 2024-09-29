@@ -34,11 +34,13 @@ export default class CreateEvent extends BaseService {
     }
 
     const startDate = new Date(this.data.start_date);
-    startDate.setHours(0, 0, 0, 0);
-
     if (this.data.is_all_day) {
+      startDate.setHours(0, 0, 0, 0);
       const finishDate = new Date(startDate);
-      finishDate.setHours(23, 59, 59, 999);
+      finishDate.setUTCHours(23, 59, 59, 999);
+      this.data.finish_date = finishDate;
+    } else {
+      const finishDate = new Date(this.data.finish_date);
       this.data.finish_date = finishDate;
     }
 

@@ -43,6 +43,6 @@ describe('UpdateEvent', () => {
     expect(service.valid).toBe(false);
     expect((service.error || { message: "" }).message).toBe("El evento no existe")
     expect(findByIdMock).toHaveBeenCalled();
-    expect(updateMock).toHaveBeenCalled();
+    expect(updateMock).toHaveBeenCalledTimes(0);
   });
 });
