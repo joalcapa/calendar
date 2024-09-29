@@ -14,4 +14,7 @@ export const eventRepository = {
   deleteById: async (id: number): Promise<Event | null> => {
     return db.event.delete({ where: { id } });
   },
+  update: async (id: number, data: Event): Promise<Event | null> => {
+    return db.event.update({ where: { id }, data });
+  },
 };

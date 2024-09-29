@@ -1,9 +1,9 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
 import GetEvents from '@/services/events/getEvents';
 import CreateEvent from "@/services/events/createEvent";
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   const service = new GetEvents();
   await service.call();
 
@@ -14,7 +14,7 @@ export async function GET(request: Request) {
   return NextResponse.json(service.getEvents(), { status: 200 });
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   const service = new CreateEvent(await request.json());
   await service.call();
 
