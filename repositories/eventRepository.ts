@@ -1,5 +1,5 @@
 import db from '@/libs/db';
-import { Event } from '@prisma/client';
+import { Event } from '@/types/event';
 
 export const eventRepository = {
   findAll: async (): Promise<Event[]> => {
