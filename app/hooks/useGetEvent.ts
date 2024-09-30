@@ -3,7 +3,7 @@ import { Event } from '@/types/event';
 import { getEvent, deleteEvent, updateEvent } from '@/app/services/event';
 import useApi from '@/app/hooks/useApi';
 
-export default () => {
+const useGetEvent = () => {
   const { fetch } = useApi();
   const [event, setEvent] = useState<Event | null>(null)
 
@@ -36,3 +36,5 @@ export default () => {
     updateEvent: updateEventHandler,
   }
 };
+
+export default useGetEvent;

@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { API_URL } from '../config/constants';
 
-export default () => {
+const useApi = () => {
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -34,3 +34,5 @@ export default () => {
     fetch,
   };
 };
+
+export default useApi;

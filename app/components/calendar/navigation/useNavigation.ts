@@ -3,12 +3,18 @@
 import { useEffect, useState } from 'react';
 import useCalendarNavigation from '@/app/hooks/useCalendarNavigation';
 
-export default () => {
-  const [ isMount, setMount ] = useState(false);
+const useNavigation = () => {
+  const [isMount, setMount] = useState(false);
   const hook = useCalendarNavigation();
 
   useEffect(() => {
-    setMount(true);
+    let isMounted = true;
+
+    if (isMounted) {
+      setMount(true);
+    }
+
+    return () => { isMounted = false; }
   }, []);
 
   return {
@@ -16,3 +22,5 @@ export default () => {
     isMount,
   }
 };
+
+export default useNavigation;

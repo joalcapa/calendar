@@ -4,7 +4,7 @@ import { Weather } from '@/types/weather';
 import { getWeather } from '@/app/services/weather';
 import useApi from '@/app/hooks/useApi';
 
-export default () => {
+const useWeather = () => {
   const { fetch } = useApi();
   const [weather, setWeather] = useState<Weather | null>(null)
 
@@ -21,3 +21,5 @@ export default () => {
     getWeather: getWeatherHandler,
   }
 };
+
+export default useWeather;
