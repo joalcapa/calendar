@@ -6,12 +6,7 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/$1',
   },
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
-  },
-  globals: {
-    'ts-jest': {
-      useESM: true,
-    },
+    '^.+\\.(ts|tsx)$': ['ts-jest', { tsconfig: 'tsconfig.json' }],
   },
   moduleDirectories: ['node_modules', 'src'],
   extensionsToTreatAsEsm: ['.ts', '.tsx'],
