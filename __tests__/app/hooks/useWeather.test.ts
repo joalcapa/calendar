@@ -15,9 +15,13 @@ describe('useWeather', () => {
 
     (useApi as jest.Mock).mockReturnValue({ fetch: mockedFetch } as UseApiMock);
 
-    mockedFetch.mockResolvedValue({
-      data: { temperature: 20, condition: 'Sunny', icon: 'http://icons.io/icons/ico.png' },
-    });
+    const weather = {
+      temperature: 20,
+      condition: 'Sunny',
+      icon: 'http://icons.io/icons/ico.png',
+    };
+
+    mockedFetch.mockResolvedValue({ data: weather });
 
     const { result } = renderHook(() => useWeather());
     expect(result.current.weather).toBe(null);
@@ -27,7 +31,7 @@ describe('useWeather', () => {
     });
 
     await waitFor(() => {
-      expect(result.current.weather).toEqual({ temperature: 20, condition: 'Sunny', icon: 'http://icons.io/icons/ico.png' });
+      expect(result.current.weather).toEqual(weather);
     });
   });
 });
