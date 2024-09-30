@@ -1,9 +1,7 @@
-'use client'
-
 import CalendarNavigation from './components/calendar/navigation';
 
-export default function Home() {
+export default async function Home(props: any) {
   return (
-    <CalendarNavigation />
+    <CalendarNavigation label={'29 de Septiembre'} />
   );
 }
