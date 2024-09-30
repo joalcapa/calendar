@@ -1,11 +1,6 @@
 import { renderHook, act } from '@testing-library/react';
-import useCalendarNavigation from '@/app/hooks/useCalendarNavigation';
+import useCalendarNavigation, { MONTH, WEEK, DAY, ADD_COUNT } from '@/app/hooks/useCalendarNavigation';
 import { startOfToday, addMonths, subDays, subMonths, addWeeks, subWeeks, addDays } from 'date-fns';
-
-const MONTH = "MONTH";
-const WEEK = "WEEK";
-const DAY = "DAY";
-const ADD_COUNT = 1;
 
 describe('useCalendarNavigation', () => {
   test('should initialize with today date and month view', () => {
@@ -51,7 +46,7 @@ describe('useCalendarNavigation', () => {
     const { result } = renderHook(() => useCalendarNavigation());
 
     act(() => {
-      result.current.resetToToday();
+      result.current.onResetToday();
     });
 
     expect(result.current.currentDate).toEqual(startOfToday());

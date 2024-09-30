@@ -3,17 +3,17 @@ import { addMonths, addWeeks, addDays, startOfToday } from 'date-fns';
 
 type View = 'MONTH' | 'WEEK' | 'DAY';
 
-const MONTH = "MONTH";
-const WEEK = "WEEK";
-const DAY = "DAY";
-const ADD_COUNT = 1;
-const DIFF_COUNT = -1;
+export const MONTH = "MONTH";
+export const WEEK = "WEEK";
+export const DAY = "DAY";
+export const ADD_COUNT = 1;
+export const DIFF_COUNT = -1;
 
 const useCalendarNavigation = () => {
   const [currentDate, setCurrentDate] = useState<Date>(startOfToday());
   const [view, setView] = useState<View>(MONTH);
 
-  const resetToToday = () => {
+  const onResetToday = () => {
     setCurrentDate(startOfToday());
     setView(MONTH);
   };
@@ -56,13 +56,28 @@ const useCalendarNavigation = () => {
     setView(newView);
   };
 
+  const onMonth = () => {
+    setView(MONTH);
+  };
+
+  const onWeek = () => {
+    setView(WEEK);
+  };
+
+  const onDay = () => {
+    setView(DAY);
+  };
+
   return {
+    onMonth,
+    onWeek,
+    onDay,
+    onResetToday,
     currentDate,
     view,
     next,
     prev,
     setCurrentView,
-    resetToToday,
   };
 };
 

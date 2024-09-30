@@ -11,6 +11,10 @@ interface NavigationProps {
   weekLabelButton?: string;
   dayLabelButton?: string;
   dateLabel?: string;
+  onMonth: () => void,
+  onWeek: () => void,
+  onDay: () => void,
+  onResetToday: () => void,
 }
 
 const NavigationClient: React.FC<NavigationProps> = (
@@ -21,6 +25,10 @@ const NavigationClient: React.FC<NavigationProps> = (
     weekLabelButton = "Semana",
     dayLabelButton = "Día",
     dateLabel = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }),
+    onMonth,
+    onWeek,
+    onDay,
+    onResetToday,
   }
 ) => (
   <>{isMount ? (
@@ -28,16 +36,19 @@ const NavigationClient: React.FC<NavigationProps> = (
       <div className="flex space-x-4">
         <button
           className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded transition duration-300"
+          onClick={onMonth}
         >
           {monthLabelButton}
         </button>
         <button
           className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded transition duration-300"
+          onClick={onWeek}
         >
           {weekLabelButton}
         </button>
         <button
           className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded transition duration-300"
+          onClick={onDay}
         >
           {dayLabelButton}
         </button>
@@ -47,6 +58,7 @@ const NavigationClient: React.FC<NavigationProps> = (
       </div>
       <button
         className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded transition duration-300"
+        onClick={onResetToday}
       >
         {todayLabelButton}
       </button>
