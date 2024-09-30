@@ -1,4 +1,7 @@
+'use client'
+
 import Image from "next/image";
+import useWeather from "./hooks/useWeather";
 
 export default function Home() {
   return (

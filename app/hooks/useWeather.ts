@@ -1,26 +1,23 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { Location } from '@/types/location';
+import { Weather } from '@/types/weather';
+import { getWeather } from '@/app/services/weather';
+import useApi from '@/app/hooks/useApi';
 
-export default (props: Location) => {
-  const { location, datetime } = props;
+export default () => {
+  const { fetch } = useApi();
+  const [weather, setWeather] = useState<Weather | null>(null)
 
-  useEffect(() => {
-    let isFetch = true;
-
-    if (isFetch) {
-      (async () => {
-        try {
-
-        } catch { }
-      })();
-    }
-
-    return () => {
-      isFetch = false;
-    }
-  }, [location, datetime]);
+  const getWeatherHandler = async (props: Location) => {
+    try {
+      const response = await fetch(getWeather(props));
+      const data: Weather = response?.data;
+      if (data) { setWeather(data); }
+    } catch { }
+  };
 
   return {
-
+    weather,
+    getWeather: getWeatherHandler,
   }
 };
