@@ -5,6 +5,8 @@ import { Event } from '@/types/event';
 import { Day, MonthEvents } from '@/types/month';
 import useMonth from './useMonth';
 import MonthServer from './monthServer';
+import CreateEvent from '@/app/components/calendar/events/create/createEvent';
+import UpdateEvent from '../events/update/updateEvent';
 
 interface MonthProps {
   days: Day[];
@@ -76,5 +78,12 @@ const Month: React.FC<MonthProps> = (
 
 export default (props: MonthEvents) => {
   const hook = useMonth(props);
-  return <Month {...hook} />
+
+  return (
+    <>
+      <Month {...hook} />
+      {hook.isUpdateEvent && <UpdateEvent onClose={hook.onCloseUpdateEvent} event={hook.event} />}
+      {hook.isCreateEvent && <CreateEvent onClose={hook.onCloseCreateEvent} />}
+    </>
+  )
 }

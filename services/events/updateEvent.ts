@@ -8,10 +8,12 @@ export default class UpdateEvent extends BaseService {
   constructor(private id: number, private params: Event) {
     super();
     this.event = null;
+    this.params = params;
   }
 
   public async call(): Promise<void> {
     try {
+      console.log("A: ", this.id, this.params)
       this.event = await eventRepository.findById(this.id);
       if (!this.event) {
         return this.setError('El evento no existe');
@@ -19,6 +21,7 @@ export default class UpdateEvent extends BaseService {
 
       this.normalizeDates();
 
+      console.log("A2: ", this.id, this.params)
       this.event = await eventRepository.update(this.id, this.params);
     } catch (error) {
       this.setError('Error al obtener el evento');

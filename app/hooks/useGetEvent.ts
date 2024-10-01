@@ -4,7 +4,7 @@ import { getEvent, deleteEvent, updateEvent } from '@/app/services/event';
 import useApi from '@/app/hooks/useApi';
 
 const useGetEvent = () => {
-  const { fetch } = useApi();
+  const { fetch, isLoading, error } = useApi();
   const [event, setEvent] = useState<Event | null>(null)
 
   const getEventHandler = async (id: number) => {
@@ -31,6 +31,8 @@ const useGetEvent = () => {
 
   return {
     event,
+    isLoading,
+    error,
     getEvent: getEventHandler,
     deleteEvent: deleteEventHandler,
     updateEvent: updateEventHandler,

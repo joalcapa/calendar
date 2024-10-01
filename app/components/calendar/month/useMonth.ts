@@ -7,6 +7,9 @@ import { Event } from '@prisma/client';
 const useMonth = (props: MonthEvents) => {
   const { today } = props;
   const [isMount, setMount] = useState(false);
+  const [isCreateEvent, setCreateEvent] = useState(false);
+  const [isUpdateEvent, setUpdateEvent] = useState(false);
+  const [event, setEvent] = useState<Event | null>(null);
   const [days, setDays] = useState(props.days);
 
   useEffect(() => {
@@ -19,20 +22,34 @@ const useMonth = (props: MonthEvents) => {
     return () => { isMounted = false; }
   }, []);
 
-  const onEvent = (event: Event) => {
-    alert(JSON.stringify(event))
+  const onEvent = (e: Event) => {
+    setUpdateEvent(true);
+    setEvent(e)
   };
 
   const onDay = (day: number) => {
-    alert("dia: " + day.toString())
+    setCreateEvent(true);
+  };
+
+  const onCloseCreateEvent = () => {
+    setCreateEvent(false);
+  };
+
+  const onCloseUpdateEvent = () => {
+    setUpdateEvent(false);
   };
 
   return {
     days,
     today,
     isMount,
+    isCreateEvent,
+    isUpdateEvent,
+    event,
     onEvent,
     onDay,
+    onCloseCreateEvent,
+    onCloseUpdateEvent,
   }
 };
 
