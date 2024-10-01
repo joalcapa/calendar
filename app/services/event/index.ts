@@ -27,8 +27,15 @@ export const updateEvent = (id: number, data: Event) => {
     uri: endpoint.uri.replace(":id", id.toString()),
     data,
   }
-}
+};
 
 export const getEvents = () => {
   return endpoints.getEvents;
+};
+
+export const createEvent = (data: Event) => {
+  return {
+    ...endpoints.createEvent,
+    data,
+  }
 };

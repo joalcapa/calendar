@@ -45,7 +45,7 @@ const Month: React.FC<MonthProps> = (
                 <div
                   key={eventIndex}
                   className="text-xs text-left truncate bg-blue-100 p-1 mb-1 rounded max-w-full whitespace-nowrap overflow-hidden"
-                  style={{ maxWidth: '100%', maxHeight: '20px' }}
+                  style={{ maxWidth: '100%', maxHeight: '20px', paddingBottom: 20 }}
                 >
                   {event.title}
                 </div>

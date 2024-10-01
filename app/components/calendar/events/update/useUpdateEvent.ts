@@ -6,33 +6,46 @@ import useGetEvent from "@/app/hooks/useGetEvent";
 
 interface UpdateEventProps {
   onClose: () => void;
+  onDeleteEvent: (e: Event) => void;
   event: Event;
 }
 
 const useUpdateEvent = (props: UpdateEventProps) => {
-  const { event } = props;
+  const { event, onClose, onDeleteEvent } = props;
   const hook = useCreateEvent(props);
   const { isValidForm, title, description, startDate, isAllDay, finishDate } = hook;
-  const { updateEvent, isLoading, error } = useGetEvent();
+  const { deleteEvent, updateEvent, isLoading, error } = useGetEvent();
+
 
   const onUpdate = async () => {
-    if (isValidForm && event) {
-      try {
-        await updateEvent(
-          event.id, {
+    try {
+      if (isValidForm && event && event.id) {
+        const payload: Event = {
           title,
           description,
-          start_date: startDate,
           is_all_day: isAllDay,
-          finish_date: finishDate,
+          start_date: new Date(startDate + "Z").toISOString(),
+        };
+
+        if (!isAllDay && !!finishDate) {
+          payload.finish_date = new Date(finishDate + "Z").toISOString();
         }
-        );
-      } catch { }
+
+        await updateEvent(event.id, payload);
+        onClose();
+      }
+    } catch {
     }
   };
 
-  const onDelete = () => {
-
+  const onDelete = async () => {
+    try {
+      if (event && event.id) {
+        await deleteEvent(event.id);
+        onDeleteEvent(event);
+        onClose();
+      }
+    } catch { }
   };
 
   return {

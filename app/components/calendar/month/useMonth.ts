@@ -1,16 +1,18 @@
 'use client'
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { MonthEvents } from '@/types/month';
-import { Event } from '@prisma/client';
+import { Event } from '@/types/event';
+import { Day } from '@/types/month';
 
 const useMonth = (props: MonthEvents) => {
   const { today } = props;
   const [isMount, setMount] = useState(false);
   const [isCreateEvent, setCreateEvent] = useState(false);
+  const [dayCreateEvent, setDayCreateEvent] = useState<Date | null>(null);
   const [isUpdateEvent, setUpdateEvent] = useState(false);
   const [event, setEvent] = useState<Event | null>(null);
-  const [days, setDays] = useState(props.days);
+  const [days, setDays] = useState<Day[]>(props.days);
 
   useEffect(() => {
     let isMounted = true;
@@ -24,11 +26,12 @@ const useMonth = (props: MonthEvents) => {
 
   const onEvent = (e: Event) => {
     setUpdateEvent(true);
-    setEvent(e)
+    setEvent(e);
   };
 
-  const onDay = (day: number) => {
+  const onDay = (day: Date) => {
     setCreateEvent(true);
+    setDayCreateEvent(day);
   };
 
   const onCloseCreateEvent = () => {
@@ -39,6 +42,14 @@ const useMonth = (props: MonthEvents) => {
     setUpdateEvent(false);
   };
 
+  const onDeleteEvent = useCallback((e: Event) => {
+    setEvent(null);
+    setDays(days.map((day) => ({
+      ...day,
+      events: day.events.filter((item: Event) => item.id != e.id)
+    })));
+  }, [days]);
+
   return {
     days,
     today,
@@ -46,10 +57,12 @@ const useMonth = (props: MonthEvents) => {
     isCreateEvent,
     isUpdateEvent,
     event,
+    dayCreateEvent,
     onEvent,
     onDay,
     onCloseCreateEvent,
     onCloseUpdateEvent,
+    onDeleteEvent,
   }
 };
 

@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { Event } from '@/types/event';
-import useGetEvent from '@/app/hooks/useGetEvent';
+import useCreateEventHook from '@/app/hooks/useCreateEvent';
 
 interface TargetEvent {
   target: {
@@ -20,30 +20,46 @@ interface CreateEventProps {
   onClose: () => void;
   event?: Event,
   isDelete?: boolean;
+  dayCreateEvent?: Date;
 }
 
-const formatDateForInput = (dateString: string) => {
-  const date = new Date(dateString);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
+const formatDateForInput = (d: Date) => {
+  const date = new Date(d);
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const day = String(date.getUTCDate()).padStart(2, '0');
+  const hours = String(date.getUTCHours()).padStart(2, '0');
+  const minutes = String(date.getUTCMinutes()).padStart(2, '0');
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
 
 const useCreateEvent = (props: CreateEventProps) => {
-  const { onClose = () => { }, event, isDelete } = props;
-  const [loading, setLoading] = useState(false);
+  const { onClose = () => { }, event, isDelete, dayCreateEvent } = props;
+  console.log(props)
   const [title, setTitle] = useState(event && event.title ? event.title : '');
   const [description, setDescription] = useState(event && event.description ? event.description : '');
-  const [startDate, setStartDate] = useState(event && event.start_date ? formatDateForInput(event.start_date.toString()) : '');
+  const [startDate, setStartDate] = useState<string>(event && event.start_date ? formatDateForInput(event.start_date) : dayCreateEvent ? formatDateForInput(dayCreateEvent) : '');
   const [isAllDay, setAllDay] = useState(event && event.is_all_day ? event.is_all_day : false);
-  const [finishDate, setFinishDate] = useState(event && event.finish_date ? formatDateForInput(event.finish_date.toString()) : '');
-  const { isLoading, error } = useGetEvent();
+  const [finishDate, setFinishDate] = useState(event && event.finish_date ? formatDateForInput(event.finish_date) : '');
+  const { isLoading, error, createEvent } = useCreateEventHook();
 
   const onCreate = async () => {
+    try {
+      const payload: Event = {
+        title,
+        description,
+        is_all_day: isAllDay,
+        start_date: new Date(startDate + "Z").toISOString(),
+      };
 
+      if (!isAllDay && !!finishDate) {
+        payload.finish_date = new Date(finishDate + "Z").toISOString();
+      }
+
+      await createEvent(payload);
+      onClose();
+    } catch {
+    }
   };
 
   const resetForm = () => {
@@ -63,7 +79,14 @@ const useCreateEvent = (props: CreateEventProps) => {
   };
 
   const changeStartDate = (event: TargetEvent) => {
-    setStartDate(event.target.value);
+    if (isAllDay) {
+      const originalDateString = event.target.value;
+      const originalDate = new Date(originalDateString);
+      originalDate.setUTCHours(7, 0);
+      setStartDate(originalDate.toISOString().slice(0, 16));
+    } else {
+      setStartDate(event.target.value);
+    }
   };
 
   const changeFinishDate = (event: TargetEvent) => {
@@ -72,6 +95,13 @@ const useCreateEvent = (props: CreateEventProps) => {
 
   const changeAllDay = (event: TargetCheckEvent) => {
     setAllDay(event.target.checked);
+
+    if (event.target.checked) {
+      const originalDateString = startDate;
+      const originalDate = new Date(originalDateString);
+      originalDate.setUTCHours(7, 0);
+      setStartDate(originalDate.toISOString().slice(0, 16));
+    }
   };
 
   const isValidForm = useMemo(() => {

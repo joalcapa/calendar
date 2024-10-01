@@ -19,4 +19,8 @@ export default {
     uri: '/events/:id',
     method: 'put',
   },
+  createEvent: {
+    uri: '/events',
+    method: 'post',
+  },
 };

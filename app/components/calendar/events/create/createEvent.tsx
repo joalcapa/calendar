@@ -22,7 +22,7 @@ interface CreateEventProps {
   buttonLabel: string;
   isValidForm: boolean;
   isDelete: boolean;
-  onDelete: () => void;  
+  onDelete: () => void;
 };
 
 export const CreateEvent = ({
@@ -105,6 +105,7 @@ export const CreateEvent = ({
               type="datetime-local"
               className="border border-gray-300 p-2 w-full rounded"
               value={finishDate}
+              min={startDate}
               onChange={changeFinishDate}
             />
           </div>

@@ -46,7 +46,7 @@ const Month: React.FC<MonthProps> = (
                     ? (day.day === today ? 'border-2 border-blue-600 shadow-lg' : 'bg-white hover:bg-gray-100')
                     : 'opacity-50'
                     }`}
-                  onClick={() => onDay(day.day)}
+                  onClick={() => onDay(day.dayDate)}
                 >
                   <span className="absolute top-1 left-1 text-xs font-bold">
                     {day.day}
@@ -55,8 +55,8 @@ const Month: React.FC<MonthProps> = (
                     {day.events.map((event, eventIndex) => (
                       <div
                         key={eventIndex}
-                        className="text-xs text-left truncate bg-blue-100 p-1 mb-1 rounded max-w-full whitespace-nowrap overflow-hidden cursor-pointer"
-                        style={{ maxWidth: '100%', maxHeight: '20px' }}
+                        className="text-xs text-left truncate bg-blue-100 p-1 mb-1 rounded max-w-full whitespace-nowrap overflow-hidden cursor-pointer hover:bg-black hover:text-white"
+                        style={{ maxWidth: '100%', maxHeight: '20px', paddingBottom: 20 }}
                         onClick={(e) => {
                           e.stopPropagation();
                           onEvent(event);
@@ -82,8 +82,24 @@ export default (props: MonthEvents) => {
   return (
     <>
       <Month {...hook} />
-      {hook.isUpdateEvent && <UpdateEvent onClose={hook.onCloseUpdateEvent} event={hook.event} />}
-      {hook.isCreateEvent && <CreateEvent onClose={hook.onCloseCreateEvent} />}
+      {
+        hook.isUpdateEvent && (
+          <UpdateEvent
+            onClose={hook.onCloseUpdateEvent}
+            event={hook.event}
+            onDeleteEvent={hook.onDeleteEvent}
+          />
+        )
+      }
+      {
+        hook.isCreateEvent && (
+          <CreateEvent
+            onClose={hook.onCloseCreateEvent}
+            dayCreateEvent={hook.dayCreateEvent}
+          />
+        )
+      }
     </>
-  )
+  );
 }
+
