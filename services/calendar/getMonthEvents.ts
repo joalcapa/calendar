@@ -1,16 +1,7 @@
 import BaseService from '../baseService';
 import { Event } from '@/types/event';
+import { MonthEvents } from '@/types/month';
 import GetEvents from '../events/getEvents';
-
-interface Day {
-  day: number;
-  isCurrentMonth: boolean;
-}
-
-interface MonthEvents {
-  today: number;
-  days: Day[];
-}
 
 export default class GetMonthEvents extends BaseService {
   private date: Date;
@@ -49,7 +40,7 @@ export default class GetMonthEvents extends BaseService {
     return {
       today: this.date.getDate(),
       days: Array.from({ length: this.getDaysInMonth(this.date) }, (_, index) => ({
-        day: index + 1,
+        day: index,
         isCurrentMonth: true,
         events: this.getEventsFromDB(events, index),
       })),

@@ -1,7 +1,7 @@
 
 
 import CalendarNavigation from '@/app/components/calendar/navigation/navigationClient';
-import CalendarMonth from '@/app/components/calendar/month/month';
+import CalendarMonth from '@/app/components/calendar/month/monthClient';
 import GetMonthEvents from '@/services/calendar/getMonthEvents';
 
 export default async (props: any) => {
