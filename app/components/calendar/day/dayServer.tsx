@@ -90,16 +90,16 @@ const CalendarColumn: React.FC<CalendarColumnProps> = ({ day, onHourClick, onEve
             borderRadius: 10,
             zIndex: isHovered ? 5 : 3, // Cambia el zIndex si está sobrevolado
             paddingLeft: 10,
-            paddingTop: 5,
+            paddingTop: height < 40 ? 5 : 0,
             display: 'flex',
-            flexDirection: 'column'
+            flexDirection: height < 40 ? 'row' : 'column'
           }}
           onMouseEnter={() => setHoveredEventId(event.id)} // Establece el evento como sobrevolado
           onMouseLeave={() => setHoveredEventId(null)} // Limpia el evento sobrevolado
           onClick={() => onEvent(event)}
         >
-          <span className="text-xs">{event.title}</span>
-          <span className="text-xs">{hh < 10 ? '0' + hh : hh}:{eventStartMinute < 10 ? '0' + eventStartMinute : eventStartMinute} {eventStartHour >= 12 ? 'PM' : 'AM'} - {mm < 10 ? '0' + mm : mm}:{eventEndMinute < 10 ? '0' + eventEndMinute : eventEndMinute} {eventEndHour >= 12 ? 'PM' : 'AM'}</span>
+          <span className="text-xs" style={{ marginTop: height < 20 ? -9 : 0 }}>{event.title}</span>
+          <span className="text-xs" style={{ marginTop: height < 20 ? -9 : 0, paddingLeft: height < 40 ? 10 : 0 }}>{hh < 10 ? '0' + hh : hh}:{eventStartMinute < 10 ? '0' + eventStartMinute : eventStartMinute} {eventStartHour >= 12 ? 'PM' : 'AM'} - {mm < 10 ? '0' + mm : mm}:{eventEndMinute < 10 ? '0' + eventEndMinute : eventEndMinute} {eventEndHour >= 12 ? 'PM' : 'AM'}</span>
         </div>
       );
     });
