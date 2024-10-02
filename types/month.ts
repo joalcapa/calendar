@@ -5,9 +5,12 @@ export interface Day {
   dayDate: Date;
   isCurrentMonth: boolean;
   events: Event[];
+  isCurrent: boolean;
+  isToday: boolean;
 }
 
 export interface MonthEvents {
   today: number;
   days: Day[];
+  startDayOfMonth: number;
 }

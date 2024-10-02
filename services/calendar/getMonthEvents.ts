@@ -37,19 +37,13 @@ export default class GetMonthEvents extends BaseService {
       return null;
     }
 
-    console.log({
-      today: this.date.getDate(),
-      days: Array.from({ length: this.getDaysInMonth(this.date) }, (_, index) => ({
-        day: index + 1,
-        dayDate: this.getDate(this.date, index + 1),
-        isCurrentMonth: true,
-        events: this.getEventsFromDB(events, index),
-      })),
-    })
     return {
-      today: this.date.getDate(),
+      today: new Date().getDate(),
+      startDayOfMonth: new Date(this.date.getFullYear(), this.date.getMonth(), 1).getDay(),
       days: Array.from({ length: this.getDaysInMonth(this.date) }, (_, index) => ({
         day: index + 1,
+        isCurrent: false,
+        isToday: (new Date().getDate() === (index + 1)) && this.date.getMonth() === new Date().getMonth(),
         dayDate: this.getDate(this.date, index + 1),
         isCurrentMonth: true,
         events: this.getEventsFromDB(events, index + 1),
@@ -80,5 +74,9 @@ export default class GetMonthEvents extends BaseService {
 
   public getEvents(): MonthEvents | null {
     return this.events;
+  }
+
+  public getDateLabel(): string {
+    return this.date.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
   }
 }

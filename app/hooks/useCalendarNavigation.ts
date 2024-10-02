@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { addMonths, addWeeks, addDays, startOfToday } from 'date-fns';
+import { useState, useCallback } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { addMonths, addWeeks, addDays, startOfToday, format } from 'date-fns';
 
 type View = 'MONTH' | 'WEEK' | 'DAY';
 
@@ -10,45 +11,47 @@ export const ADD_COUNT = 1;
 export const DIFF_COUNT = -1;
 
 const useCalendarNavigation = () => {
-  const [currentDate, setCurrentDate] = useState<Date>(startOfToday());
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams.toString());
+
+  const [currentDate, setCurrentDate] = useState<Date>(() => {
+    const dateParam = params.get('date');
+    return dateParam ? new Date(dateParam) : startOfToday();
+  });
+
   const [view, setView] = useState<View>(MONTH);
+  const router = useRouter();
+
+  const setCurrentDateHandler = useCallback((call: (prev: Date) => Date) => {
+    setCurrentDate((prev) => {
+      const newDate = call(prev);
+      router.push(`/?date=${format(newDate, 'yyyy-MM-dd')}&type=${view.toLocaleLowerCase()}`);
+      return newDate;
+    });
+  }, [view, router]);
 
   const onResetToday = () => {
-    setCurrentDate(startOfToday());
+    setCurrentDateHandler((prev) => startOfToday());
     setView(MONTH);
   };
 
-  const prev = () => {
+  const onPrev = () => {
     if (view === MONTH) {
-      setCurrentDate((prev) => addMonths(prev, DIFF_COUNT));
-      return
-    }
-
-    if (view === WEEK) {
-      setCurrentDate((prev) => addWeeks(prev, DIFF_COUNT));
-      return
-    }
-
-    if (view === DAY) {
-      setCurrentDate((prev) => addDays(prev, DIFF_COUNT));
-      return
+      setCurrentDateHandler((prev) => addMonths(prev, DIFF_COUNT));
+    } else if (view === WEEK) {
+      setCurrentDateHandler((prev) => addWeeks(prev, DIFF_COUNT));
+    } else if (view === DAY) {
+      setCurrentDateHandler((prev) => addDays(prev, DIFF_COUNT));
     }
   };
 
-  const next = () => {
+  const onNext = () => {
     if (view === MONTH) {
-      setCurrentDate((prev) => addMonths(prev, ADD_COUNT));
-      return
-    }
-
-    if (view === WEEK) {
-      setCurrentDate((prev) => addWeeks(prev, ADD_COUNT));
-      return
-    }
-
-    if (view === DAY) {
-      setCurrentDate((prev) => addDays(prev, ADD_COUNT));
-      return
+      setCurrentDateHandler((prev) => addMonths(prev, ADD_COUNT));
+    } else if (view === WEEK) {
+      setCurrentDateHandler((prev) => addWeeks(prev, ADD_COUNT));
+    } else if (view === DAY) {
+      setCurrentDateHandler((prev) => addDays(prev, ADD_COUNT));
     }
   };
 
@@ -56,17 +59,20 @@ const useCalendarNavigation = () => {
     setView(newView);
   };
 
-  const onMonth = () => {
+  const onMonth = useCallback(() => {
     setView(MONTH);
-  };
+    router.push(`/?date=${format(currentDate, 'yyyy-MM-dd')}&type=month`);
+  }, [currentDate]);
 
-  const onWeek = () => {
+  const onWeek = useCallback(() => {
     setView(WEEK);
-  };
+    router.push(`/?date=${format(currentDate, 'yyyy-MM-dd')}&type=week`);
+  }, [currentDate]);
 
-  const onDay = () => {
+  const onDay = useCallback(() => {
     setView(DAY);
-  };
+    router.push(`/?date=${format(currentDate, 'yyyy-MM-dd')}&type=day`);
+  }, [currentDate]);
 
   return {
     onMonth,
@@ -75,8 +81,8 @@ const useCalendarNavigation = () => {
     onResetToday,
     currentDate,
     view,
-    next,
-    prev,
+    onNext,
+    onPrev,
     setCurrentView,
   };
 };

@@ -11,6 +11,7 @@ interface MonthProps {
   days: Day[];
   today: number;
   weekDays?: string[];
+  startDayOfMonth: number;
 }
 
 const Month: React.FC<MonthProps> = (
@@ -18,6 +19,7 @@ const Month: React.FC<MonthProps> = (
     days,
     today,
     weekDays = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+    startDayOfMonth,
   }
 ) => (
   <div className="max-w-3xl mx-auto text-center">
@@ -29,12 +31,17 @@ const Month: React.FC<MonthProps> = (
       ))}
     </div>
     <div className="grid grid-cols-7 gap-1">
+      {Array.from({ length: startDayOfMonth }, (_, index) => (
+        <div key={`empty-${index}`} className="flex items-center justify-center">
+          <div className="relative flex flex-col items-start justify-start border border-gray-300 h-32 w-32 bg-gray-200"></div>
+        </div>
+      ))}
       {days.map((day, index) => (
         <div key={index} className="flex items-center justify-center">
           <div
-            className={`relative flex flex-col items-start justify-start border border-gray-300 h-32 w-32 p-1 overflow-hidden cursor-pointer ${day.isCurrentMonth
-              ? (day.day === today ? 'border-2 border-blue-600 shadow-lg' : 'bg-white hover:bg-gray-100')
-              : 'opacity-50'
+            className={`relative flex flex-col items-start justify-start border h-32 w-32 p-1 overflow-hidden cursor-pointer ${day.isCurrentMonth
+              ? (day.isToday ? 'border-2 border-yellow-600 shadow-lg' : day.isCurrent ? 'border-2 border-blue-600 shadow-lg' : 'bg-white hover:bg-gray-100')
+              : 'bg-gray-200 opacity-50'
               }`}
           >
             <span className="absolute top-1 left-1 text-xs font-bold">
@@ -52,6 +59,11 @@ const Month: React.FC<MonthProps> = (
               ))}
             </div>
           </div>
+        </div>
+      ))}
+      {Array.from({ length: startDayOfMonth + days.length % 7 === 0 ? 0 : 7 - (startDayOfMonth + days.length % 7) }, (_, index) => (
+        <div key={`empty-end-${index}`} className="flex items-center justify-center">
+          <div className="relative flex flex-col items-start justify-start border border-gray-300 h-32 w-32 bg-gray-200"></div>
         </div>
       ))}
     </div>
