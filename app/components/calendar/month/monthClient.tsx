@@ -22,7 +22,6 @@ interface MonthProps {
   onDrag: () => void;
 }
 
-// Definir el tipo de item que se arrastrará
 const ItemTypes = {
   EVENT: 'event',
 };

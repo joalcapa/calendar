@@ -7,6 +7,7 @@ const useCreateEvent = () => {
 
   const createEventHandler = async (payload: Event) => {
     try {
+      console.log("Payload", payload)
       const response = await fetch(createEvent(payload));
       const data: Event = response?.data;
       return data;

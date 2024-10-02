@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react';
 import useCalendarNavigation from '@/app/hooks/useCalendarNavigation';
 
-const useNavigation = () => {
+const useNavigation = (props: { type: string }) => {
   const [isMount, setMount] = useState(false);
-  const hook = useCalendarNavigation();
+  const hook = useCalendarNavigation(props);
 
   useEffect(() => {
     let isMounted = true;

@@ -1,16 +1,17 @@
+import { DateTime } from 'luxon';
 import { eventRepository } from '@/repositories/eventRepository';
 import { Event } from '@/types/event';
 import BaseService from '../baseService';
 
 interface GetEventsParams {
   date?: Date;
-  queryType?: 'month' | 'day';
+  queryType?: 'month' | 'day' | 'week';
 }
 
 export default class GetEvents extends BaseService {
   private events: Event[] | null;
   private date: Date | null;
-  private queryType: 'month' | 'day';
+  private queryType: 'month' | 'day' | 'week';
 
   constructor(params: GetEventsParams) {
     super();
@@ -22,12 +23,11 @@ export default class GetEvents extends BaseService {
   public async call(): Promise<void> {
     try {
       if (this.date) {
-        if (this.queryType === 'month') {
-          const year = this.date.getFullYear();
-          const month = this.date.getMonth() + 1;
+        const dt = DateTime.fromJSDate(this.date);
 
-          const startDate = new Date(year, month - 1, 1);
-          const endDate = new Date(year, month, 0);
+        if (this.queryType === 'month') {
+          const startDate = dt.startOf('month').toJSDate();
+          const endDate = dt.endOf('month').toJSDate();
 
           this.events = await eventRepository.findMany({
             where: {
@@ -38,9 +38,20 @@ export default class GetEvents extends BaseService {
             },
           });
         } else if (this.queryType === 'day') {
-          const startDate = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate());
-          const endDate = new Date(startDate);
-          endDate.setHours(23, 59, 59, 999);
+          const startDate = dt.startOf('day').toJSDate();
+          const endDate = dt.endOf('day').toJSDate();
+
+          this.events = await eventRepository.findMany({
+            where: {
+              start_date: {
+                gte: startDate,
+                lte: endDate,
+              },
+            },
+          });
+        } else if (this.queryType === 'week') {
+          const startDate = dt.startOf('week').toJSDate();
+          const endDate = dt.endOf('week').toJSDate();
 
           this.events = await eventRepository.findMany({
             where: {

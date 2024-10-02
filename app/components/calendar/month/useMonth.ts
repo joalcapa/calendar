@@ -98,7 +98,7 @@ const useMonth = (props: MonthEvents) => {
 
       await updateEvent(event.id, payload);
     } catch {
-      alert("error")
+ 
     }
   }
 

@@ -2,15 +2,17 @@ import { useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { addMonths, addWeeks, addDays, startOfToday, format } from 'date-fns';
 
-type View = 'MONTH' | 'WEEK' | 'DAY';
+export type View = 'MONTH' | 'WEEK' | 'DAY';
 
 export const MONTH = "MONTH";
 export const WEEK = "WEEK";
 export const DAY = "DAY";
 export const ADD_COUNT = 1;
 export const DIFF_COUNT = -1;
+const DATE_FORMAT = 'yyyy-MM-dd';
 
-const useCalendarNavigation = () => {
+const useCalendarNavigation = (props: { type: string | null }) => {
+  const { type } = props;
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams.toString());
 
@@ -19,20 +21,22 @@ const useCalendarNavigation = () => {
     return dateParam ? new Date(dateParam) : startOfToday();
   });
 
-  const [view, setView] = useState<View>(MONTH);
+  const [view, setView] = useState<View>(type ? (type.toUpperCase() as View) : MONTH);
   const router = useRouter();
 
   const setCurrentDateHandler = useCallback((call: (prev: Date) => Date) => {
     setCurrentDate((prev) => {
       const newDate = call(prev);
-      router.push(`/?date=${format(newDate, 'yyyy-MM-dd')}&type=${view.toLocaleLowerCase()}`);
+
+      const viewType = view.toLocaleLowerCase();
+      router.push(`/${view !== MONTH ? viewType : ''}?date=${format(newDate, DATE_FORMAT)}&type=${viewType}`);
+
       return newDate;
     });
   }, [view, router]);
 
   const onResetToday = () => {
     setCurrentDateHandler((prev) => startOfToday());
-    setView(MONTH);
   };
 
   const onPrev = () => {
@@ -61,17 +65,17 @@ const useCalendarNavigation = () => {
 
   const onMonth = useCallback(() => {
     setView(MONTH);
-    router.push(`/?date=${format(currentDate, 'yyyy-MM-dd')}&type=month`);
+    router.push(`/?date=${format(currentDate, DATE_FORMAT)}&type=${MONTH.toLocaleLowerCase()}`);
   }, [currentDate]);
 
   const onWeek = useCallback(() => {
     setView(WEEK);
-    router.push(`/?date=${format(currentDate, 'yyyy-MM-dd')}&type=week`);
+    router.push(`/week?date=${format(currentDate, DATE_FORMAT)}&type=${WEEK.toLocaleLowerCase()}`);
   }, [currentDate]);
 
   const onDay = useCallback(() => {
     setView(DAY);
-    router.push(`/?date=${format(currentDate, 'yyyy-MM-dd')}&type=day`);
+    router.push(`/day?date=${format(currentDate, DATE_FORMAT)}&type=${DAY.toLowerCase()}`);
   }, [currentDate]);
 
   return {
