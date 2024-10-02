@@ -40,10 +40,12 @@ export default class CreateEvent extends BaseService {
 
     if (this.data.is_all_day) {
       startDate = startDate.setZone('America/Bogota').set({ hour: 7, minute: 0, second: 0, millisecond: 0 }).toUTC();
-      this.data.start_date = startDate.toISO();
 
       let finishDate = startDate.set({ hour: 19, minute: 0, second: 0, millisecond: 0 }).setZone('America/Bogota').toUTC();
       this.data.finish_date = finishDate.toISO();
+
+      startDate = startDate.set({ hour: 7, minute: 0, second: 0, millisecond: 0 }).setZone('America/Bogota').toUTC();
+      this.data.start_date = startDate.toISO();
     } else {
       startDate = startDate.set({ second: 0, millisecond: 0 }).toUTC();
       this.data.start_date = startDate.toISO();

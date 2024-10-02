@@ -8,6 +8,7 @@ import { Day } from '@/types/month';
 import useMonth from '../month/useMonth';
 import CreateEvent from '@/app/components/calendar/events/create/createEvent';
 import UpdateEvent from '../events/update/updateEvent';
+import { DateTime } from "luxon";
 
 interface CalendarColumnProps {
   events: Event[];
@@ -27,13 +28,16 @@ const CalendarColumn: React.FC<CalendarColumnProps> = ({ day, onHourClick, onEve
     const positions = {}; // Almacena las posiciones de los eventos
 
     events.forEach((event) => {
-      const start = new Date(event.start_date);
-      const end = new Date(event.finish_date);
+      const start = DateTime.fromJSDate(event.start_date).setZone('UTC');
+      const end = DateTime.fromJSDate(event.finish_date).setZone('UTC');
 
-      const eventStartHour = start.getHours();
-      const eventStartMinute = start.getMinutes();
-      const eventEndHour = end.getHours();
-      const eventEndMinute = end.getMinutes();
+
+      // Extraer horas y minutos
+      const eventStartHour = start.hour;
+      const eventStartMinute = start.minute;
+
+      const eventEndHour = end.hour;
+      const eventEndMinute = end.minute;
 
       const eventStart = (eventStartHour - 7) * 64 + eventStartMinute; // Minutos desde las 7:00 AM
       const eventEnd = (eventEndHour - 7) * 64 + eventEndMinute; // Minutos desde las 7:00 AM
@@ -71,6 +75,9 @@ const CalendarColumn: React.FC<CalendarColumnProps> = ({ day, onHourClick, onEve
 
       const isHovered = hoveredEventId === event.id; // Verifica si el evento está siendo sobrevolado
 
+      const hh = eventStartHour > 12 ? eventStartHour - 12 : eventStartHour;
+      const mm = eventEndHour > 12 ? eventEndHour - 12 : eventEndHour;
+
       renderedEvents.push(
         <div
           key={event.id}
@@ -82,14 +89,17 @@ const CalendarColumn: React.FC<CalendarColumnProps> = ({ day, onHourClick, onEve
             right: '80px',
             borderRadius: 10,
             zIndex: isHovered ? 5 : 3, // Cambia el zIndex si está sobrevolado
-            paddingTop: 10,
             paddingLeft: 10,
+            paddingTop: 5,
+            display: 'flex',
+            flexDirection: 'column'
           }}
           onMouseEnter={() => setHoveredEventId(event.id)} // Establece el evento como sobrevolado
           onMouseLeave={() => setHoveredEventId(null)} // Limpia el evento sobrevolado
           onClick={() => onEvent(event)}
         >
-          <span className="text-sm">{event.title}</span> {/* Cambia "text-sm" al tamaño de fuente que desees */}
+          <span className="text-xs">{event.title}</span>
+          <span className="text-xs">{hh < 10 ? '0' + hh : hh}:{eventStartMinute < 10 ? '0' + eventStartMinute : eventStartMinute} {eventStartHour >= 12 ? 'PM' : 'AM'} - {mm < 10 ? '0' + mm : mm}:{eventEndMinute < 10 ? '0' + eventEndMinute : eventEndMinute} {eventEndHour >= 12 ? 'PM' : 'AM'}</span>
         </div>
       );
     });
@@ -105,7 +115,9 @@ const CalendarColumn: React.FC<CalendarColumnProps> = ({ day, onHourClick, onEve
           className="border-t border-b border-gray-200 relative h-16 flex items-center cursor-pointer hover:bg-gray-300"
           onClick={() => onDay()}
         >
-          <span className="absolute left-2 top-0 text-xs">{`${hour}:00 ${hour < 12 ? 'AM' : 'PM'}`}</span>
+          <span className="absolute left-2 top-0 text-xs">
+            {`${hour % 12 === 0 ? 12 : hour % 12}:00 ${hour < 12 ? 'AM' : 'PM'}`}
+          </span>
         </div>
       ))}
       {renderEvents()} {/* Renderizar los eventos fuera del bucle de horas */}

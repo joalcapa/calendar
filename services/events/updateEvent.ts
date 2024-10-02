@@ -62,11 +62,11 @@ export default class UpdateEvent extends BaseService {
     const startDate = this.params.start_date || this.event?.start_date;
     if (startDate) {
       // Convertir la fecha de inicio en UTC y ajustarla a 7:00 AM hora de Colombia
-      const adjustedStartDate = DateTime.fromISO(startDate, { zone: 'UTC' })
+      let adjustedStartDate = DateTime.fromISO(startDate, { zone: 'UTC' })
         .setZone('America/Bogota')
         .set({ hour: 7, minute: 0, second: 0, millisecond: 0 })
         .toUTC();
-      this.params.start_date = adjustedStartDate.toISO();
+
 
       // Configurar la fecha de finalización para las 7:00 PM hora de Colombia
       const adjustedFinishDate = adjustedStartDate
@@ -74,6 +74,13 @@ export default class UpdateEvent extends BaseService {
         .setZone('America/Bogota')
         .toUTC();
       this.params.finish_date = adjustedFinishDate.toISO();
+
+      adjustedStartDate = adjustedStartDate
+        .set({ hour: 7, minute: 0, second: 0, millisecond: 0 })
+        .setZone('America/Bogota')
+        .toUTC();
+
+      this.params.start_date = adjustedStartDate.toISO();
     }
   }
 
