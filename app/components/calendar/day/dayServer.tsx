@@ -16,8 +16,8 @@ interface CalendarColumnProps {
   onEventClick: (event: Event) => void;
 }
 
-const CalendarColumn: React.FC<CalendarColumnProps> = ({ days, onHourClick, onEventClick, onDay, onEvent }) => {
-  const events = days.find((d) => d.day === 11)?.events || [];
+const CalendarColumn: React.FC<CalendarColumnProps> = ({ day, onHourClick, onEventClick, onDay, onEvent }) => {
+  const events = day.events || [];
 
   const hours = Array.from({ length: 13 }, (_, i) => i + 7); // Genera las horas de 7 a 19
   const [hoveredEventId, setHoveredEventId] = useState<number | null>(null); // Estado para el evento que está sobrevolando
@@ -119,7 +119,7 @@ const Calendar: React.FC<MonthEvents> = (props) => {
   return (
     <DndProvider backend={HTML5Backend}>
       <>
-        <CalendarColumn {...hook} />
+        <CalendarColumn {...hook} {...props} />
         {hook.isUpdateEvent && (
           <UpdateEvent onClose={hook.onCloseUpdateEvent} event={hook.event} onDeleteEvent={hook.onDeleteEvent} />
         )}

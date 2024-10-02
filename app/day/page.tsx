@@ -1,6 +1,6 @@
 import CalendarNavigation from '@/app/components/calendar/navigation/navigationClient';
-import CalendarMonth from '@/app/components/calendar/month/monthClient';
-import GetMonthEvents from '@/services/calendar/getMonthEvents';
+import CalendarDay from '@/app/components/calendar/day/dayServer';
+import GetDayEvents from '@/services/calendar/getDayEvents';
 import { parseISO } from 'date-fns';
 
 export default async ({
@@ -14,7 +14,7 @@ export default async ({
   const dateParam = searchParams?.date || new Date().toISOString();
   const typeParam = searchParams?.type || "month";
   const parsedDate = parseISO(dateParam);
-  const service = new GetMonthEvents(parsedDate);
+  const service = new GetDayEvents(parsedDate);
 
   await service.call();
 
@@ -22,7 +22,7 @@ export default async ({
     <>
       {/*JSON.stringify(service.getEvents())*/}
       <CalendarNavigation dateLabel={service.getDateLabel()} selectedButton={typeParam} />
-      <CalendarMonth {...service.getEvents()} />
+      <CalendarDay {...service.getEvents()} />
     </>
   );
 };
