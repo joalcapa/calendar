@@ -20,7 +20,7 @@ export default async ({
 
   return (
     <>
-      {/*JSON.stringify(service.getEvents())*/}
+      {JSON.stringify(service.getEvents())}
       <CalendarNavigation dateLabel={service.getDateLabel()} selectedButton={typeParam} />
       <CalendarDay {...service.getEvents()} />
     </>

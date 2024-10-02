@@ -113,6 +113,19 @@ const useMonth = (props: MonthEvents) => {
     });
   }
 
+  const onUpdateEvent = (e: Event) => {
+    setDays(days.map((day) => ({
+      ...day,
+      events: day.events.map((item: Event) => {
+        if (item.id == e.id) {
+          return e;
+        }
+
+        return item;
+      }),
+    })));
+  }
+
   return {
     days,
     today,
@@ -129,6 +142,7 @@ const useMonth = (props: MonthEvents) => {
     onDeleteEvent,
     onDrop,
     onDrag,
+    onUpdateEvent,
   }
 };
 

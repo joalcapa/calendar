@@ -26,7 +26,8 @@ export default class UpdateEvent extends BaseService {
       this.normalizeDates();
 
       // Actualizar el evento
-      this.event = await eventRepository.update(this.id, this.params);
+      await eventRepository.update(this.id, this.params);
+      this.event = await eventRepository.findById(this.id);
     } catch (error) {
       console.log("ere: ", error)
       this.setError('Error al obtener el evento');

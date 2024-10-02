@@ -12,7 +12,8 @@ const useApi = () => {
 
     try {
       const url = `${API_URL}${uri}`;
-      const response = await axios({ method, url, data });
+      const headers = { 'Content-Type': 'application/json' };
+      const response = await axios({ method, url, data, headers });
       return response;
     } catch (err) {
       handleError(err);

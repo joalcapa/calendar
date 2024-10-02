@@ -24,8 +24,10 @@ const useGetEvent = () => {
   const updateEventHandler = async (id: number, payload: Event) => {
     try {
       const response = await fetch(updateEvent(id, payload));
+      console.log(response.data)
       const data: Event = response?.data;
-      if (data) { setEvent(data); }
+      //if (data) { setEvent(data); }
+      return data;
     } catch { }
   };
 

@@ -140,7 +140,7 @@ const Calendar: React.FC<MonthEvents> = (props) => {
       <>
         <Month {...hook} />
         {hook.isUpdateEvent && (
-          <UpdateEvent onClose={hook.onCloseUpdateEvent} event={hook.event} onDeleteEvent={hook.onDeleteEvent} />
+          <UpdateEvent onClose={hook.onCloseUpdateEvent} event={hook.event} onDeleteEvent={hook.onDeleteEvent} onUpdateEvent={hook.onUpdateEvent} />
         )}
         {hook.isCreateEvent && (
           <CreateEvent onClose={hook.onCloseCreateEvent} dayCreateEvent={hook.dayCreateEvent} />

@@ -7,11 +7,12 @@ import useGetEvent from "@/app/hooks/useGetEvent";
 interface UpdateEventProps {
   onClose: () => void;
   onDeleteEvent: (e: Event) => void;
+  onUpdateEvent: () => void;
   event: Event;
 }
 
 const useUpdateEvent = (props: UpdateEventProps) => {
-  const { event, onClose, onDeleteEvent } = props;
+  const { event, onClose, onDeleteEvent, onUpdateEvent } = props;
   const hook = useCreateEvent(props);
   const { isValidForm, title, description, startDate, isAllDay, finishDate } = hook;
   const { deleteEvent, updateEvent, isLoading, error } = useGetEvent();
@@ -33,7 +34,10 @@ const useUpdateEvent = (props: UpdateEventProps) => {
 
         console.log(payload)
         alert("")
-        await updateEvent(event.id, payload);
+        const response = await updateEvent(event.id, payload);
+        console.log(response)
+        onUpdateEvent(response)
+        alert("")
         onClose();
       }
     } catch {

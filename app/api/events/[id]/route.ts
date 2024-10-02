@@ -27,6 +27,7 @@ export async function PUT(request: NextRequest, params: { params: { id: string }
     return NextResponse.json(service.getError(), { status: 422 })
   }
 
+  console.log("devolvemos", service.getEvent())
   return NextResponse.json(service.getEvent(), { status: 200 });
 }
 
