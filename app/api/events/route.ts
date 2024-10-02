@@ -15,7 +15,8 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const service = new CreateEvent(await request.json());
+  const body = await request.json();
+  const service = new CreateEvent(body);
   await service.call();
 
   if (!service.valid) {

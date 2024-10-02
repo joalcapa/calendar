@@ -31,6 +31,8 @@ const useUpdateEvent = (props: UpdateEventProps) => {
           payload.finish_date = new Date(finishDate + "Z").toISOString();
         }
 
+        console.log(payload)
+        alert("")
         await updateEvent(event.id, payload);
         onClose();
       }

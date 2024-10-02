@@ -1,6 +1,7 @@
 import { eventRepository } from '@/repositories/eventRepository';
 import { Event } from '@/types/event';
 import BaseService from '../baseService';
+import { DateTime } from 'luxon';
 
 export default class CreateEvent extends BaseService {
   private data: Event;
@@ -33,24 +34,27 @@ export default class CreateEvent extends BaseService {
       return;
     }
 
-    const startDate = new Date(this.data.start_date);
+    console.log(this.data);
+
+    let startDate = DateTime.fromISO(this.data.start_date, { zone: 'UTC' });
 
     if (this.data.is_all_day) {
-      startDate.setUTCHours(7, 0, 0, 0);
-      this.data.start_date = startDate;
+      startDate = startDate.setZone('America/Bogota').set({ hour: 7, minute: 0, second: 0, millisecond: 0 }).toUTC();
+      this.data.start_date = startDate.toISO();
 
-      const finishDate = new Date(startDate);
-      finishDate.setUTCHours(23, 59, 59, 999);
-      this.data.finish_date = finishDate;
+      let finishDate = startDate.set({ hour: 19, minute: 0, second: 0, millisecond: 0 }).setZone('America/Bogota').toUTC();
+      this.data.finish_date = finishDate.toISO();
     } else {
-      startDate.setUTCHours(startDate.getUTCHours(), 0, 0, 0);
-      this.data.start_date = startDate;
+      startDate = startDate.set({ second: 0, millisecond: 0 }).toUTC();
+      this.data.start_date = startDate.toISO();
 
-      const finishDate = new Date(this.data.finish_date);
-      finishDate.setUTCHours(finishDate.getUTCHours());
-      this.data.finish_date = finishDate;
+      let finishDate = DateTime.fromISO(this.data.finish_date, { zone: 'UTC' });
+      // Mantener los minutos originales del finishDate
+      finishDate = finishDate.set({ second: 0, millisecond: 0 }).toUTC();
+      this.data.finish_date = finishDate.toISO();
     }
 
+    // Guardar el evento en la base de datos
     this.event = await eventRepository.create(this.data);
   }
 
@@ -58,3 +62,4 @@ export default class CreateEvent extends BaseService {
     return this.event;
   }
 }
+

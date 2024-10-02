@@ -1,6 +1,7 @@
 import { eventRepository } from '@/repositories/eventRepository';
 import BaseService from '../baseService';
 import { Event } from '@/types/event';
+import { DateTime } from 'luxon';
 
 export default class UpdateEvent extends BaseService {
   private event: Event | null;
@@ -13,42 +14,65 @@ export default class UpdateEvent extends BaseService {
 
   public async call(): Promise<void> {
     try {
+      // Buscar el evento existente
+      console.log("vamos")
       this.event = await eventRepository.findById(this.id);
+      console.log("pasamos esto")
       if (!this.event) {
         return this.setError('El evento no existe');
       }
 
+      // Normalizar las fechas
       this.normalizeDates();
 
+      // Actualizar el evento
       this.event = await eventRepository.update(this.id, this.params);
     } catch (error) {
+      console.log("ere: ", error)
       this.setError('Error al obtener el evento');
     }
   }
 
   private normalizeDates(): void {
-    if (this.params.start_date) {
-      this.params.start_date = new Date(this.params.start_date);
-    }
+    try {
+      // Normalizar start_date
+      console.log(this.params)
+      if (this.params.start_date) {
+        this.params.start_date = DateTime.fromISO(this.params.start_date, { zone: 'UTC' }).toUTC().toISO();
+      }
 
-    if (this.params.finish_date) {
-      this.params.finish_date = new Date(this.params.finish_date);
-    }
+      console.log("paso 1")
+      // Normalizar finish_date
+      if (this.params.finish_date) {
+        this.params.finish_date = DateTime.fromISO(this.params.finish_date, { zone: 'UTC' }).toUTC().toISO();
+      }
 
-    if (this.params.is_all_day) {
-      this.setAllDayDates();
+      // Si es un evento de todo el día
+      if (this.params.is_all_day) {
+        this.setAllDayDates();
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
 
   private setAllDayDates(): void {
+    // Usar la fecha de inicio (start_date) si está disponible o la del evento original
     const startDate = this.params.start_date || this.event?.start_date;
     if (startDate) {
-      this.params.start_date = new Date(startDate);
-      this.params.start_date.setHours(0, 0, 0, 0);
+      // Convertir la fecha de inicio en UTC y ajustarla a 7:00 AM hora de Colombia
+      const adjustedStartDate = DateTime.fromISO(startDate, { zone: 'UTC' })
+        .setZone('America/Bogota')
+        .set({ hour: 7, minute: 0, second: 0, millisecond: 0 })
+        .toUTC();
+      this.params.start_date = adjustedStartDate.toISO();
 
-      const finishDate = new Date(this.params.start_date);
-      finishDate.setUTCHours(23, 59, 59, 999);
-      this.params.finish_date = finishDate;
+      // Configurar la fecha de finalización para las 7:00 PM hora de Colombia
+      const adjustedFinishDate = adjustedStartDate
+        .set({ hour: 19, minute: 0, second: 0, millisecond: 0 })
+        .setZone('America/Bogota')
+        .toUTC();
+      this.params.finish_date = adjustedFinishDate.toISO();
     }
   }
 

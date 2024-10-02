@@ -16,7 +16,11 @@ export async function GET(request: NextRequest, params: { params: { id: string }
 }
 
 export async function PUT(request: NextRequest, params: { params: { id: string } }) {
-  const service = new UpdateEvent(parseInt(params.params.id), await request.json());
+  console.log("params.params.id: ", params.params.id)
+
+  const body = await request.json();
+  console.log("await request.json()): ", body);
+  const service = new UpdateEvent(parseInt(params.params.id), body);
   await service.call();
 
   if (!service.valid) {
