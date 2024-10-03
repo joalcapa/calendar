@@ -18,6 +18,7 @@ interface MonthProps {
     onDay: (day: Day) => void;
     onDrag: (event: Event) => void;
     onEvent: (event: Event) => void;
+    monthName: string;
 }
 
 const ItemTypes = {
@@ -113,11 +114,13 @@ const Month: React.FC<MonthProps> = (
         onDay,
         onDrag,
         onEvent,
+        monthName,
     }
 ) => (
     <>
         {isMount ? (
             <div className="max-w-3xl mx-auto text-center">
+                <h3 className="text-xl font-semibold text-gray-800 pb-3">{monthName}</h3>
                 <div className="grid grid-cols-7 gap-1 mb-2">
                     {['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'].map((day) => (
                         <div className="font-bold flex items-center justify-center" key={day}>
@@ -126,9 +129,10 @@ const Month: React.FC<MonthProps> = (
                     ))}
                 </div>
                 <div className="grid grid-cols-7 gap-1">
-                    {Array.from({ length: startDayOfMonth }, (_, index) => (
+                    {Array.from({length: startDayOfMonth}, (_, index) => (
                         <div key={`empty-${index}`} className="flex items-center justify-center">
-                            <div className="relative flex flex-col items-start justify-start border border-gray-300 h-32 w-32 bg-gray-200"></div>
+                            <div
+                                className="relative flex flex-col items-start justify-start border border-gray-300 h-32 w-32 bg-gray-200"></div>
                         </div>
                     ))}
                     {days.map((day, index) => (
@@ -140,7 +144,8 @@ const Month: React.FC<MonthProps> = (
                                 onDrop={onDrop}
                                 onDay={onDay}
                             >
-                                <span className="absolute top-1 left-1 text-xs font-bold">{day.day}</span>
+                                <span
+                                    className="absolute top-1 left-1 text-xs font-bold">{day.day} {day.isToday ? '- HOY' : ''}</span>
                                 <div className="mt-5 w-full h-full overflow-hidden">
                                     {day.events.map((event, eventIndex) => (
                                         <DraggableEvent
@@ -155,9 +160,10 @@ const Month: React.FC<MonthProps> = (
                             </DroppableDay>
                         </div>
                     ))}
-                    {Array.from({ length: startDayOfMonth + days.length % 7 === 0 ? 0 : 7 - (startDayOfMonth + days.length % 7) }, (_, index) => (
+                    {Array.from({length: startDayOfMonth + days.length % 7 === 0 ? 0 : 7 - (startDayOfMonth + days.length % 7)}, (_, index) => (
                         <div key={`empty-end-${index}`} className="flex items-center justify-center">
-                            <div className="relative flex flex-col items-start justify-start border border-gray-300 h-32 w-32 bg-gray-200"></div>
+                            <div
+                                className="relative flex flex-col items-start justify-start border border-gray-300 h-32 w-32 bg-gray-200"></div>
                         </div>
                     ))}
                 </div>
@@ -167,6 +173,7 @@ const Month: React.FC<MonthProps> = (
                 days={days}
                 today={today}
                 startDayOfMonth={startDayOfMonth}
+                monthName={monthName}
             />
         )}
     </>

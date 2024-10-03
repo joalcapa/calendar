@@ -12,5 +12,6 @@ export interface Day {
 export interface MonthEvents {
   today: number;
   startDayOfMonth: number;
+  monthName: string;
   days: Day[];
 }

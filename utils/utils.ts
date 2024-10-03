@@ -20,3 +20,10 @@ export const getEventsFromDay = (events: Event[], day: number): Event[] => {
                 (event.start_date.getDate() === day)
         );
 };
+
+export const getMonthFromDate = (date: Date): string => {
+    return [
+        'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ][date.getMonth()];
+};

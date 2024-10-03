@@ -4,7 +4,7 @@ import { MonthEvents, Day } from '@/types/month';
 import useGetEvent from "@/app/hooks/useGetEvent";
 
 const useCalendar = (props: MonthEvents) => {
-  const { today, startDayOfMonth } = props;
+  const { today, startDayOfMonth, monthName } = props;
   const [isMount, seMount] = useState<boolean>(false);
   const [days, setDays] = useState<Day[]>(props.days);
   const [event, setEvent] = useState<Event | null>(null);
@@ -149,6 +149,7 @@ const useCalendar = (props: MonthEvents) => {
 
   return {
     month: {
+      monthName,
       today,
       startDayOfMonth,
       isMount,

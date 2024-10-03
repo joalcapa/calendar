@@ -6,6 +6,7 @@ import {
   getDaysInMonth,
   getDateFromNumberDay,
   getEventsFromDay,
+  getMonthFromDate,
 } from '@/utils/utils';
 
 export default class GetMonthEvents extends BaseService {
@@ -40,6 +41,7 @@ export default class GetMonthEvents extends BaseService {
   private createMonthEvents(events: Event[]): {
     startDayOfMonth: number;
     today: number;
+    monthName: string;
     days: {
       isCurrent: boolean;
       dayDate: Date;
@@ -51,6 +53,7 @@ export default class GetMonthEvents extends BaseService {
   } {
     return {
       today: new Date().getDate(),
+      monthName: getMonthFromDate(this.date),
       startDayOfMonth: new Date(this.date.getFullYear(), this.date.getMonth(), 1).getDay(),
       days: Array.from({ length: getDaysInMonth(this.date) }, (_, index): {
         isCurrent: boolean;
