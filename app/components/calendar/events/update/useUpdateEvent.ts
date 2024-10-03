@@ -42,6 +42,8 @@ const useUpdateEvent = (props: UpdateEventProps) => {
     setAllDay,
     changeFinishDate,
     changeCity,
+    changeWeather,
+    changeWeatherUrl,
   } = hook;
 
   useEffect(() => {
@@ -54,6 +56,14 @@ const useUpdateEvent = (props: UpdateEventProps) => {
       changeStartDate({ target: { value: formatDateForInput(event.start_date) }});
       changeFinishDate({ target: { value: formatDateForInput(event.finish_date) }});
       changeCity({ target: { value: event.city }})
+
+      if (event.weather) {
+        changeWeather(event.weather);
+      }
+
+      if (event.weather_url) {
+        changeWeatherUrl(event.weather_url);
+      }
 
       isMounted = false;
     }

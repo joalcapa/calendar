@@ -1,23 +1,63 @@
 'use client'
 
-import { useState, useMemo } from 'react';
+import {useState, useMemo, useEffect, useCallback} from 'react';
 import { TargetEvent, TargetCheckEvent, CreateEventProps } from "@/app/types/types";
 import useCreateEventHook from "@/app/hooks/useCreateEvent";
-import {Event} from "@/types/event";
+import { Event } from "@/types/event";
+import { formatDateForInput, formatDateYYYYMMDD } from '@/app/utils/utils';
+import useWeather from "@/app/hooks/useWeather";
 
 const useCreateEvent = (props: CreateEventProps) => {
   const { onClose = () => { }, isDelete = false, onCreateEvent = () => {} } = props;
   const [title, setTitle] = useState('');
-  const [weather, setWeather] = useState('calido');
-  const [weatherUrl, setWeatherUrl] = useState('http://google.com');
+  const [weather, setWeather] = useState('');
+  const [weatherUrl, setWeatherUrl] = useState('');
   const [city, setCity] = useState('');
   const [description, setDescription] = useState('');
-  const [startDate, setStartDate] = useState('');
+  const [startDate, setStartDate] = useState(formatDateForInput(new Date()));
   const [isAllDay, setAllDay] = useState(false);
-  const [finishDate, setFinishDate] = useState('');
+  const [finishDate, setFinishDate] = useState(formatDateForInput(new Date()));
+  const [debouncedCity, setDebouncedCity] = useState(city);
+  const [debouncedStartDate, setDebouncedStartDate] = useState(startDate);
   const { createEvent } = useCreateEventHook();
+  const { getWeather } = useWeather();
 
-  const onCreate = async () => {
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedCity(city);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [city]);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedStartDate(startDate);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [startDate]);
+
+  useEffect(() => {
+    if (debouncedCity && debouncedStartDate) {
+      (async () => {
+        try {
+          const response = await getWeather({ location: city, datetime: formatDateYYYYMMDD(startDate) });
+          if (response) {
+            const { condition, icon } = response;
+            setWeather(condition);
+            setWeatherUrl(icon);
+          }
+        } catch { }
+      })();
+    }
+  }, [debouncedCity, debouncedStartDate]);
+
+  const onCreate = useCallback(async () => {
     if (isValidForm) {
       try {
         if (isValidForm) {
@@ -39,7 +79,16 @@ const useCreateEvent = (props: CreateEventProps) => {
         }
       } catch { }
     }
-  };
+  }, [
+      title,
+      description,
+      city,
+      weather,
+      weatherUrl,
+      isAllDay,
+      startDate,
+      finishDate,
+  ]);
 
   const changeTitle = (event: TargetEvent) => {
     setTitle(event.target.value);
@@ -102,6 +151,8 @@ const useCreateEvent = (props: CreateEventProps) => {
     isValidForm,
     setAllDay,
     onCreate,
+    changeWeather: setWeather,
+    changeWeatherUrl: setWeatherUrl,
   };
 };
 

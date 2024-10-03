@@ -2,9 +2,12 @@
 
 import React from 'react';
 import useCreateEvent from './useCreateEvent';
+import Image from 'next/image';
 
 interface CreateEventProps {
   isLoading: boolean;
+  weather: string;
+  weatherUrl: string;
   error: string;
   title: string;
   description: string;
@@ -29,6 +32,8 @@ interface CreateEventProps {
 
 export const CreateEvent = ({
   isLoading = false,
+  weather = '',
+  weatherUrl = '',
   error = '',
   title = '',
   description = '',
@@ -53,11 +58,27 @@ export const CreateEvent = ({
   <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
     <div className="bg-white p-6 rounded shadow-lg w-96">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold">{operationLabel}</h2>
+        <div className="flex flex-row">
+          <div>
+            <h2 className="text-lg font-semibold">{operationLabel}</h2>
+            { !!weather && <div className="text-xs">{weather}</div> }
+          </div>
+          { !!weatherUrl && (
+              <div className="pl-2">
+                <Image
+                    src={`https://${weatherUrl}`}
+                    alt={weather}
+                    width={50}
+                    height={50}
+                    layout="fixed"
+                />
+              </div>
+          )}
+        </div>
         {isDelete && <button
-          onClick={onDelete}
-          className="text-red-500 hover:text-red-700"
-          type="button"
+            onClick={onDelete}
+            className="text-red-500 hover:text-red-700"
+            type="button"
         >
           Borrar
         </button>}

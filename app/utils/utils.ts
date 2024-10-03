@@ -7,3 +7,8 @@ export const formatDateForInput = (d: Date | string) => {
     const minutes = String(date.getUTCMinutes()).padStart(2, '0');
     return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
+
+export const formatDateYYYYMMDD = (d: Date | string) => {
+    const startDate = new Date(d);
+    return `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, '0')}-${String(startDate.getDate()).padStart(2, '0')}`;
+};
