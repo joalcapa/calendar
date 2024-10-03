@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { MonthEvents } from '@/types/month';
 import { Event } from '@/types/event';
 import { Day } from '@/types/month';
+import { DateTime } from 'luxon';
 import useGetEvent from '@/app/hooks/useGetEvent';
 
 const useMonth = (props: MonthEvents) => {
@@ -14,6 +15,7 @@ const useMonth = (props: MonthEvents) => {
   const [isUpdateEvent, setUpdateEvent] = useState(false);
   const [event, setEvent] = useState<Event | null>(null);
   const [days, setDays] = useState<Day[]>(props.days);
+  const [day, setDay] = useState<Day[]>(props.day);
   const { updateEvent } = useGetEvent();
 
   useEffect(() => {
@@ -41,9 +43,18 @@ const useMonth = (props: MonthEvents) => {
     setEvent(e);
   };
 
-  const onDay = (day: Date) => {
-    setCreateEvent(true);
-    setDayCreateEvent(day);
+  const onDay = (day: Date, hour: number | null = null) => {
+    if (hour) {
+      let dateUtc = DateTime.fromJSDate(props.day.dayDate).setZone('utc');
+      let hourInRange = hour >= 0 && hour < 24 ? hour : 0;
+      let dateWithHour = dateUtc.set({ hour: hourInRange }).toLocal();
+
+      setCreateEvent(true);
+      setDayCreateEvent(dateWithHour.toJSDate());
+    } else {
+      setCreateEvent(true);
+      setDayCreateEvent(day);
+    }
   };
 
   const onCloseCreateEvent = () => {
@@ -56,10 +67,18 @@ const useMonth = (props: MonthEvents) => {
 
   const onDeleteEvent = useCallback((e: Event) => {
     setEvent(null);
-    setDays(days.map((day) => ({
-      ...day,
-      events: day.events.filter((item: Event) => item.id != e.id)
-    })));
+
+    if (days) {
+      setDays(days.map((day) => ({
+        ...day,
+        events: day.events.filter((item: Event) => item.id != e.id)
+      })));
+    } else {
+      setDay({
+        ...day,
+        events: day.events.filter((item: Event) => item.id != e.id)
+      })
+    }
   }, [days]);
 
   const onDrop = async (event: Event, targetDay: Day) => {
@@ -98,7 +117,7 @@ const useMonth = (props: MonthEvents) => {
 
       await updateEvent(event.id, payload);
     } catch {
- 
+
     }
   }
 
@@ -114,20 +133,34 @@ const useMonth = (props: MonthEvents) => {
   }
 
   const onUpdateEvent = (e: Event) => {
-    setDays(days.map((day) => ({
-      ...day,
-      events: day.events.map((item: Event) => {
-        if (item.id == e.id) {
-          return e;
-        }
+    if (days) {
+      setDays(days.map((day) => ({
+        ...day,
+        events: day.events.map((item: Event) => {
+          if (item.id == e.id) {
+            return e;
+          }
 
-        return item;
-      }),
-    })));
+          return item;
+        }),
+      })));
+    } else {
+      setDay({
+        ...day,
+        events: day.events.map((item: Event) => {
+          if (item.id == e.id) {
+            return e;
+          }
+
+          return item;
+        }),
+      })
+    }
   }
 
   return {
     days,
+    day,
     today,
     isMount,
     isCreateEvent,

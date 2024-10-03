@@ -33,7 +33,6 @@ const CalendarColumn: React.FC<CalendarColumnProps> = ({ day, onHourClick, onEve
       const start = DateTime.fromJSDate(event.start_date).setZone('UTC');
       const end = DateTime.fromJSDate(event.finish_date).setZone('UTC');
 
-
       // Extraer horas y minutos
       const eventStartHour = start.hour;
       const eventStartMinute = start.minute;
@@ -116,7 +115,7 @@ const CalendarColumn: React.FC<CalendarColumnProps> = ({ day, onHourClick, onEve
         <div
           key={hour}
           className="border-t border-b border-gray-200 relative h-16 flex items-center cursor-pointer hover:bg-gray-300"
-          onClick={() => onDay()}
+          onClick={() => onDay(null, hour)}
         >
           {
             isHours && (<span className="absolute left-2 top-0 text-xs">
@@ -136,9 +135,9 @@ const Calendar: React.FC<MonthEvents> = (props) => {
   return (
     <DndProvider backend={HTML5Backend}>
       <>
-        {hook.isMount ? <CalendarColumn {...hook} {...props} /> : <DayServer day={props.day} isHours={props.isHours} />}
+        {hook.isMount ? <CalendarColumn {...props} {...hook} /> : <DayServer day={props.day} isHours={props.isHours} />}
         {hook.isUpdateEvent && (
-          <UpdateEvent onClose={hook.onCloseUpdateEvent} event={hook.event} onDeleteEvent={hook.onDeleteEvent} />
+          <UpdateEvent onClose={hook.onCloseUpdateEvent} event={hook.event} onDeleteEvent={hook.onDeleteEvent} onUpdateEvent={hook.onUpdateEvent} />
         )}
         {hook.isCreateEvent && (
           <CreateEvent onClose={hook.onCloseCreateEvent} dayCreateEvent={hook.dayCreateEvent} />
