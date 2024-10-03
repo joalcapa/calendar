@@ -49,7 +49,8 @@ export default class GetWeather extends BaseService {
       };
 
     } catch (error) {
-      this.setError("Error al obtener el clima")
+      console.log("Error en GetWeather:", error);
+      this.setError("Error al obtener el clima");
     }
   }
 

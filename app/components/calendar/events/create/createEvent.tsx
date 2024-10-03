@@ -61,7 +61,7 @@ export const CreateEvent = ({
         <div className="flex flex-row">
           <div>
             <h2 className="text-lg font-semibold">{operationLabel}</h2>
-            { !!weather && <div className="text-xs">{weather}</div> }
+            { <div className="text-xs">{weather || ( city ? "Cargando clima..." : "Aquí podrás conocer el clima" )}</div> }
           </div>
           { !!weatherUrl && (
               <div className="pl-2">

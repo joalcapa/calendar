@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Event } from "@/types/event";
 import { MonthEvents, Day } from '@/types/month';
 import useGetEvent from "@/app/hooks/useGetEvent";
@@ -15,6 +15,10 @@ const useCalendar = (props: MonthEvents) => {
   const dragEventRef = useRef(false);
 
   useEffect(() => {
+    setDays(props.days);
+  }, [props.days]);
+
+  useEffect(() => {
     let isMounted = true;
 
     if (isMounted) {
@@ -26,7 +30,7 @@ const useCalendar = (props: MonthEvents) => {
     }
   }, []);
 
-  const onDrop = async (eventUpdated: Event, targetDay: Day) => {
+  const onDrop = useCallback(async (eventUpdated: Event, targetDay: Day) => {
     const startDate: Date = new Date(eventUpdated.start_date);
     startDate.setDate(targetDay.day);
 
@@ -68,14 +72,14 @@ const useCalendar = (props: MonthEvents) => {
     }
 
     dragEventRef.current = false;
-  };
+  }, [ days ]);
 
-  const onDay = (d: Day): void => {
+  const onDay = useCallback((d: Day): void => {
     setDay(d);
     setCreateEvent(true);
-  };
+  }, [days]);
 
-  const onDrag = (eventDeleted: Event): void => {
+  const onDrag = useCallback((eventDeleted: Event): void => {
     if (!dragEventRef.current) {
       dragEventRef.current = true;
       setDays((prevDays) =>
@@ -85,14 +89,14 @@ const useCalendar = (props: MonthEvents) => {
         }))
       );
     }
-  };
+  }, [days]);
 
-  const onEvent = (e: Event): void => {
+  const onEvent = useCallback((e: Event): void => {
     setUpdateEvent(true);
     setEvent(e);
-  };
+  }, [ days]);
 
-  const onDeleteEvent = (eventDeleted: Event): void => {
+  const onDeleteEvent = useCallback((eventDeleted: Event): void => {
     setDays((prevDays) =>
       prevDays.map((d) => ({
         ...d,
@@ -101,9 +105,9 @@ const useCalendar = (props: MonthEvents) => {
     );
 
     onClose();
-  };
+  }, [days]);
 
-  const onUpdateEvent = (eventUpdated: Event): void => {
+  const onUpdateEvent = useCallback((eventUpdated: Event): void => {
     setDays((prevDays) =>
       prevDays
         .map((d) => ({
@@ -122,7 +126,7 @@ const useCalendar = (props: MonthEvents) => {
     );
 
     onClose();
-  };
+  }, [ days ]);
 
   const onClose = (): void => {
     setUpdateEvent(false);
@@ -131,7 +135,7 @@ const useCalendar = (props: MonthEvents) => {
     setDay(null);
   };
 
-  const onCreateEvent = (e: Event) => {
+  const onCreateEvent = useCallback((e: Event) => {
     onClose();
 
     setDays((prevDays) =>
@@ -145,7 +149,7 @@ const useCalendar = (props: MonthEvents) => {
         return d;
       })
     );
-  }
+  }, [ days ]);
 
   return {
     month: {
