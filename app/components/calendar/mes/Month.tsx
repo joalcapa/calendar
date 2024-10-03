@@ -5,10 +5,9 @@ import { useDrag, useDrop, DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Event } from '@/types/event';
 import { Day, MonthEvents } from '@/types/month';
-import useMonth from '@/app/hooks/useMonth';
+import useCalendar from '@/app/hooks/useCalendar';
 import MonthServer from './MonthServer';
-import UpdateEvent from '../events/update/updateEvent';
-import CreateEvent from '../events/create/createEvent';
+import EventManager from "@/app/components/calendar/events/eventManager/EventManager";
 
 interface MonthProps {
     today: number;
@@ -36,39 +35,41 @@ const DraggableEvent: React.FC<{
         onEvent,
     }
 ) => {
-    const [{ isDragging }, drag] = useDrag(() => ({
-        type: ItemTypes.EVENT,
-        item: { event },
-        collect: (monitor) => {
-            if (monitor.isDragging()) {
-                console.log("Vamos a mover, ", event.id)
-                onDrag(event);
-            }
+        const [{ isDragging }, drag] = useDrag(() => ({
+            type: ItemTypes.EVENT,
+            item: { event },
+            collect: (monitor) => {
+                if (monitor.isDragging()) {
+                    console.log("Vamos a mover, ", event.id)
+                    onDrag(event);
+                }
 
-            return ({
-                isDragging: monitor.isDragging(),
-            })
-        },
-    }));
+                return ({
+                    isDragging: monitor.isDragging(),
+                })
+            },
+        }));
 
-    return (
-        <div
-            ref={drag}
-            className={`text-xs text-left truncate bg-blue-100 p-1 mb-1 rounded cursor-pointer ${isDragging ? 'opacity-50' : ''}`}
-            style={{ maxWidth: '100%', maxHeight: '20px', paddingBottom: 20 }}
-            onClick={(e) => {
-                e.stopPropagation(); onEvent(event); }}
-        >
-            {event.title}
-        </div>
-    );
-};
+        return (
+            <div
+                ref={drag}
+                className={`text-xs text-left truncate bg-blue-100 p-1 mb-1 rounded cursor-pointer ${isDragging ? 'opacity-50' : ''}`}
+                style={{ maxWidth: '100%', maxHeight: '20px', paddingBottom: 20 }}
+                onClick={(e) => {
+                    e.stopPropagation(); onEvent(event);
+                }}
+            >
+                {event.title}
+            </div>
+        );
+    };
 
 const DroppableDay: React.FC<{
     today: number,
     day: Day;
     onDrop: (event: Event, day: Day) => void,
-    onDay: (day: Day) => void }
+    onDay: (day: Day) => void
+}
 > = (
     {
         day,
@@ -76,31 +77,31 @@ const DroppableDay: React.FC<{
         children,
         onDay,
         today,
-}) => {
-    const [, drop] = useDrop(() => ({
-        accept: ItemTypes.EVENT,
-        drop: (item: { event: Event }) => {
-            onDrop(item.event, day);
-        },
-    }));
+    }) => {
+        const [, drop] = useDrop(() => ({
+            accept: ItemTypes.EVENT,
+            drop: (item: { event: Event }) => {
+                onDrop(item.event, day);
+            },
+        }));
 
-    return (
-        <div
-            ref={drop}
-            className={`relative flex flex-col items-start justify-start border h-32 w-32 p-1 overflow-hidden cursor-pointer ${day.isCurrentMonth
-                ? (day.isToday ? 'border-2 border-yellow-600 shadow-lg' : day.isCurrent ? 'border-2 border-blue-600 shadow-lg' : 'bg-white hover:bg-gray-100')
-                : 'bg-gray-200 opacity-50'
-            }`}
-            onClick={(e) => {
-                e.stopPropagation();
-                onDay(day);
-            }
-            }
-        >
-            {children}
-        </div>
-    );
-};
+        return (
+            <div
+                ref={drop}
+                className={`relative flex flex-col items-start justify-start border h-32 w-32 p-1 overflow-hidden cursor-pointer ${day.isCurrentMonth
+                    ? (day.isToday ? 'border-2 border-yellow-600 shadow-lg' : day.isCurrent ? 'border-2 border-blue-600 shadow-lg' : 'bg-white hover:bg-gray-100')
+                    : 'bg-gray-200 opacity-50'
+                    }`}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    onDay(day);
+                }
+                }
+            >
+                {children}
+            </div>
+        );
+    };
 
 const Month: React.FC<MonthProps> = (
     {
@@ -118,7 +119,7 @@ const Month: React.FC<MonthProps> = (
         {isMount ? (
             <div className="max-w-3xl mx-auto text-center">
                 <div className="grid grid-cols-7 gap-1 mb-2">
-                    {[ 'Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb' ].map((day) => (
+                    {['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'].map((day) => (
                         <div className="font-bold flex items-center justify-center" key={day}>
                             {day}
                         </div>
@@ -172,15 +173,17 @@ const Month: React.FC<MonthProps> = (
 );
 
 const Calendar: React.FC<MonthEvents> = (props) => {
-    const { month, eventForUpdate, dayForCreateEvent } = useMonth(props);
+    const { month, eventForUpdate, dayForCreateEvent } = useCalendar(props);
 
     return (
         <>
             <DndProvider backend={HTML5Backend}>
                 <Month {...month} />
             </DndProvider>
-            { eventForUpdate.isVisible && <UpdateEvent {...eventForUpdate} /> }
-            { dayForCreateEvent.isVisible && <CreateEvent {...dayForCreateEvent} /> }
+            <EventManager
+                eventForUpdate={eventForUpdate}
+                dayForCreateEvent={dayForCreateEvent}
+            />
         </>
     );
 };

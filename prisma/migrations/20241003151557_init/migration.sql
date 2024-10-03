@@ -2,6 +2,9 @@
 CREATE TABLE "Event" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
+    "city" TEXT NOT NULL,
+    "weather" TEXT NOT NULL,
+    "weather_url" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "start_date" TIMESTAMP(3) NOT NULL,
     "finish_date" TIMESTAMP(3) NOT NULL,

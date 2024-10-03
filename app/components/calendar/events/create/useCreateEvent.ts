@@ -8,6 +8,9 @@ import {Event} from "@/types/event";
 const useCreateEvent = (props: CreateEventProps) => {
   const { onClose = () => { }, isDelete = false, onCreateEvent = () => {} } = props;
   const [title, setTitle] = useState('');
+  const [weather, setWeather] = useState('calido');
+  const [weatherUrl, setWeatherUrl] = useState('http://google.com');
+  const [city, setCity] = useState('');
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState('');
   const [isAllDay, setAllDay] = useState(false);
@@ -21,6 +24,9 @@ const useCreateEvent = (props: CreateEventProps) => {
           const payload = {
             title,
             description,
+            city,
+            weather,
+            weather_url: weatherUrl,
             is_all_day: isAllDay,
             start_date: new Date(startDate + "Z").toISOString(),
             finish_date: new Date(finishDate + "Z").toISOString(),
@@ -37,6 +43,10 @@ const useCreateEvent = (props: CreateEventProps) => {
 
   const changeTitle = (event: TargetEvent) => {
     setTitle(event.target.value);
+  };
+
+  const changeCity = (event: TargetEvent) => {
+    setCity(event.target.value);
   };
 
   const changeDescription = (event: TargetEvent) => {
@@ -69,18 +79,22 @@ const useCreateEvent = (props: CreateEventProps) => {
   };
 
   const isValidForm = useMemo(() => {
-    return !!title && !!description && !!startDate && (isAllDay ? true : !!finishDate);
-  }, [title, description, startDate, isAllDay, finishDate]);
+    return !!title && !!description && !!city && !!startDate && (isAllDay ? true : !!finishDate);
+  }, [title, description, city, startDate, isAllDay, finishDate]);
 
   return {
     isDelete,
     title,
+    city,
     description,
     startDate,
     isAllDay,
     finishDate,
+    weather,
+    weatherUrl,
     onClose,
     changeTitle,
+    changeCity,
     changeDescription,
     changeStartDate,
     changeAllDay,

@@ -16,6 +16,9 @@ datasource db {
 model Event {
   id Int @id @default(autoincrement())
   title String
+  city String
+  weather String
+  weather_url String
   description String
   start_date DateTime
   finish_date DateTime

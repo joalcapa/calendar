@@ -1,3 +1,5 @@
+import { Event } from "@/types/event";
+
 export interface TargetEvent {
     target: {
         value: string,
@@ -13,5 +15,5 @@ export interface TargetCheckEvent {
 export interface CreateEventProps {
     onClose: () => void;
     isDelete?: boolean;
-    onCreateEvent?: () => void;
+    onCreateEvent?: (event: Event) => void;
 }

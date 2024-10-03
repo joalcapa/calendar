@@ -5,7 +5,7 @@ import { Event } from '@/types/event';
 import { useDrag, useDrop, DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Day } from '@/types/month';
-import useMonth from '../month/useMonth';
+import useMonth from '@/app/hooks/useCalendar';
 import CreateEvent from '@/app/components/calendar/events/create/createEvent';
 import UpdateEvent from '../events/update/updateEvent';
 import { DateTime } from "luxon";

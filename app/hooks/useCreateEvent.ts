@@ -8,6 +8,9 @@ const useCreateEvent = () => {
 
   const createEventHandler = async (payload: {
     title: string;
+    city: string;
+    weather: string;
+    weather_url: string;
     description: string;
     is_all_day: boolean;
     start_date: string;

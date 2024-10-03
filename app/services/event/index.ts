@@ -21,6 +21,9 @@ export const deleteEvent = (id: number) => {
 
 export const updateEvent = (id: number, data: {
   title: string,
+  city: string;
+  weather: string;
+  weather_url: string;
   description: string,
   is_all_day: boolean,
   start_date: string,
@@ -41,6 +44,9 @@ export const getEvents = () => {
 
 export const createEvent = (data: {
   title: string,
+  city: string;
+  weather: string;
+  weather_url: string;
   description: string,
   is_all_day: boolean,
   start_date: string,

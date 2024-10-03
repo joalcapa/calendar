@@ -19,6 +19,21 @@ export default class CreateEvent extends BaseService {
       return;
     }
 
+    if (!this.data.city) {
+      this.setError('La ciudad es requerido');
+      return;
+    }
+
+    if (!this.data.weather) {
+      this.setError('El clima es requerido');
+      return;
+    }
+
+    if (!this.data.weather_url) {
+      this.setError('El clima es requerido');
+      return;
+    }
+
     if (!this.data.description) {
       this.setError('La descripción es requerida');
       return;
