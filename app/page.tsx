@@ -15,5 +15,5 @@ export default async ({
   const service = new GetMonthEvents(parsedDate);
 
   await service.call();
-  return <Calendar {...service.getEvents()} />;
+  return <Calendar key={parsedDate} {...service.getEvents()} />;
 };

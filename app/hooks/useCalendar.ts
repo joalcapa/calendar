@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Event } from "@/types/event";
 import { MonthEvents, Day } from '@/types/month';
 import useGetEvent from "@/app/hooks/useGetEvent";
@@ -15,10 +15,6 @@ const useCalendar = (props: MonthEvents) => {
   const dragEventRef = useRef(false);
 
   useEffect(() => {
-    setDays(props.days);
-  }, [props.days]);
-
-  useEffect(() => {
     let isMounted = true;
 
     if (isMounted) {
@@ -30,7 +26,7 @@ const useCalendar = (props: MonthEvents) => {
     }
   }, []);
 
-  const onDrop = useCallback(async (eventUpdated: Event, targetDay: Day) => {
+  const onDrop = async (eventUpdated: Event, targetDay: Day) => {
     const startDate: Date = new Date(eventUpdated.start_date);
     startDate.setDate(targetDay.day);
 
@@ -72,14 +68,14 @@ const useCalendar = (props: MonthEvents) => {
     }
 
     dragEventRef.current = false;
-  }, [ days ]);
+  };
 
-  const onDay = useCallback((d: Day): void => {
+  const onDay = (d: Day): void => {
     setDay(d);
     setCreateEvent(true);
-  }, [days]);
+  };
 
-  const onDrag = useCallback((eventDeleted: Event): void => {
+  const onDrag = (eventDeleted: Event): void => {
     if (!dragEventRef.current) {
       dragEventRef.current = true;
       setDays((prevDays) =>
@@ -89,14 +85,14 @@ const useCalendar = (props: MonthEvents) => {
         }))
       );
     }
-  }, [days]);
+  };
 
-  const onEvent = useCallback((e: Event): void => {
+  const onEvent = (e: Event): void => {
     setUpdateEvent(true);
     setEvent(e);
-  }, [ days]);
+  };
 
-  const onDeleteEvent = useCallback((eventDeleted: Event): void => {
+  const onDeleteEvent = (eventDeleted: Event): void => {
     setDays((prevDays) =>
       prevDays.map((d) => ({
         ...d,
@@ -105,9 +101,9 @@ const useCalendar = (props: MonthEvents) => {
     );
 
     onClose();
-  }, [days]);
+  };
 
-  const onUpdateEvent = useCallback((eventUpdated: Event): void => {
+  const onUpdateEvent = (eventUpdated: Event): void => {
     setDays((prevDays) =>
       prevDays
         .map((d) => ({
@@ -126,7 +122,7 @@ const useCalendar = (props: MonthEvents) => {
     );
 
     onClose();
-  }, [ days ]);
+  };
 
   const onClose = (): void => {
     setUpdateEvent(false);
@@ -135,9 +131,7 @@ const useCalendar = (props: MonthEvents) => {
     setDay(null);
   };
 
-  const onCreateEvent = useCallback((e: Event) => {
-    onClose();
-
+  const onCreateEvent = (e: Event) => {
     setDays((prevDays) =>
       prevDays.map((d) => {
         if (d === day) {
@@ -149,7 +143,9 @@ const useCalendar = (props: MonthEvents) => {
         return d;
       })
     );
-  }, [ days ]);
+
+    onClose();
+  };
 
   return {
     month: {

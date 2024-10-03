@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import SmallCalendar from "@/app/components/calendar/smallCalendar/smallCaldendarServer";
 import CalendarNavigation from '@/app/components/calendar/navigation/navigationClient';
 import "./globals.css";
 
@@ -10,13 +9,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  searchParams,
 }: Readonly<{
   children: React.ReactNode;
-  searchParams?: {
-    date?: string,
-    type?: string,
-  },
 }>) {
   return (
     <html lang="en">
