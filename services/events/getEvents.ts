@@ -9,13 +9,13 @@ interface GetEventsParams {
 }
 
 export default class GetEvents extends BaseService {
-  private events: Event[] | null;
+  private events: Event[];
   private date: Date | null;
   private queryType: 'month' | 'day' | 'week';
 
   constructor(params: GetEventsParams) {
     super();
-    this.events = null;
+    this.events = [];
     this.date = params.date || null;
     this.queryType = params.queryType || 'month';
   }
@@ -68,11 +68,15 @@ export default class GetEvents extends BaseService {
 
       this.events = await eventRepository.findAll();
     } catch (error) {
-      this.setError('Error al obtener los eventos');
+      if (error instanceof Error) {
+        this.setError(error.message);
+      } else {
+        this.setError('Error desconocido');
+      }
     }
   }
 
-  public getEvents(): Event[] | null {
+  public getEvents(): Event[] {
     return this.events;
   }
 }

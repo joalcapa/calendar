@@ -23,9 +23,6 @@ export default class GetWeekEvents extends BaseService {
       // Calcular el domingo anterior o actual restando los días necesarios
       const startOfWeek = dt.minus({ days: dayOfWeek });
 
-      console.log("DATE: ", this.date);
-      console.log("Fecha de inicio de la semana (Domingo):", startOfWeek.toJSDate());
-
       // Usar map para generar el array de eventos
       const eventsPromises = Array.from({ length: 7 }, (_, i) =>
         startOfWeek.plus({ days: i }).toJSDate()

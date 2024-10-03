@@ -1,14 +1,14 @@
 export default class BaseService {
-  error: { message: string } | null;
+  error: string;
   valid: boolean;
 
   constructor() {
-    this.error = null;
+    this.error = '';
     this.valid = true;
   }
 
   setError(message: string) {
-    this.error = { message };
+    this.error = message;
     this.valid = false;
   }
 
@@ -16,7 +16,7 @@ export default class BaseService {
     return this.valid;
   }
 
-  getError(): { message: string } | null {
+  getError(): string {
     return this.error;
   }
 }

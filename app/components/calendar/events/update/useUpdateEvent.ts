@@ -1,52 +1,86 @@
 'use client'
 
+import { useEffect } from "react";
 import { Event } from "@/types/event";
+import { Day } from '@/types/month';
+import { formatDateForInput } from '@/app/utils/utils';
 import useCreateEvent from "../create/useCreateEvent";
 import useGetEvent from "@/app/hooks/useGetEvent";
 
 interface UpdateEventProps {
-  onClose: () => void;
-  onDeleteEvent: (e: Event) => void;
-  onUpdateEvent: () => void;
-  event: Event;
+  event: Event,
+  isVisible: boolean,
+  onDeleteEvent: () => void,
+  onUpdateEvent: (event: Event) => void
+  onClose: () => void,
 }
 
 const useUpdateEvent = (props: UpdateEventProps) => {
-  const { event, onClose, onDeleteEvent, onUpdateEvent } = props;
-  const hook = useCreateEvent(props);
-  const { isValidForm, title, description, startDate, isAllDay, finishDate } = hook;
-  const { deleteEvent, updateEvent, isLoading, error } = useGetEvent();
+  const {
+    event,
+    onDeleteEvent,
+    onUpdateEvent,
+    onClose,
+  } = props;
 
+  const { deleteEvent, updateEvent, isLoading, error } = useGetEvent();
+  const hook = useCreateEvent({ onClose, isDelete: true });
+
+  const {
+    isValidForm,
+    title,
+    description,
+    startDate,
+    isAllDay,
+    finishDate,
+    changeTitle,
+    changeDescription,
+    changeStartDate,
+    setAllDay,
+    changeFinishDate,
+  } = hook;
+
+  useEffect(() => {
+    let isMounted = true;
+
+    if (isMounted) {
+      setAllDay(event.is_all_day)
+      changeTitle({ target: { value: event.title }});
+      changeDescription({ target: { value: event.description }});
+      changeStartDate({ target: { value: formatDateForInput(event.start_date) }});
+      changeFinishDate({ target: { value: formatDateForInput(event.finish_date) }});
+
+      isMounted = false;
+    }
+
+    return () => {
+      isMounted = false;
+    }
+  }, []);
 
   const onUpdate = async () => {
     try {
-      if (isValidForm && event && event.id) {
-        const payload: Event = {
+      if (isValidForm) {
+        const payload = {
           title,
           description,
           is_all_day: isAllDay,
           start_date: new Date(startDate + "Z").toISOString(),
+          finish_date: new Date(finishDate + "Z").toISOString(),
         };
 
-        if (!isAllDay && !!finishDate) {
-          payload.finish_date = new Date(finishDate + "Z").toISOString();
+        const eventUpdated: Event | null = await updateEvent(event.id, payload);
+        if (eventUpdated) {
+          onUpdateEvent(eventUpdated);
         }
-
-        const response = await updateEvent(event.id, payload);
-        onUpdateEvent(response)
-        onClose();
       }
-    } catch {
-    }
+    } catch { }
   };
 
   const onDelete = async () => {
     try {
-      if (event && event.id) {
-        await deleteEvent(event.id);
-        onDeleteEvent(event);
-        onClose();
-      }
+      await deleteEvent(event.id);
+      onDeleteEvent(event);
     } catch { }
   };
 
@@ -56,6 +90,7 @@ const useUpdateEvent = (props: UpdateEventProps) => {
     error,
     onCreate: onUpdate,
     onDelete,
+    onClose,
   };
 };
 

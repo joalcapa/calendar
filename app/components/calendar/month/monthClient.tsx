@@ -26,7 +26,19 @@ const ItemTypes = {
   EVENT: 'event',
 };
 
-const DraggableEvent: React.FC<{ event: Event, onDrag: (event: Event, day: number) => void, day: Day, onEvent: (event: Event) => void }> = ({ event, onDrag, day, onEvent }) => {
+const DraggableEvent: React.FC<{
+  event: Event,
+  onDrag: (event: Event, day: number) => void,
+  day: Day,
+  onEvent: (event: Event) => void,
+}> = (
+    {
+      event,
+      onDrag,
+      day,
+      onEvent,
+    }
+) => {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: ItemTypes.EVENT,
     item: { event },
@@ -133,17 +145,39 @@ const Month: React.FC<MonthProps> = ({
 
 const Calendar: React.FC<MonthEvents> = (props) => {
   const hook = useMonth(props);
+  const {
+    event,
+    isUpdateEvent,
+    isCreateEvent,
+    onCloseUpdateEvent,
+    onDeleteEvent,
+    onUpdateEvent,
+    onCloseCreateEvent,
+    dayCreateEvent,
+  } = hook;
 
   return (
     <DndProvider backend={HTML5Backend}>
       <>
         <Month {...hook} />
-        {hook.isUpdateEvent && (
-          <UpdateEvent onClose={hook.onCloseUpdateEvent} event={hook.event} onDeleteEvent={hook.onDeleteEvent} onUpdateEvent={hook.onUpdateEvent} />
-        )}
-        {hook.isCreateEvent && (
-          <CreateEvent onClose={hook.onCloseCreateEvent} dayCreateEvent={hook.dayCreateEvent} />
-        )}
+        {
+          isUpdateEvent && (
+              <UpdateEvent
+                  onClose={onCloseUpdateEvent}
+                  event={event}
+                  onDeleteEvent={onDeleteEvent}
+                  onUpdateEvent={onUpdateEvent}
+              />
+          )
+        }
+        {
+          isCreateEvent && (
+              <CreateEvent
+                  onClose={onCloseCreateEvent}
+                  dayCreateEvent={dayCreateEvent}
+              />
+          )
+        }
       </>
     </DndProvider>
   );

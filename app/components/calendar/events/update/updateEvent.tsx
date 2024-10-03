@@ -4,7 +4,7 @@ import React from 'react';
 import { CreateEvent } from '@/app/components/calendar/events/create/createEvent';
 import useUpdateEvent from './useUpdateEvent';
 
-export default (props) => {
+const UpdateEvent = (props) => {
   const hook = useUpdateEvent(props);
 
   return (
@@ -17,4 +17,6 @@ export default (props) => {
     />
   );
 };
+
+export default UpdateEvent;
 

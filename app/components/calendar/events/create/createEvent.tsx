@@ -59,7 +59,7 @@ export const CreateEvent = ({
         </button>}
       </div>
       {error && <p className="text-red-500 mb-4">{error}</p>}
-      <form onSubmit={onCreate}>
+      <div>
         <div className="mb-4">
           <label className="block mb-1">Título:</label>
           <input
@@ -111,13 +111,13 @@ export const CreateEvent = ({
           </div>
         )}
         <button
-          type="submit"
+          onClick={onCreate}
           disabled={!isValidForm}
           className={`${isValidForm ? 'bg-blue-500' : 'bg-gray-500'} text-white p-2 rounded w-full`}
         >
           {buttonLabel}
         </button>
-      </form>
+      </div>
       <button onClick={onClose} className="mt-4 text-gray-500">
         Cancelar
       </button>

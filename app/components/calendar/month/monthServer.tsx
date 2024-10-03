@@ -1,11 +1,5 @@
 import React from 'react';
-import { Event } from '@/types/event';
-
-interface Day {
-  day: number;
-  isCurrentMonth: boolean;
-  events: Event[];
-}
+import { Day } from '@/types/month';
 
 interface MonthProps {
   days: Day[];
@@ -17,8 +11,7 @@ interface MonthProps {
 const Month: React.FC<MonthProps> = (
   {
     days,
-    today,
-    weekDays = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+    weekDays = [ 'Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb' ],
     startDayOfMonth,
   }
 ) => (

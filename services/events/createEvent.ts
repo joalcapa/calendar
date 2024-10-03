@@ -34,8 +34,6 @@ export default class CreateEvent extends BaseService {
       return;
     }
 
-    console.log(this.data);
-
     let startDate = DateTime.fromISO(this.data.start_date, { zone: 'UTC' });
 
     if (this.data.is_all_day) {

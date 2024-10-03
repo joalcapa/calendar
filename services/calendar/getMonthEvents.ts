@@ -1,7 +1,12 @@
 import BaseService from '../baseService';
-import { Event } from '@/types/event';
-import { MonthEvents } from '@/types/month';
 import GetEvents from '../events/getEvents';
+import { Event } from '@/types/event';
+import { MonthEvents, Day } from '@/types/month';
+import {
+  getDaysInMonth,
+  getDateFromNumberDay,
+  getEventsFromDay,
+} from '@/utils/utils';
 
 export default class GetMonthEvents extends BaseService {
   private date: Date;
@@ -19,64 +24,35 @@ export default class GetMonthEvents extends BaseService {
       await service.call();
 
       if (!service.valid) {
-        this.setError(
-          service.error && service.error["message"] ?
-            service.error["message"] :
-            'Error al obtener los eventos'
-        )
+        this.setError(service.error);
       }
 
       this.events = this.createMonthEvents(service.getEvents());
-    } catch (error) {
-      this.setError('Error al obtener los eventos');
+    } catch(error) {
+      if (error instanceof Error) {
+        this.setError(error.message);
+      } else {
+        this.setError('Error desconocido');
+      }
     }
   }
 
-  private createMonthEvents(events: Event[] | null): MonthEvents | null {
-    if (!events) {
-      return null;
-    }
-
+  private createMonthEvents(events: Event[]): MonthEvents {
     return {
       today: new Date().getDate(),
       startDayOfMonth: new Date(this.date.getFullYear(), this.date.getMonth(), 1).getDay(),
-      days: Array.from({ length: this.getDaysInMonth(this.date) }, (_, index) => ({
+      days: Array.from({ length: getDaysInMonth(this.date) }, (_, index): Day => ({
         day: index + 1,
         isCurrent: false,
         isToday: (new Date().getDate() === (index + 1)) && this.date.getMonth() === new Date().getMonth(),
-        dayDate: this.getDate(this.date, index + 1),
+        dayDate: getDateFromNumberDay(this.date, index + 1),
         isCurrentMonth: true,
-        events: this.getEventsFromDB(events, index + 1),
+        events: getEventsFromDay(events, index + 1),
       })),
     }
   }
 
-  private getDaysInMonth(date: Date): number {
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    return new Date(year, month, 0).getDate();
-  }
-
-  private getEventsFromDB(events: Event[] | null, day: number): Event[] {
-    if (!events) {
-      return [];
-    }
-
-    return events.filter((event) => (event.start_date.getDate() === day))
-  }
-
-  private getDate(date: Date, i: number): Date {
-    const newDate = new Date(date);
-    newDate.setUTCDate(i);
-    newDate.setUTCHours(7, 0, 0, 0);
-    return newDate;
-  }
-
   public getEvents(): MonthEvents | null {
     return this.events;
-  }
-
-  public getDateLabel(): string {
-    return this.date.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
   }
 }

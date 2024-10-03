@@ -4,7 +4,7 @@ import GetEvent from '@/services/events/getEvent';
 import DeleteEvent from '@/services/events/deleteEvent';
 import UpdateEvent from '@/services/events/updateEvent';
 
-export async function GET(request: Request, params: { params: { id: string } }) {
+export async function GET(request: NextRequest, params: { params: { id: string } }) {
   const service = new GetEvent(parseInt(params.params.id));
   await service.call();
 
@@ -15,13 +15,8 @@ export async function GET(request: Request, params: { params: { id: string } }) 
   return NextResponse.json(service.getEvent(), { status: 200 });
 }
 
-export async function PUT(request: Request, params: { params: { id: string } }) {
-  console.log("params.params.id: ", params.params.id)
-  console.log("req: ", request)
-
-
+export async function PUT(request: NextRequest, params: { params: { id: string } }) {
   const body = await request.json();
-  console.log("await request.json()): ", body);
   const service = new UpdateEvent(parseInt(params.params.id), body);
   await service.call();
 
@@ -29,11 +24,10 @@ export async function PUT(request: Request, params: { params: { id: string } }) 
     return NextResponse.json(service.getError(), { status: 422 })
   }
 
-  console.log("devolvemos", service.getEvent())
   return NextResponse.json(service.getEvent(), { status: 200 });
 }
 
-export async function DELETE(request: Request, params: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, params: { params: { id: string } }) {
   const service = new DeleteEvent(parseInt(params.params.id));
   await service.call();
 

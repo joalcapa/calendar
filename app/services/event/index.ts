@@ -19,7 +19,13 @@ export const deleteEvent = (id: number) => {
   }
 };
 
-export const updateEvent = (id: number, data: Event) => {
+export const updateEvent = (id: number, data: {
+  title: string,
+  description: string,
+  is_all_day: boolean,
+  start_date: string,
+  finish_date: string,
+}) => {
   const endpoint = endpoints.updateEvent;
 
   return {
@@ -33,7 +39,13 @@ export const getEvents = () => {
   return endpoints.getEvents;
 };
 
-export const createEvent = (data: Event) => {
+export const createEvent = (data: {
+  title: string,
+  description: string,
+  is_all_day: boolean,
+  start_date: string,
+  finish_date: string,
+}) => {
   return {
     ...endpoints.createEvent,
     data,

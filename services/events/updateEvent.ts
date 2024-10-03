@@ -15,9 +15,7 @@ export default class UpdateEvent extends BaseService {
   public async call(): Promise<void> {
     try {
       // Buscar el evento existente
-      console.log("vamos")
       this.event = await eventRepository.findById(this.id);
-      console.log("pasamos esto")
       if (!this.event) {
         return this.setError('El evento no existe');
       }
@@ -29,7 +27,6 @@ export default class UpdateEvent extends BaseService {
       await eventRepository.update(this.id, this.params);
       this.event = await eventRepository.findById(this.id);
     } catch (error) {
-      console.log("ere: ", error)
       this.setError('Error al obtener el evento');
     }
   }
@@ -37,12 +34,10 @@ export default class UpdateEvent extends BaseService {
   private normalizeDates(): void {
     try {
       // Normalizar start_date
-      console.log(this.params)
       if (this.params.start_date) {
         this.params.start_date = DateTime.fromISO(this.params.start_date, { zone: 'UTC' }).toUTC().toISO();
       }
 
-      console.log("paso 1")
       // Normalizar finish_date
       if (this.params.finish_date) {
         this.params.finish_date = DateTime.fromISO(this.params.finish_date, { zone: 'UTC' }).toUTC().toISO();
@@ -53,7 +48,7 @@ export default class UpdateEvent extends BaseService {
         this.setAllDayDates();
       }
     } catch (error) {
-      console.log(error)
+
     }
   }
 

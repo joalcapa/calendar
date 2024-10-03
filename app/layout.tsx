@@ -18,7 +18,6 @@ export default function RootLayout({
     type?: string,
   },
 }>) {
-  console.log("date --->", searchParams)
   return (
     <html lang="en">
       <body className="flex flex-col h-screen">
