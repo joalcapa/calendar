@@ -37,13 +37,31 @@ export default class GetMonthEvents extends BaseService {
     }
   }
 
-  private createMonthEvents(events: Event[]): MonthEvents {
+  private createMonthEvents(events: Event[]): {
+    startDayOfMonth: number;
+    today: number;
+    days: {
+      isCurrent: boolean;
+      dayDate: Date;
+      isToday: boolean;
+      day: number;
+      isCurrentMonth: boolean;
+      events: Event[]
+    }[]
+  } {
     return {
       today: new Date().getDate(),
       startDayOfMonth: new Date(this.date.getFullYear(), this.date.getMonth(), 1).getDay(),
-      days: Array.from({ length: getDaysInMonth(this.date) }, (_, index): Day => ({
+      days: Array.from({ length: getDaysInMonth(this.date) }, (_, index): {
+        isCurrent: boolean;
+        dayDate: Date;
+        isToday: boolean;
+        day: number;
+        isCurrentMonth: boolean;
+        events: Event[]
+      } => ({
         day: index + 1,
-        isCurrent: false,
+        isCurrent: this.date.getDate() === index + 1,
         isToday: (new Date().getDate() === (index + 1)) && this.date.getMonth() === new Date().getMonth(),
         dayDate: getDateFromNumberDay(this.date, index + 1),
         isCurrentMonth: true,

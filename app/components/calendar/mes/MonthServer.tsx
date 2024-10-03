@@ -3,7 +3,6 @@ import { Day } from '@/types/month';
 
 interface MonthProps {
     days: Day[];
-    today: number;
     startDayOfMonth: number;
 }
 
