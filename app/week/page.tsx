@@ -22,7 +22,7 @@ export default async ({
         {
           service.getEvents().map(day => (
             <div style={{ width: '14.28%' }}>
-              <CalendarDay {...day} />
+              <CalendarDay {...day} isHours={false} />
             </div>
           ))
         }
