@@ -8,9 +8,10 @@ interface CalendarColumnProps {
     events: Event[];
     day: Day;
     isHours?: boolean;
+    dayName: string;
 }
 
-const CalendarColumn: React.FC<CalendarColumnProps> = ({ day, isHours = true }) => {
+const CalendarColumn: React.FC<CalendarColumnProps> = ({ day, isHours = true, dayName }) => {
     const events = day.events || [];
     const hours = Array.from({ length: 13 }, (_, i) => i + 7);
 
@@ -35,21 +36,24 @@ const CalendarColumn: React.FC<CalendarColumnProps> = ({ day, isHours = true }) 
     };
 
     return (
-        <div className="relative border-l border-r border-gray-200">
-            {hours.map((hour) => (
-                <div
-                    key={hour}
-                    className="border-t border-b border-gray-200 relative h-16 flex items-center cursor-pointer hover:bg-gray-300"
-                >
-                    {
-                        isHours && (<span className="absolute left-2 top-0 text-xs">
+        <>
+            <h3 className="text-xl font-semibold text-gray-800 pb-3">{dayName}</h3>
+            <div className="relative border-l border-r border-gray-200">
+                {hours.map((hour) => (
+                    <div
+                        key={hour}
+                        className="border-t border-b border-gray-200 relative h-16 flex items-center cursor-pointer hover:bg-gray-300"
+                    >
+                        {
+                            isHours && (<span className="absolute left-2 top-0 text-xs">
               {getHourLabel(hour)}
             </span>)
-                    }
-                </div>
-            ))}
-            {renderEvents()}
-        </div>
+                        }
+                    </div>
+                ))}
+                {renderEvents()}
+            </div>
+        </>
     );
 };
 

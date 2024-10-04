@@ -1,4 +1,5 @@
 import { Event } from "../types/event";
+import { DateTime } from 'luxon';
 
 export const getDaysInMonth = (date: Date): number => {
     const year = date.getFullYear();
@@ -32,4 +33,10 @@ export const getMonthAndYearFromDate = (date: Date): string => {
 export const formatDateYYYYMMDD = (d: Date | string) => {
     const startDate = new Date(d);
     return `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, '0')}-${String(startDate.getDate()).padStart(2, '0')}`;
+};
+
+export const getDayLabel = (d: Date) => {
+    const date = DateTime.fromJSDate(d).setLocale('es');
+    const dia = date.toFormat('cccc');
+    return `${dia.charAt(0).toUpperCase() + dia.slice(1)} - ${date.day}`;
 };

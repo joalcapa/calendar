@@ -1,8 +1,8 @@
 import BaseService from '../baseService';
 import { Event } from '../../types/event';
 import { MonthEvents } from '../../types/month';
+import { getDateFromNumberDay, getDayLabel } from '../../utils/utils';
 import GetEvents from '../events/getEvents';
-import { getDateFromNumberDay } from '../../utils/utils';
 
 export default class GetDayEvents extends BaseService {
   private date: Date;
@@ -39,6 +39,7 @@ export default class GetDayEvents extends BaseService {
   private createEvents(events: Event[]): {
     startDayOfMonth: number;
     today: number;
+    dayName: string;
     days: {
       isCurrent: boolean;
       dayDate: Date;
@@ -50,6 +51,7 @@ export default class GetDayEvents extends BaseService {
   } {
     return {
       today: new Date().getDate(),
+      dayName: getDayLabel(this.date),
       startDayOfMonth: new Date(this.date.getFullYear(), this.date.getMonth(), 1).getDay(),
       days: [
         {

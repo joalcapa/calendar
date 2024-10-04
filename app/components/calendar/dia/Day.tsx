@@ -19,6 +19,7 @@ interface CalendarColumnProps {
     onEvent: (event: Event) => void,
     isHours: boolean;
     hours: [ number ];
+    dayName: string;
 }
 
 const CalendarColumn: React.FC<CalendarColumnProps> = (
@@ -30,6 +31,7 @@ const CalendarColumn: React.FC<CalendarColumnProps> = (
         onEvent,
         isHours,
         hours,
+        dayName,
     }
 ) => {
     const events = day.events || [];
@@ -70,20 +72,23 @@ const CalendarColumn: React.FC<CalendarColumnProps> = (
     };
 
     return (
-        <div className="relative border-l border-r border-gray-200">
-            {
-                hours.map((hour, i) => (
-                    <Hour
-                        key={'ED' + i}
-                        onDrop={() => onDropHour(hour, day)}
-                        onHour={() => onHour(hour)}
-                        isHours={isHours}
-                        hour={hour}
-                    />
-                ))
-            }
-            {renderEvents()}
-        </div>
+        <>
+            <h3 className="text-xl font-semibold text-gray-800 pb-3">{dayName}</h3>
+            <div className="relative border-l border-r border-gray-200">
+                {
+                    hours.map((hour, i) => (
+                        <Hour
+                            key={'ED' + i}
+                            onDrop={() => onDropHour(hour, day)}
+                            onHour={() => onHour(hour)}
+                            isHours={isHours}
+                            hour={hour}
+                        />
+                    ))
+                }
+                {renderEvents()}
+            </div>
+        </>
     );
 };
 
@@ -98,6 +103,7 @@ const Calendar: React.FC<MonthEvents> = (props) => {
                     <DayServer
                         day={month.days[0]}
                         isHours={props.isHours}
+                        dayName={month.dayName}
                     />
             }
             <EventManager
