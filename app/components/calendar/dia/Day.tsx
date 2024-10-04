@@ -73,7 +73,7 @@ const CalendarColumn: React.FC<CalendarColumnProps> = (
 
     return (
         <>
-            <h3 className="text-xl font-semibold text-gray-800 pb-3">{dayName}</h3>
+            <h3 className="text-xl font-semibold text-gray-800 pb-3">{ dayName }</h3>
             <div className="relative border-l border-r border-gray-200">
                 {
                     hours.map((hour, i) => (
