@@ -1,11 +1,11 @@
 'use client'
 
 import { useEffect } from "react";
-import { Event } from "@/types/event";
-import { Day } from '@/types/month';
-import { formatDateForInput } from '@/app/utils/utils';
+import { Event } from "../../../../../types/event";
+import { Day } from '../../../../../types/month';
+import { formatDateForInput } from '../../../../../app/utils/utils';
 import useCreateEvent from "../create/useCreateEvent";
-import useGetEvent from "@/app/hooks/useGetEvent";
+import useGetEvent from "../../../../../app/hooks/useGetEvent";
 
 interface UpdateEventProps {
   event: Event,

@@ -1,4 +1,4 @@
-import { Event } from "@prisma/client";
+import { Event } from "../types/event";
 
 export interface Day {
   day: number;

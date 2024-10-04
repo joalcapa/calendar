@@ -1,8 +1,8 @@
 import BaseService from '../baseService';
-import { Event } from '@/types/event';
-import { MonthEvents } from '@/types/month';
+import { Event } from '../../types/event';
+import { MonthEvents } from '../../types/month';
 import GetEvents from '../events/getEvents';
-import { getDateFromNumberDay } from '@/utils/utils';
+import { getDateFromNumberDay } from '../../utils/utils';
 
 export default class GetDayEvents extends BaseService {
   private date: Date;
@@ -16,9 +16,11 @@ export default class GetDayEvents extends BaseService {
 
   public async call(): Promise<void> {
     try {
+      console.log("Vamo a buscar ---: ")
       const service = new GetEvents({ date: this.date, queryType: 'day' });
       await service.call();
 
+      console.log(service.error)
       if (!service.valid) {
         this.setError(
           service.error && service.error["message"] ?

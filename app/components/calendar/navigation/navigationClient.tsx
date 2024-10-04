@@ -3,7 +3,7 @@
 import React from 'react';
 import NavigationServer from './navigationServer';
 import useNavigation from './useNavigation';
-import { View, MONTH, WEEK, DAY } from '@/app/hooks/useCalendarNavigation';
+import { View, MONTH, WEEK, DAY } from '../../../../app/hooks/useCalendarNavigation';
 
 interface NavigationProps {
   isMount: boolean;

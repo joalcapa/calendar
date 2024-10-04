@@ -1,8 +1,8 @@
 import { NextResponse, NextRequest } from "next/server";
 
-import GetEvent from '@/services/events/getEvent';
-import DeleteEvent from '@/services/events/deleteEvent';
-import UpdateEvent from '@/services/events/updateEvent';
+import GetEvent from '../../../../services/events/getEvents';
+import DeleteEvent from '../../../../services/events/deleteEvent';
+import UpdateEvent from '../../../../services/events/updateEvent';
 
 export async function GET(request: NextRequest, params: { params: { id: string } }) {
   const service = new GetEvent(parseInt(params.params.id));

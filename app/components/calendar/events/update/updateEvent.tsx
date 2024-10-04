@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import { CreateEvent } from '@/app/components/calendar/events/create/createEvent';
+import { CreateEvent } from '../../../../../app/components/calendar/events/create/createEvent';
 import useUpdateEvent from './useUpdateEvent';
 
 const UpdateEvent = (props) => {

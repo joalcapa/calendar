@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import CalendarNavigation from '@/app/components/calendar/navigation/navigationClient';
+import CalendarNavigation from '../app/components/calendar/navigation/navigationClient';
 import "./globals.css";
 
 export const metadata: Metadata = {

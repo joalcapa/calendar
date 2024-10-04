@@ -1,6 +1,6 @@
-import Calendar from '@/app/components/calendar/dia/Day';
-import CalendarDay from "@/app/components/calendar/dia/DayHOC";
-import GetDayEvents from '@/services/calendar/getDayEvents';
+import Calendar from '../../app/components/calendar/dia/Day';
+import CalendarDay from "../../app/components/calendar/dia/DayHOC";
+import GetDayEvents from '../../services/calendar/getDayEvents';
 import { parseISO } from 'date-fns';
 
 export default async ({

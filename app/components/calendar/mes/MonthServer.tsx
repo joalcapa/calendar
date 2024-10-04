@@ -1,5 +1,5 @@
 import React from 'react';
-import { Day } from '@/types/month';
+import { Day } from '../../../../types/month';
 
 interface MonthProps {
     days: Day[];

@@ -1,7 +1,7 @@
 import BaseService from '../baseService';
 import GetEvents from '../events/getEvents';
-import { Event } from '@/types/event';
-import { MonthEvents, Day } from '@/types/month';
+import { Event } from '../../types/event';
+import { MonthEvents, Day } from '../../types/month';
 import {
   getDaysInMonth,
   getDateFromNumberDay,

@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
-import { Event } from "@/types/event";
-import { Day } from '@/types/month';
+import { Event } from "../../../../types/event";
+import { Day } from '../../../../types/month';
 
 interface HourEventProps {
     onMouseEnter: () => void;

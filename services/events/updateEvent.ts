@@ -1,9 +1,9 @@
-import { eventRepository } from '@/repositories/eventRepository';
+import { eventRepository } from '../../repositories/eventRepository';
 import BaseService from '../baseService';
-import { Event } from '@/types/event';
+import { Event } from '../../types/event';
 import { DateTime } from 'luxon';
-import GetWeather from "@/services/weather/getWeather";
-import { formatDateYYYYMMDD } from '@/utils/utils';
+import GetWeather from "../../services/weather/getWeather";
+import { formatDateYYYYMMDD } from '../../utils/utils';
 
 export default class UpdateEvent extends BaseService {
   private event: Event | null;

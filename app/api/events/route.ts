@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-import GetEvents from '@/services/events/getEvents';
-import CreateEvent from "@/services/events/createEvent";
+import GetEvents from '../../../services/events/getEvents';
+import CreateEvent from "../../../services/events/createEvent";
 
 export async function GET() {
   const service = new GetEvents({});

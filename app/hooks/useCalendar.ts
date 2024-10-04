@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { Event } from "@/types/event";
-import { MonthEvents, Day } from '@/types/month';
-import useGetEvent from "@/app/hooks/useGetEvent";
+import { Event } from "../../types/event";
+import { MonthEvents, Day } from '../../types/month';
+import useGetEvent from "../../app/hooks/useGetEvent";
 import {DateTime} from "luxon";
-import {deleteEvent} from "@/app/services/event";
+import {deleteEvent} from "../../app/services/event";
 
 const useCalendar = (props: MonthEvents) => {
   const { today, startDayOfMonth, monthName, isHours, onDropEvent = () => {}, onDragEvent = ()=> {} } = props;

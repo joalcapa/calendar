@@ -1,5 +1,5 @@
-import Calendar from '@/app/components/calendar/semana/Week';
-import GetWeekEvents from '@/services/calendar/getWeekEvents';
+import Calendar from '../../app/components/calendar/semana/Week';
+import GetWeekEvents from '../../services/calendar/getWeekEvents';
 import { parseISO } from 'date-fns';
 
 export default async ({

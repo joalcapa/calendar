@@ -1,5 +1,5 @@
-import { Event } from "@/types/event";
-import { Day } from '@/types/month';
+import { Event } from "../../types/event";
+import { Day } from '../../types/month';
 
 export interface TargetEvent {
     target: {

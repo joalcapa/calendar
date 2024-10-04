@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 
-import GetWeather from '@/services/weather/getWeather';
+import GetWeather from '../../../services/weather/getWeather';
 
 export async function GET(request: NextRequest) {
   const location = request.nextUrl.searchParams.get('location');

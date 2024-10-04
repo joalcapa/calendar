@@ -1,15 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Event } from '@/types/event';
-import { Day } from '@/types/month';
+import { Event } from '../../../../types/event';
+import { Day } from '../../../../types/month';
 import DayServer from './DayServer';
-import EventManager from '@/app/components/calendar/events/eventManager/EventManager';
-import DraggableEvent from '@/app/components/dnd/DraggableEvent';
-import useCalendar from '@/app/hooks/useCalendar';
-import Hour from "@/app/components/calendar/dia/Hour";
-import HourEvent from "@/app/components/calendar/dia/HourEvent";
-import { getPropsFromEventForHours } from '@/app/utils/utils';
+import EventManager from '../../../../app/components/calendar/events/eventManager/EventManager';
+import DraggableEvent from '../../../../app/components/dnd/DraggableEvent';
+import useCalendar from '../../../../app/hooks/useCalendar';
+import Hour from "../../../../app/components/calendar/dia/Hour";
+import HourEvent from "../../../../app/components/calendar/dia/HourEvent";
+import { getPropsFromEventForHours } from '../../../../app/utils/utils';
 
 interface CalendarColumnProps {
     day: Day,

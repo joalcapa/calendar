@@ -2,11 +2,11 @@
 
 import {useState, useMemo, useEffect, useCallback} from 'react';
 import { TargetEvent, TargetCheckEvent, CreateEventProps } from "@/app/types/types";
-import useCreateEventHook from "@/app/hooks/useCreateEvent";
-import { Event } from "@/types/event";
-import { Day } from '@/types/month';
-import { formatDateForInput, formatDateYYYYMMDD } from '@/app/utils/utils';
-import useWeather from "@/app/hooks/useWeather";
+import useCreateEventHook from "../../../../../app/hooks/useCreateEvent";
+import { Event } from "../../../../../types/event";
+import { Day } from '../../../../../types/month';
+import { formatDateForInput, formatDateYYYYMMDD } from '../../../../../app/utils/utils';
+import useWeather from "../../../../../app/hooks/useWeather";
 
 const useCreateEvent = (props: CreateEventProps) => {
   const { onClose = () => { }, isDelete = false, onCreateEvent = () => {}, day } = props;

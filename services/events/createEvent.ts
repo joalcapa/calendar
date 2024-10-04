@@ -1,5 +1,5 @@
-import { eventRepository } from '@/repositories/eventRepository';
-import { Event } from '@/types/event';
+import { eventRepository } from '../../repositories/eventRepository';
+import { Event } from '../../types/event';
 import BaseService from '../baseService';
 import { DateTime } from 'luxon';
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import BaseService from '../baseService';
-import { Weather } from '@/types/weather';
+import { Weather } from '../../types/weather';
 
 export default class GetWeather extends BaseService {
   private wheater: Weather;

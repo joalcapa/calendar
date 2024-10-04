@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
-import EventDrop from "@/app/components/dnd/EventDrop";
-import { getHourLabel } from '@/app/utils/utils';
+import EventDrop from "../../../../app/components/dnd/EventDrop";
+import { getHourLabel } from '../../../../app/utils/utils';
 
 interface HourProps {
     onDrop: () => void;
