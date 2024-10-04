@@ -94,33 +94,37 @@ const CalendarColumn: React.FC<CalendarColumnProps> = (
 
             renderedEvents.push(
                 <DraggableEvent key={day.day + event.id} day={day} event={event} onDrag={onDragHour}>
-                    <div
+                    {(props) => {
+                        return (
+                            <div
 
-                        className="absolute bg-blue-500 text-white cursor-pointer border-2 border-r border-white-200"
-                        style={{
-                            top: `${eventStart}px`,
-                            height: `${height}px`,
-                            width: '100%',
-                            left: isHours ? leftPosition : 0,
-                            right: isHours ? '80px' : 0,
-                            borderRadius: 10,
-                            zIndex: isHovered ? 5 : 3,
-                            paddingTop: height < 40 ? 5 : 0,
-                            paddingLeft: 5,
-                            display: 'flex',
-                            flexDirection: height < 40 ? 'row' : 'column',
-                            //opacity: isDragging ? 0.5 : 1, // Cambiar la opacidad mientras se arrastra
-                        }}
-                        onMouseEnter={() => setHoveredEventId(event.id)}
-                        onMouseLeave={() => setHoveredEventId(null)}
-                        onClick={() => onEvent(event)}
-                    >
-                        <span className="text-xs" style={{marginTop: height < 20 ? -9 : 0}}>{event.title}</span>
-                        <span className="text-xs"
-                              style={{marginTop: height < 20 ? -9 : 0, paddingLeft: height < 40 ? 10 : 0}}>
+                                className="absolute bg-blue-500 text-white cursor-pointer border-2 border-r border-white-200"
+                                style={{
+                                    top: `${eventStart}px`,
+                                    height: `${height}px`,
+                                    width: '100%',
+                                    left: isHours ? leftPosition : 0,
+                                    right: isHours ? '80px' : 0,
+                                    borderRadius: 10,
+                                    zIndex: isHovered ? 5 : 3,
+                                    paddingTop: height < 40 ? 5 : 0,
+                                    paddingLeft: 5,
+                                    display: 'flex',
+                                    flexDirection: height < 40 ? 'row' : 'column',
+                                    opacity: props.isDragging ? 0 : 1,
+                                }}
+                                onMouseEnter={() => setHoveredEventId(event.id)}
+                                onMouseLeave={() => setHoveredEventId(null)}
+                                onClick={() => onEvent(event)}
+                            >
+                                <span className="text-xs" style={{marginTop: height < 20 ? -9 : 0}}>{event.title}</span>
+                                <span className="text-xs"
+                                      style={{marginTop: height < 20 ? -9 : 0, paddingLeft: height < 40 ? 10 : 0}}>
                         {hh < 10 ? '0' + hh : hh}:{eventStartMinute < 10 ? '0' + eventStartMinute : eventStartMinute} {eventStartHour >= 12 ? 'PM' : 'AM'} - {mm < 10 ? '0' + mm : mm}:{eventEndMinute < 10 ? '0' + eventEndMinute : eventEndMinute} {eventEndHour >= 12 ? 'PM' : 'AM'}
                     </span>
-                    </div>
+                            </div>
+                        )
+                    }}
                 </DraggableEvent>
             );
         });

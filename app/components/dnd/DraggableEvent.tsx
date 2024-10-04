@@ -20,15 +20,15 @@ const DraggableEvent = ({ event, day, onDrag, children }: DraggableProps) => {
                 onDrag(event, day)
             }
 
-            return {isDragging: monitor.isDragging()
+            return {
+                isDragging: monitor.isDragging(),
             }
-
         },
     });
 
     return (
         <div ref={drag}>
-            {children}
+            {children({ isDragging })}
         </div>
     );
 };
