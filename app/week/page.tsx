@@ -1,4 +1,4 @@
-import CalendarDay from '@/app/components/calendar/dia/Day';
+import Calendar from '@/app/components/calendar/semana/Week';
 import GetWeekEvents from '@/services/calendar/getWeekEvents';
 import { parseISO } from 'date-fns';
 
@@ -17,16 +17,6 @@ export default async ({
   await service.call();
 
   return (
-    <>
-      <div style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
-        {
-          service.getEvents().map(day => (
-            <div style={{ width: '14.28%' }}>
-              <CalendarDay {...day} isHours={false} />
-            </div>
-          ))
-        }
-      </div>
-    </>
+    <Calendar key={parsedDate} days={service.getEvents()} />
   );
 };

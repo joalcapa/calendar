@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import { Event } from '@/types/event';
-import { useDrag, useDrop, DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useDrag, useDrop, /*DndProvider*/ } from 'react-dnd';
+//import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Day } from '@/types/month';
 import useCalendar from '@/app/hooks/useCalendar';
 import { DateTime } from 'luxon';
@@ -23,14 +23,13 @@ const ItemTypes = {
 };
 
 
-const EventComponent = ({ event, eventStartHour, eventStartMinute, onDragHour, setHoveredEventId, children }) => {
+const EventComponent = ({ event, day, eventStartHour, eventStartMinute, onDragHour, setHoveredEventId, children }) => {
     const [{ isDragging }, drag] = useDrag({
         type: ItemTypes.EVENT,
-        item: { id: event.id, startHour: eventStartHour, startMinute: eventStartMinute },
+        item: { id: event.id },
         collect: (monitor) => {
-            console.log("DRAG", event.id)
             if (monitor.isDragging()) {
-                onDragHour(event)
+                onDragHour(event, day)
             }
 
             return {isDragging: monitor.isDragging()
@@ -45,6 +44,30 @@ const EventComponent = ({ event, eventStartHour, eventStartMinute, onDragHour, s
         </div>
     );
 };
+
+const EventDrop = ({
+                       children,
+                       onDropHour
+}) => {
+    const [, drop] = useDrop({
+        accept: ItemTypes.EVENT,
+        drop: (item: { id: number; }) => {
+
+
+            onDropHour()
+        },
+        collect: (monitor) => ({
+            isOver: monitor.isOver(),
+            canDrop: monitor.canDrop(),
+        }),
+    });
+
+    return (
+        <div ref={drop}>
+            {children}
+        </div>
+    );
+}
 
 const CalendarColumn: React.FC<CalendarColumnProps> = ({
                                                            day,
@@ -115,17 +138,16 @@ const CalendarColumn: React.FC<CalendarColumnProps> = ({
             const hh = eventStartHour > 12 ? eventStartHour - 12 : eventStartHour;
             const mm = eventEndHour > 12 ? eventEndHour - 12 : eventEndHour;
 
-            if (event.id === eventDrag?.id) {
+            /*if (event.id === eventDrag?.id) {
              return(
                  <></>
              )
-         }
+         }*/
 
             renderedEvents.push(
-                <EventComponent event={event} onDragHour={onDragHour} eventStartHour={eventStartHour} eventStartMinute={eventStartMinute}>
+                <EventComponent key={day.day + event.id} day={day} event={event} onDragHour={onDragHour} eventStartHour={eventStartHour} eventStartMinute={eventStartMinute}>
                     <div
-                        key={event.id}
-                        //ref={drag} // Conectar el evento con drag
+
                         className="absolute bg-blue-500 text-white cursor-pointer border-2 border-r border-white-200"
                         style={{
                             top: `${eventStart}px`,
@@ -158,51 +180,24 @@ const CalendarColumn: React.FC<CalendarColumnProps> = ({
         return renderedEvents;
     };
 
-    // Función para manejar el drop de eventos
-    const onEventDrop = (eventId: number, newHour: number, newMinute: number) => {
-        const updatedEvents = events.map(event => {
-            if (event.id === eventId) {
-                const start = DateTime.fromJSDate(new Date(event.start_date)).set({hour: newHour, minute: newMinute});
-                const finish = start.plus({minutes: (event.duration || 60)});
-                return {...event, start_date: start.toJSDate(), finish_date: finish.toJSDate()};
-            }
-            return event;
-        });
-
-        // Llama a alguna función para actualizar los eventos en el servidor o estado
-        console.log(updatedEvents);
-    };
-
     return (
         <div className="relative border-l border-r border-gray-200">
             {hours.map((hour) => {
-                const [, drop] = useDrop({
-                    accept: ItemTypes.EVENT,
-                    drop: (item: { id: number; startHour: number; startMinute: number }) => {
-                        const newHour = hour;
-                        const newMinute = 0; // Aquí puedes manejar minutos si es necesario
-                        onEventDrop(item.id, newHour, newMinute);
-                        onDropHour(hour)
-                    },
-                    collect: (monitor) => ({
-                        isOver: monitor.isOver(),
-                        canDrop: monitor.canDrop(),
-                    }),
-                });
-
                 return (
-                    <div
-                        key={hour}
-                        ref={drop} // Conectar cada celda de hora con drop
-                        className="border-t border-b border-gray-200 relative h-16 flex items-center cursor-pointer hover:bg-gray-300"
-                        onClick={() => onHour(hour)}
-                    >
-                        {
-                            isHours && (<span className="absolute left-2 top-0 text-xs">
+                    <EventDrop key={hour + day.day} onDropHour={() => onDropHour(hour, day)}>
+                        <div
+                            className="border-t border-b border-gray-200 relative h-16 flex items-center cursor-pointer hover:bg-gray-300"
+                            onClick={() => {
+                                onHour(hour)
+                            }}
+                        >
+                            {
+                                isHours && (<span className="absolute left-2 top-0 text-xs">
                                 {`${hour % 12 === 0 ? 12 : hour % 12}:00 ${hour < 12 ? 'AM' : 'PM'}`}
                             </span>)
-                        }
-                    </div>
+                            }
+                        </div>
+                    </EventDrop>
                 );
             })}
             {renderEvents()}
@@ -211,15 +206,14 @@ const CalendarColumn: React.FC<CalendarColumnProps> = ({
 };
 
 const Calendar: React.FC<MonthEvents> = (props) => {
-    const { month, eventForUpdate, dayForCreateEvent } = useCalendar(props);
+    const {month, eventForUpdate, dayForCreateEvent} = useCalendar(props);
 
-    console.log(month.day.events)
     return (
         <>
-            <DndProvider backend={HTML5Backend}>
-                {month.isMount ? <CalendarColumn {...month} /> :
-                    <DayServer day={month.days[0]} isHours={props.isHours} />}
-            </DndProvider>
+            {/*<DndProvider backend={HTML5Backend}>*/}
+            {month.isMount ? <CalendarColumn {...month} /> :
+                <DayServer day={month.days[0]} isHours={props.isHours}/>}
+            {/*</DndProvider>*/}
             <EventManager
                 eventForUpdate={eventForUpdate}
                 dayForCreateEvent={dayForCreateEvent}
