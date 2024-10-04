@@ -1,17 +1,29 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { Day } from '@/types/month'
 import CalendarDay from '@/app/components/calendar/dia/Day';
-import {DndProvider} from "react-dnd";
-import {HTML5Backend} from "react-dnd-html5-backend";
 
-const Week = (props) => (
+interface WeekDayProps {
+    onDragEvent: () => void;
+    onDropEvent: () => void;
+    days: Day[],
+}
+
+const Week = ({ onDropEvent, onDragEvent, days }: WeekDayProps) => (
     <DndProvider backend={HTML5Backend}>
-        <div style={{display: 'flex', flexDirection: 'row', width: '100%'}}>
+        <div className="flex flex-row w-full">
             {
-                props.days.map(day => (
-                    <div key={day.days[0].day} style={{width: '14.28%'}}>
-                        <CalendarDay  {...day} isHours={false} onDropEvent={props.onDropEvent} onDragEvent={props.onDragEvent}/>
+                days.map(day => (
+                    <div key={day.days[0].day} className="w-[14.28%]">
+                        <CalendarDay
+                            {...day}
+                            isHours={false}
+                            onDropEvent={onDropEvent}
+                            onDragEvent={onDragEvent}
+                        />
                     </div>
                 ))
             }
@@ -31,20 +43,16 @@ export default (props) => {
         setDragEvent(event);
         setDragDay(day)
         callbackDelete.current = onDeleteEvent
-        console.log("Hola")
     };
 
     const onDropEvent = (hour: number, day: Day, onCreateEvent: () => void) => {
         setDropDay(day)
         setDropHour(hour)
         callbackCreate.current = onCreateEvent
-        alert("Y eso")
     };
 
     useEffect(() => {
-        console.log("TTTT", dragEvent, dragDay, dropDay, dropHour)
         if (!!dragEvent && !!dragDay && !!dropDay && !!dropHour) {
-            console.log("a trasladar")
             callbackDelete.current(dragEvent);
             callbackCreate.current(dragEvent);
         }

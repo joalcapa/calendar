@@ -18,7 +18,11 @@ export default async ({
 
   return (
       <CalendarDay>
-        <Calendar key={parsedDate} {...service.getEvents()} isHours />
+        <Calendar
+            key={parsedDate}
+            {...service.getEvents()}
+            isHours
+        />
       </CalendarDay>
   );
 };
