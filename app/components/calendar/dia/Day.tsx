@@ -22,14 +22,37 @@ const ItemTypes = {
     EVENT: 'event',
 };
 
+
+const EventComponent = ({ event, eventStartHour, eventStartMinute, onDragHour, setHoveredEventId, children }) => {
+    const [{ isDragging }, drag] = useDrag({
+        type: ItemTypes.EVENT,
+        item: { id: event.id, startHour: eventStartHour, startMinute: eventStartMinute },
+        collect: (monitor) => {
+            console.log("DRAG", event.id)
+            if (monitor.isDragging()) {
+                onDragHour(event)
+            }
+
+            return {isDragging: monitor.isDragging()
+            }
+
+        },
+    });
+
+    return (
+        <div ref={drag}>
+            {children}
+        </div>
+    );
+};
+
 const CalendarColumn: React.FC<CalendarColumnProps> = ({
                                                            day,
                                                            onHourClick,
                                                            onEventClick,
                                                            onHour,
-    onDragHour,
-    onDropHour,
-                                                           eventsDelete,
+                                                           onDragHour,
+                                                           onDropHour,
                                                            eventDrag,
                                                            onDay,
                                                            onEvent,
@@ -37,7 +60,7 @@ const CalendarColumn: React.FC<CalendarColumnProps> = ({
                                                        }) => {
     const events = day.events || [];
 
-    const hours = Array.from({ length: 13 }, (_, i) => i + 7); // Genera las horas de 7 a 19
+    const hours = Array.from({length: 13}, (_, i) => i + 7); // Genera las horas de 7 a 19
     const [hoveredEventId, setHoveredEventId] = useState<number | null>(null); // Estado para el evento que está sobrevolando
 
     const renderEvents = () => {
@@ -92,56 +115,43 @@ const CalendarColumn: React.FC<CalendarColumnProps> = ({
             const hh = eventStartHour > 12 ? eventStartHour - 12 : eventStartHour;
             const mm = eventEndHour > 12 ? eventEndHour - 12 : eventEndHour;
 
-            // Uso de useDrag para hacer el evento arrastrable
-            const [{ isDragging }, drag] = useDrag({
-                type: ItemTypes.EVENT,
-                item: { id: event.id, startHour: eventStartHour, startMinute: eventStartMinute },
-                collect: (monitor) => {
-                    console.log("DRAG", event.id)
-                    if (monitor.isDragging()) {
-                        onDragHour(event)
-                    }
-
-                    return {isDragging: monitor.isDragging()
-                    }
-
-                },
-            });
-
-            if (event.id === eventDrag?.id || eventsDelete.find(e => e.id === event.id)) {
+            if (event.id === eventDrag?.id) {
              return(
                  <></>
              )
          }
 
             renderedEvents.push(
-                <div
-                    key={event.id}
-                    ref={drag} // Conectar el evento con drag
-                    className="absolute bg-blue-500 text-white cursor-pointer border-2 border-r border-white-200"
-                    style={{
-                        top: `${eventStart}px`,
-                        height: `${height}px`,
-                        width: '100%',
-                        left: isHours ? leftPosition : 0,
-                        right: isHours ? '80px' : 0,
-                        borderRadius: 10,
-                        zIndex: isHovered ? 5 : 3,
-                        paddingTop: height < 40 ? 5 : 0,
-                        paddingLeft: 5,
-                        display: 'flex',
-                        flexDirection: height < 40 ? 'row' : 'column',
-                        opacity: isDragging ? 0.5 : 1, // Cambiar la opacidad mientras se arrastra
-                    }}
-                    onMouseEnter={() => setHoveredEventId(event.id)}
-                    onMouseLeave={() => setHoveredEventId(null)}
-                    onClick={() => onEvent(event)}
-                >
-                    <span className="text-xs" style={{ marginTop: height < 20 ? -9 : 0 }}>{event.title}</span>
-                    <span className="text-xs" style={{ marginTop: height < 20 ? -9 : 0, paddingLeft: height < 40 ? 10 : 0 }}>
+                <EventComponent event={event} onDragHour={onDragHour} eventStartHour={eventStartHour} eventStartMinute={eventStartMinute}>
+                    <div
+                        key={event.id}
+                        //ref={drag} // Conectar el evento con drag
+                        className="absolute bg-blue-500 text-white cursor-pointer border-2 border-r border-white-200"
+                        style={{
+                            top: `${eventStart}px`,
+                            height: `${height}px`,
+                            width: '100%',
+                            left: isHours ? leftPosition : 0,
+                            right: isHours ? '80px' : 0,
+                            borderRadius: 10,
+                            zIndex: isHovered ? 5 : 3,
+                            paddingTop: height < 40 ? 5 : 0,
+                            paddingLeft: 5,
+                            display: 'flex',
+                            flexDirection: height < 40 ? 'row' : 'column',
+                            //opacity: isDragging ? 0.5 : 1, // Cambiar la opacidad mientras se arrastra
+                        }}
+                        onMouseEnter={() => setHoveredEventId(event.id)}
+                        onMouseLeave={() => setHoveredEventId(null)}
+                        onClick={() => onEvent(event)}
+                    >
+                        <span className="text-xs" style={{marginTop: height < 20 ? -9 : 0}}>{event.title}</span>
+                        <span className="text-xs"
+                              style={{marginTop: height < 20 ? -9 : 0, paddingLeft: height < 40 ? 10 : 0}}>
                         {hh < 10 ? '0' + hh : hh}:{eventStartMinute < 10 ? '0' + eventStartMinute : eventStartMinute} {eventStartHour >= 12 ? 'PM' : 'AM'} - {mm < 10 ? '0' + mm : mm}:{eventEndMinute < 10 ? '0' + eventEndMinute : eventEndMinute} {eventEndHour >= 12 ? 'PM' : 'AM'}
                     </span>
-                </div>
+                    </div>
+                </EventComponent>
             );
         });
 
@@ -152,9 +162,9 @@ const CalendarColumn: React.FC<CalendarColumnProps> = ({
     const onEventDrop = (eventId: number, newHour: number, newMinute: number) => {
         const updatedEvents = events.map(event => {
             if (event.id === eventId) {
-                const start = DateTime.fromJSDate(new Date(event.start_date)).set({ hour: newHour, minute: newMinute });
-                const finish = start.plus({ minutes: (event.duration || 60) });
-                return { ...event, start_date: start.toJSDate(), finish_date: finish.toJSDate() };
+                const start = DateTime.fromJSDate(new Date(event.start_date)).set({hour: newHour, minute: newMinute});
+                const finish = start.plus({minutes: (event.duration || 60)});
+                return {...event, start_date: start.toJSDate(), finish_date: finish.toJSDate()};
             }
             return event;
         });
@@ -172,7 +182,7 @@ const CalendarColumn: React.FC<CalendarColumnProps> = ({
                         const newHour = hour;
                         const newMinute = 0; // Aquí puedes manejar minutos si es necesario
                         onEventDrop(item.id, newHour, newMinute);
-                       onDropHour(hour)
+                        onDropHour(hour)
                     },
                     collect: (monitor) => ({
                         isOver: monitor.isOver(),

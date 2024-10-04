@@ -13,7 +13,6 @@ const useCalendar = (props: MonthEvents) => {
   const [day, setDay] = useState<Day | null>(null);
   const [isUpdateEvent, setUpdateEvent] = useState<boolean>(false);
   const [isCreateEvent, setCreateEvent] = useState<boolean>(false);
-  const [eventsDelete, setEventsDelte] = useState<Event[]>([]);
   const { updateEvent } = useGetEvent();
   const dragEventRef = useRef(false);
 
@@ -54,6 +53,8 @@ const useCalendar = (props: MonthEvents) => {
       // Resetear el estado después de actualizar
       setEventDrag(null);
       dragEventRef.current = false;
+
+      await onDrop(eventDrag, days[0])
     }
   };
 
@@ -171,16 +172,14 @@ const useCalendar = (props: MonthEvents) => {
   };
 
   const onDeleteEvent = (eventDeleted: Event): void => {
-    setEventsDelte(prev => [...prev, eventDeleted]);
 
-
-    /*setDays((prevDays) =>
+    setDays((prevDays) =>
       prevDays.map((d) => ({
         ...d,
         events: d.events.filter((e) => e.id !== eventDeleted.id),
       }))
     );
-*/
+
     onClose();
   };
 
@@ -239,10 +238,7 @@ const useCalendar = (props: MonthEvents) => {
       startDayOfMonth,
       isMount,
       days,
-      day: {
-        ...days[0],
-        events: days[0].events.sort((a, b) => a.id - b.id)
-      },
+      day: days[0],
       onDrop,
       onDay,
       onDrag,
@@ -251,7 +247,6 @@ const useCalendar = (props: MonthEvents) => {
       onDragHour,
       onDropHour,
       eventDrag,
-      eventsDelete,
     },
     eventForUpdate: {
       event,

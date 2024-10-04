@@ -19,6 +19,7 @@ interface MonthProps {
     onDrag: (event: Event) => void;
     onEvent: (event: Event) => void;
     monthName: string;
+    eventDrag: Event;
 }
 
 const ItemTypes = {
@@ -115,6 +116,7 @@ const Month: React.FC<MonthProps> = (
         onDrag,
         onEvent,
         monthName,
+        eventDrag,
     }
 ) => (
     <>
@@ -147,7 +149,7 @@ const Month: React.FC<MonthProps> = (
                                 <span
                                     className="absolute top-1 left-1 text-xs font-bold">{day.day} {day.isToday ? '- HOY' : ''}</span>
                                 <div className="mt-5 w-full h-full overflow-hidden">
-                                    {day.events.map((event, eventIndex) => (
+                                    {day.events.filter((e) => e.id != eventDrag?.id).map((event, eventIndex) => (
                                         <DraggableEvent
                                             key={eventIndex}
                                             event={event}
