@@ -1,6 +1,8 @@
 import Calendar from '../app/components/calendar/mes/Month';
 import GetMonthEvents from '../services/calendar/getMonthEvents';
 import { parseISO } from 'date-fns';
+import SmallCalendar from "@/app/components/calendar/smallCalendar/smallCalendar";
+import CalendarDay from "@/app/components/calendar/dia/DayHOC";
 
 export default async ({
   searchParams
@@ -15,5 +17,15 @@ export default async ({
   const service = new GetMonthEvents(parsedDate);
 
   await service.call();
-  return <Calendar key={parsedDate} {...service.getEvents()} />;
+
+  return (
+      <div key={parsedDate} className="flex flex-1">
+        <div className="w-1/4 md:w-1/5 p-4">
+          <SmallCalendar date={new Date(parsedDate)}/>
+        </div>
+        <div className="flex-1 p-4">
+          <Calendar {...service.getEvents()} />
+        </div>
+      </div>
+  );
 };

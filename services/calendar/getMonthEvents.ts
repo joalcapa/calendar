@@ -7,7 +7,7 @@ import {
   getDateFromNumberDay,
   getEventsFromDay,
   getMonthAndYearFromDate,
-} from '@/utils/utils';
+} from '../../utils/utils';
 
 export default class GetMonthEvents extends BaseService {
   private date: Date;

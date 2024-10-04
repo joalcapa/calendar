@@ -1,11 +1,22 @@
 'use client'
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay } from "date-fns";
-import { es } from 'date-fns/locale'; // Importa el locale en español
+import { es } from 'date-fns/locale';
+import SmallCalendarServer from "@/app/components/calendar/smallCalendar/smallCaldendarServer";
+import { useRouter, useSearchParams } from "next/navigation";
+const DATE_FORMAT = 'yyyy-MM-dd';
 
-export default function SmallCalendar({ onSelectDate }) {
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+const SmallCalendar = ({ date }) => {
+  const [currentMonth, setCurrentMonth] = useState(date);
+  const { replace } = useRouter();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('date', format(currentMonth , DATE_FORMAT));
+    replace(`?${params.toString()}`);
+  }, [ currentMonth ]);
 
   const renderHeader = () => {
     return (
@@ -52,11 +63,16 @@ export default function SmallCalendar({ onSelectDate }) {
           <div
             key={day}
             className={`p-2 text-center border ${isSameMonth(day, monthStart) ? "" : "text-gray-400"} 
-            ${isSameDay(day, new Date()) ? "bg-blue-500 text-white" : ""}
-            hover:bg-blue-200 cursor-pointer`}
-            onClick={() => onSelectDate(cloneDay)}
+            ${
+              isSameDay(day, new Date()) ? 
+                  "bg-orange-500 hover:bg-orange-200 text-white" : 
+                  isSameDay(day, currentMonth) ? 
+                      "bg-blue-500 hover:bg-blue-200 text-white" : ""
+            }
+            cursor-pointer`}
+            onClick={() => setCurrentMonth(cloneDay)}
           >
-            {format(day, "d", { locale: es })} {/* Aplica el locale aquí */}
+            {format(day, "d", { locale: es })}
           </div>
         );
         day = addDays(day, 1);
@@ -78,4 +94,22 @@ export default function SmallCalendar({ onSelectDate }) {
       {renderCells()}
     </div>
   );
+}
+
+export default ({ date }: { date: Date }) => {
+  const [ isMount, setMount ] = useState(false);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    if (isMounted) {
+      setMount(true);
+    }
+
+    return () => {
+      isMounted = false;
+    }
+  }, []);
+
+  return isMount ? <SmallCalendar date={date} /> : <SmallCalendarServer date={date} />;
 }

@@ -1,6 +1,7 @@
 import Calendar from '../../app/components/calendar/dia/Day';
 import CalendarDay from "../../app/components/calendar/dia/DayHOC";
 import GetDayEvents from '../../services/calendar/getDayEvents';
+import SmallCalendar from "@/app/components/calendar/smallCalendar/smallCalendar";
 import { parseISO } from 'date-fns';
 
 export default async ({
@@ -16,16 +17,19 @@ export default async ({
   const service = new GetDayEvents(parsedDate);
   await service.call();
 
-  console.log("HOLAAAAAA: ", service.error)
-  console.log("DIA ---->", service.getEvents())
-
   return (
-      <CalendarDay>
-        <Calendar
-            key={parsedDate}
-            {...service.getEvents()}
-            isHours
-        />
-      </CalendarDay>
+      <div key={parsedDate} className="flex flex-1">
+        <div className="w-1/4 md:w-1/5 p-4">
+          <SmallCalendar date={new Date(parsedDate)}/>
+        </div>
+        <div className="flex-1 p-4">
+          <CalendarDay>
+            <Calendar
+                {...service.getEvents()}
+                isHours
+            />
+          </CalendarDay>
+        </div>
+      </div>
   );
 };
