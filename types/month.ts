@@ -14,4 +14,5 @@ export interface MonthEvents {
   startDayOfMonth: number;
   monthName: string;
   days: Day[];
+  isHours?: boolean;
 }

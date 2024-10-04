@@ -4,7 +4,7 @@ import { MonthEvents, Day } from '@/types/month';
 import useGetEvent from "@/app/hooks/useGetEvent";
 
 const useCalendar = (props: MonthEvents) => {
-  const { today, startDayOfMonth, monthName } = props;
+  const { today, startDayOfMonth, monthName, isHours } = props;
   const [isMount, seMount] = useState<boolean>(false);
   const [days, setDays] = useState<Day[]>(props.days);
   const [event, setEvent] = useState<Event | null>(null);
@@ -42,27 +42,51 @@ const useCalendar = (props: MonthEvents) => {
       is_all_day: eventUpdated.is_all_day,
       start_date: startDate.toISOString(),
       finish_date: finishDate.toISOString(),
+      city: eventUpdated.city,
+      weather: eventUpdated.weather,
+      weather_url: eventUpdated.weather_url,
     };
 
     setDays((prevDays) =>
-      prevDays
-        .map((d) => ({
-          ...d,
-          events: d.events.filter((e) => e.id !== eventUpdated.id),
-        }))
-        .map((d) => {
-          if (d.day === targetDay.day) {
-            return {
+        prevDays
+            .map((d) => ({
               ...d,
-              events: [...d.events, eventUpdated],
-            };
-          }
-          return d;
-        })
+              events: d.events.filter((e) => e.id !== eventUpdated.id),
+            }))
+            .map((d) => {
+              if (d.day === targetDay.day) {
+                return {
+                  ...d,
+                  events: [...d.events, eventUpdated],
+                };
+              }
+              return d;
+            })
     );
 
     try {
-      await updateEvent(eventUpdated.id, payload);
+      const response = await updateEvent(eventUpdated.id, payload);
+      if (response) {
+        eventUpdated.weather_url = response.weather_url;
+        eventUpdated.weather = response.weather;
+      }
+
+      setDays((prevDays) =>
+          prevDays
+              .map((d) => ({
+                ...d,
+                events: d.events.filter((e) => e.id !== eventUpdated.id),
+              }))
+              .map((d) => {
+                if (d.day === targetDay.day) {
+                  return {
+                    ...d,
+                    events: [...d.events, eventUpdated],
+                  };
+                }
+                return d;
+              })
+      );
     } catch {
 
     }
@@ -71,6 +95,16 @@ const useCalendar = (props: MonthEvents) => {
   };
 
   const onDay = (d: Day): void => {
+    setDay(d);
+    setCreateEvent(true);
+  };
+
+  const onHour = (hour: number): void => {
+    console.log(days[0])
+    const d = days[0];
+    d.dayDate = new Date(d.dayDate);
+    d.dayDate.setUTCHours(hour, 0, 0);
+
     setDay(d);
     setCreateEvent(true);
   };
@@ -132,6 +166,8 @@ const useCalendar = (props: MonthEvents) => {
   };
 
   const onCreateEvent = (e: Event) => {
+    console.log(e);
+
     setDays((prevDays) =>
       prevDays.map((d) => {
         if (d === day) {
@@ -140,6 +176,7 @@ const useCalendar = (props: MonthEvents) => {
             events: [...d.events, e],
           };
         }
+
         return d;
       })
     );
@@ -149,15 +186,18 @@ const useCalendar = (props: MonthEvents) => {
 
   return {
     month: {
+      isHours,
       monthName,
       today,
       startDayOfMonth,
       isMount,
       days,
+      day: days[0],
       onDrop,
       onDay,
       onDrag,
       onEvent,
+      onHour,
     },
     eventForUpdate: {
       event,

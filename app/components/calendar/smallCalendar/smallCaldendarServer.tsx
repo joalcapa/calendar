@@ -64,7 +64,6 @@ const SmallCalendar: React.FC<SmallCalendarProps> = ({ currentMonth }) => {
 
   return (
     <div className="bg-white p-4 rounded w-64">
-      {JSON.stringify(currentMonth)}
       {renderHeader()}
       {renderDays()}
       {renderCells()}

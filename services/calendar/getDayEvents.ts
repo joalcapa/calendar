@@ -2,6 +2,7 @@ import BaseService from '../baseService';
 import { Event } from '@/types/event';
 import { MonthEvents } from '@/types/month';
 import GetEvents from '../events/getEvents';
+import { getDateFromNumberDay } from '@/utils/utils';
 
 export default class GetDayEvents extends BaseService {
   private date: Date;
@@ -32,22 +33,31 @@ export default class GetDayEvents extends BaseService {
     }
   }
 
-  private createEvents(events: Event[] | null): MonthEvents | null {
-    if (!events) {
-      return null;
-    }
-
+  private createEvents(events: Event[]): {
+    startDayOfMonth: number;
+    today: number;
+    days: {
+      isCurrent: boolean;
+      dayDate: Date;
+      isToday: boolean;
+      day: number;
+      isCurrentMonth: boolean;
+      events: Event[]
+    }[]
+  } {
     return {
       today: new Date().getDate(),
       startDayOfMonth: new Date(this.date.getFullYear(), this.date.getMonth(), 1).getDay(),
-      day: {
-        day: this.date.getDate(),
-        isCurrent: false,
-        isToday: (new Date().getDate() === (this.date.getDate())) && this.date.getMonth() === new Date().getMonth(),
-        dayDate: this.date,
-        isCurrentMonth: true,
-        events: events,
-      },
+      days: [
+        {
+          day: this.date.getDate(),
+          isCurrent: false,
+          isToday: (new Date().getDate() === (this.date.getDate())) && this.date.getMonth() === new Date().getMonth(),
+          dayDate: getDateFromNumberDay(this.date, this.date.getDate()),
+          isCurrentMonth: true,
+          events: events,
+        }
+      ],
     }
   }
 

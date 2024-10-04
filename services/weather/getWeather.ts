@@ -3,13 +3,13 @@ import BaseService from '../baseService';
 import { Weather } from '@/types/weather';
 
 export default class GetWeather extends BaseService {
-  private wheater: Weather | null;
+  private wheater: Weather;
   private loc: string | null;
   private date: string | null;
 
   constructor(params: { location: string, date: string }) {
     super();
-    this.wheater = null;
+    this.wheater = { condition: '', temperature: '', icon: '' };
     this.loc = params.location;
     this.date = params.date;
   }
@@ -54,7 +54,7 @@ export default class GetWeather extends BaseService {
     }
   }
 
-  public getWeather(): Weather | null {
+  public getWeather(): Weather {
     return this.wheater;
   }
 }

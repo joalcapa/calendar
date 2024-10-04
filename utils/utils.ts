@@ -21,9 +21,15 @@ export const getEventsFromDay = (events: Event[], day: number): Event[] => {
         );
 };
 
-export const getMonthFromDate = (date: Date): string => {
-    return [
+export const getMonthAndYearFromDate = (date: Date): string => {
+    const month = [
         'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
         'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
     ][date.getMonth()];
+    return `${month} del ${date.getFullYear()}`;
+};
+
+export const formatDateYYYYMMDD = (d: Date | string) => {
+    const startDate = new Date(d);
+    return `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, '0')}-${String(startDate.getDate()).padStart(2, '0')}`;
 };
