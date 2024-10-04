@@ -6,7 +6,7 @@ import {DateTime} from "luxon";
 import {deleteEvent} from "@/app/services/event";
 
 const useCalendar = (props: MonthEvents) => {
-  const { today, startDayOfMonth, monthName, isHours, onDropEvent, onDragEvent } = props;
+  const { today, startDayOfMonth, monthName, isHours, onDropEvent = () => {}, onDragEvent = ()=> {} } = props;
   const [isMount, seMount] = useState<boolean>(false);
   const [days, setDays] = useState<Day[]>(props.days);
   const [event, setEvent] = useState<Event | null>(null);

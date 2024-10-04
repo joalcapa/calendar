@@ -1,4 +1,5 @@
-import CalendarDay from '@/app/components/calendar/dia/Day';
+import Calendar from '@/app/components/calendar/dia/Day';
+import CalendarDay from "@/app/components/calendar/dia/DayHOC";
 import GetDayEvents from '@/services/calendar/getDayEvents';
 import { parseISO } from 'date-fns';
 
@@ -13,7 +14,11 @@ export default async ({
   const dateParam = searchParams?.date || new Date().toISOString();
   const parsedDate = parseISO(dateParam);
   const service = new GetDayEvents(parsedDate);
-
   await service.call();
-  return <CalendarDay key={parsedDate} {...service.getEvents()} isHours />;
+
+  return (
+      <CalendarDay>
+        <Calendar key={parsedDate} {...service.getEvents()} isHours />
+      </CalendarDay>
+  );
 };

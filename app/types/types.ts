@@ -19,3 +19,7 @@ export interface CreateEventProps {
     onCreateEvent?: (event: Event) => void;
     day: Day | null;
 }
+
+export const ItemTypes = {
+    EVENT: 'event',
+}
