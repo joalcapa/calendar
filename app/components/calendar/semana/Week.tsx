@@ -3,8 +3,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { Day } from '@/types/month'
-import CalendarDay from '@/app/components/calendar/dia/Day';
+import { Day } from '../../../../types/month'
+import CalendarDay from '../../../../app/components/calendar/dia/Day';
 
 interface WeekDayProps {
     onDragEvent: () => void;

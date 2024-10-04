@@ -1,8 +1,8 @@
 import React from 'react';
-import { Event } from '@/types/event';
-import { Day } from '@/types/month';
-import {getHourLabel, getPropsFromEventForHours} from '@/app/utils/utils';
-import HourEvent from "@/app/components/calendar/dia/HourEvent";
+import { Event } from '../../../../types/event';
+import { Day } from '../../../../types/month';
+import {getHourLabel, getPropsFromEventForHours} from '../../../../app/utils/utils';
+import HourEvent from "../../../../app/components/calendar/dia/HourEvent";
 
 interface CalendarColumnProps {
     events: Event[];

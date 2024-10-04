@@ -1,6 +1,6 @@
 import React from "react";
-import UpdateEvent from "@/app/components/calendar/events/update/updateEvent";
-import CreateEvent from "@/app/components/calendar/events/create/createEvent";
+import UpdateEvent from "../../../../../app/components/calendar/events/update/updateEvent";
+import CreateEvent from "../../../../../app/components/calendar/events/create/createEvent";
 
 interface EventManagerProps {
     eventForUpdate: {

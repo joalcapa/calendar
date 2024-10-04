@@ -1,6 +1,6 @@
 import BaseService from '../baseService';
 import { DateTime } from 'luxon';
-import { MonthEvents } from '@/types/month';
+import { MonthEvents } from '../../types/month';
 import GetDayEvents from '../calendar/getDayEvents';
 
 export default class GetWeekEvents extends BaseService {

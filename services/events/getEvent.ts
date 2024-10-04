@@ -1,6 +1,6 @@
-import { eventRepository } from '@/repositories/eventRepository';
+import { eventRepository } from '../../repositories/eventRepository';
 import BaseService from '../baseService';
-import { Event } from '@/types/event';
+import { Event } from '../../types/event';
 
 export default class GetEvent extends BaseService {
   private id: number;

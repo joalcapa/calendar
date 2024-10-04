@@ -1,8 +1,8 @@
 import React, { ReactNode } from "react";
 import { useDrag } from "react-dnd";
-import { ItemTypes } from '@/app/types/types';
-import { Event } from "@/types/event";
-import { Day } from '@/types/month';
+import { ItemTypes } from '../../../app/types/types';
+import { Event } from "../../../types/event";
+import { Day } from '../../../types/month';
 
 export interface DraggableProps {
     event: Event,

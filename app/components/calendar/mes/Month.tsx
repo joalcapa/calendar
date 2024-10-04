@@ -3,11 +3,11 @@
 import React from 'react';
 import { useDrag, useDrop, DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { Event } from '@/types/event';
-import { Day, MonthEvents } from '@/types/month';
-import useCalendar from '@/app/hooks/useCalendar';
+import { Event } from '../../../../types/event';
+import { Day, MonthEvents } from '../../../../types/month';
+import useCalendar from '../../../../app/hooks/useCalendar';
 import MonthServer from './MonthServer';
-import EventManager from "@/app/components/calendar/events/eventManager/EventManager";
+import EventManager from "../../../../app/components/calendar/events/eventManager/EventManager";
 
 interface MonthProps {
     today: number;

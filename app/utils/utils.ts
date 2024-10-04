@@ -1,4 +1,4 @@
-import { Event } from "@/types/event";
+import { Event } from "../../types/event";
 import { DateTime } from "luxon";
 
 export const formatDateForInput = (d: Date | string) => {

@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
-import { eventRepository } from '@/repositories/eventRepository';
-import { Event } from '@/types/event';
+import { eventRepository } from '../../repositories/eventRepository';
+import { Event } from '../../types/event';
 import BaseService from '../baseService';
 
 interface GetEventsParams {
@@ -68,6 +68,7 @@ export default class GetEvents extends BaseService {
 
       this.events = await eventRepository.findAll();
     } catch (error) {
+      console.log(error)
       if (error instanceof Error) {
         this.setError(error.message);
       } else {

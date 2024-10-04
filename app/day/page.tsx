@@ -1,6 +1,6 @@
-import Calendar from '@/app/components/calendar/dia/Day';
-import CalendarDay from "@/app/components/calendar/dia/DayHOC";
-import GetDayEvents from '@/services/calendar/getDayEvents';
+import Calendar from '../../app/components/calendar/dia/Day';
+import CalendarDay from "../../app/components/calendar/dia/DayHOC";
+import GetDayEvents from '../../services/calendar/getDayEvents';
 import { parseISO } from 'date-fns';
 
 export default async ({
@@ -15,6 +15,9 @@ export default async ({
   const parsedDate = parseISO(dateParam);
   const service = new GetDayEvents(parsedDate);
   await service.call();
+
+  console.log("HOLAAAAAA: ", service.error)
+  console.log("DIA ---->", service.getEvents())
 
   return (
       <CalendarDay>

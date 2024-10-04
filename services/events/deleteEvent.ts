@@ -1,4 +1,4 @@
-import { eventRepository } from '@/repositories/eventRepository';
+import { eventRepository } from '../../repositories/eventRepository';
 import BaseService from '../baseService';
 
 export default class DeleteEvent extends BaseService {

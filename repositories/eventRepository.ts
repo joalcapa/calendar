@@ -1,5 +1,5 @@
-import db from '@/libs/db';
-import { Event } from '@/types/event';
+import db from '../libs/db';
+import { Event } from '../types/event';
 
 interface FindManyOptions {
   where: {

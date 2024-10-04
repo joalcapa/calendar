@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Event } from '@/types/event';
-import { getEvents } from '@/app/services/event';
-import useApi from '@/app/hooks/useApi';
+import { Event } from '../../types/event';
+import { getEvents } from '../../app/services/event';
+import useApi from '../../app/hooks/useApi';
 
 const useGetEvents = () => {
   const { fetch } = useApi();

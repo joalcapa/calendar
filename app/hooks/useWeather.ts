@@ -1,6 +1,6 @@
-import { Location } from '@/types/location';
-import { getWeather } from '@/app/services/weather';
-import useApi from '@/app/hooks/useApi';
+import { Location } from '../../types/location';
+import { getWeather } from '../../app/services/weather';
+import useApi from '../../app/hooks/useApi';
 
 const useWeather = () => {
   const { fetch } = useApi();

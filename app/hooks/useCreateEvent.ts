@@ -1,6 +1,6 @@
-import { Event } from '@/types/event';
-import { createEvent } from '@/app/services/event';
-import useApi from '@/app/hooks/useApi';
+import { Event } from '../../types/event';
+import { createEvent } from '../../app/services/event';
+import useApi from '../../app/hooks/useApi';
 import { AxiosResponse } from 'axios';
 
 const useCreateEvent = () => {

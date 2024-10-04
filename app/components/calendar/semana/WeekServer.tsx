@@ -1,4 +1,4 @@
-import CalendarDay from '@/app/components/calendar/dia/Day'
+import CalendarDay from '../../../../app/components/calendar/dia/Day'
 
 const Week = (props) => (
     <div style={{display: 'flex', flexDirection: 'row', width: '100%'}}>
