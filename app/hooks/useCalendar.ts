@@ -266,6 +266,7 @@ const useCalendar = (props: MonthEvents) => {
       onDragHour,
       onDropHour,
       eventDrag,
+      hours: Array.from({ length: 13 }, (_, i) => i + 7),
     },
     eventForUpdate: {
       event,

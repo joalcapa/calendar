@@ -2,6 +2,7 @@ import React from 'react';
 import { Event } from '@/types/event';
 import { Day } from '@/types/month';
 import { DateTime } from "luxon";
+import { getHourLabel } from '@/app/utils/utils';
 
 interface CalendarColumnProps {
     events: Event[];
@@ -93,7 +94,7 @@ const CalendarColumn: React.FC<CalendarColumnProps> = ({ day, isHours = true }) 
                 >
                     {
                         isHours && (<span className="absolute left-2 top-0 text-xs">
-              {`${hour % 12 === 0 ? 12 : hour % 12}:00 ${hour < 12 ? 'AM' : 'PM'}`}
+              {getHourLabel(hour)}
             </span>)
                     }
                 </div>
