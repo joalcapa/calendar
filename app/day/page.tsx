@@ -16,6 +16,9 @@ export default async ({
   const service = new GetDayEvents(parsedDate);
   await service.call();
 
+  console.log("HOLAAAAAA: ", service.error)
+  console.log("DIA ---->", service.getEvents())
+
   return (
       <CalendarDay>
         <Calendar

@@ -249,6 +249,7 @@ const useCalendar = (props: MonthEvents) => {
     onClose();
   };
 
+  console.log('days', days)
   return {
     month: {
       isHours,

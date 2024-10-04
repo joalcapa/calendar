@@ -29,6 +29,7 @@ export default class GetDayEvents extends BaseService {
 
       this.events = this.createEvents(service.getEvents());
     } catch (error) {
+      console.log("error: ---------------------------->", error.message)
       this.setError('Error al obtener los eventos');
     }
   }

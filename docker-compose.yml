@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:12.20
+    container_name: calendar_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: calendar
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  nextjs:
+    build: .
+    container_name: calendar_app
+    environment:
+      DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/calendar?schema=public"
+      WEATHER_URL: "https://api.weatherapi.com/v1/history.json"
+      WEATHER_API_KEY: "8a81114c0c194550889223709242909"
+      REACT_APP_PUBLIC_API_URL: "http://localhost:3000/api"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
