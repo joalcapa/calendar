@@ -125,6 +125,10 @@ const useCreateEvent = (props: CreateEventProps) => {
       const originalDate = new Date(startDate);
       originalDate.setUTCHours(7, 0);
       setStartDate(originalDate.toISOString().slice(0, 16));
+
+      const originalFinishDate = new Date(finishDate);
+      originalFinishDate.setUTCHours(19, 0);
+      setFinishDate(originalFinishDate.toISOString().slice(0, 16));
     }
   };
 

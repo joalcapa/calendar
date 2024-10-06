@@ -130,8 +130,6 @@ const useCalendar = (props: MonthEvents) => {
             month: dayDateTime.month,
             day: dayDateTime.day,
             hour: event.is_all_day ? 7 : hour,
-            minute: 0,
-            second: 0
         });
 
         const newFinishDateTime = newStartDateTime.plus({ hours: event.is_all_day ? 12 : duration }).set({
