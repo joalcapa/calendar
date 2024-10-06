@@ -18,7 +18,6 @@ export interface CreateEventProps {
     isDelete?: boolean;
     onCreateEvent?: (event: Event) => void;
     day: Day | null;
-    dayNumber?: number;
 }
 
 export const ItemTypes = {

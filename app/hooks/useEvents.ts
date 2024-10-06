@@ -23,7 +23,7 @@ interface UpdatePayload {
     currentDay?: Day,
 }
 
-const useEvents = ({ dayNumber } : { dayNumber?: number }) => {
+const useEvents = () => {
     const { queryKey: queryType, isWeek } = useEventsPath();
     const queryClient = useQueryClient();
     const { fetch } = useApi();
@@ -112,11 +112,10 @@ const useEvents = ({ dayNumber } : { dayNumber?: number }) => {
 
     const onUpdate = async (payload: UpdatePayload) => {
         const previousData = await getQueryClient();
+        const oldDay = payload.oldDay;
+        const currentDay = payload.currentDay;
 
         if (isWeek) {
-            const oldDay = payload.oldDay;
-            const currentDay = payload.currentDay;
-
             if (oldDay && currentDay && oldDay.day !== currentDay.day) {
                 queryClient.setQueryData(queryType, (oldData) => {
                     let currentEvent = null;
@@ -187,23 +186,69 @@ const useEvents = ({ dayNumber } : { dayNumber?: number }) => {
                 })
             }
         } else {
-            queryClient.setQueryData(queryType, (oldData) => ({
-                ...oldData,
-                days: oldData.days.map((day) => ({
-                    ...day,
-                    events: day.events
-                        .map((event) => {
-                            if (event.id === payload.id) {
-                                return {
-                                    ...event,
-                                    ...payload.data,
-                                }
+            if (oldDay && currentDay && oldDay.day !== currentDay.day) {
+                queryClient.setQueryData(queryType, (oldData) => {
+                    let currentEvent = null;
+                    let currentDayFind = null;
+                    let oldDayFind = null;
+
+                    oldData.days.forEach((day) => {
+                        if (day.day === oldDay.day) {
+                            oldDayFind = day;
+                            oldDayFind.events = oldDayFind.events.filter((event) => {
+                                currentEvent = event;
+                                return event.id !== payload.id
+                            });
+                        }
+                    });
+
+                    oldData.days.forEach((day) => {
+                        if (day.day === currentDay.day) {
+                            currentDayFind = day;
+                            currentDayFind.events.push({
+                                ...currentEvent,
+                                ...payload.data,
+                            })
+                        }
+                    });
+
+                    return {
+                        ...oldData,
+                        days: oldData.days.map((day) => {
+                            if (day.day === currentDayFind.day) {
+                                return currentDayFind;
                             }
 
-                            return event;
+                            if (day.day === oldDayFind.day) {
+                                return oldDayFind;
+                            }
+
+                            return day;
                         }),
-                })),
-            }));
+                    }
+                })
+            } else {
+                queryClient.setQueryData(queryType, (oldData) => {
+                    console.log("MONT", payload, oldData)
+                    return {
+                        ...oldData,
+                        days: oldData.days.map((day) => ({
+                            ...day,
+                            events: day.events
+                                .map((event) => {
+                                    if (event.id === payload.id) {
+                                        return {
+                                            ...event,
+                                            ...payload.data,
+                                        }
+                                    }
+
+                                    return event;
+                                }),
+                        })),
+                    }
+                });
+            }
         }
 
         return { previousData };

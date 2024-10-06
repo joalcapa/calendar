@@ -17,7 +17,7 @@ interface MonthProps {
     days: Day[];
     daysServer: Day[];
     isMount: boolean;
-    onDrop: (event: Event, day: Day) => void;
+    onDropHour: (event: Event, oldDay: Day, hour: number | null, day: Date) => void;
     onDay: (day: Day) => void;
     onEvent: (event: Event) => void;
     monthName: string;
@@ -30,7 +30,7 @@ const Month: React.FC<MonthProps> = (
         startDayOfMonth,
         days,
         isMount,
-        onDrop,
+        onDropHour,
         onDay,
         onEvent,
         monthName,
@@ -57,7 +57,7 @@ const Month: React.FC<MonthProps> = (
                     ))}
                     {days.map((day, index) => (
                         <div key={index} className="flex items-center justify-center">
-                            <EventDrop key={day.day} onDrop={onDrop}>
+                            <EventDrop key={day.day} onDrop={(event: Event, oldDay: Day) => onDropHour(event, oldDay, null, day)}>
                                 <div
                                     className={`relative flex flex-col items-start justify-start border h-32 w-32 p-1 overflow-hidden cursor-pointer ${day.isCurrentMonth
                                         ? (day.isToday ? 'border-2 border-yellow-600 shadow-lg' : day.isCurrent ? 'border-2 border-blue-600 shadow-lg' : 'bg-white hover:bg-gray-100')

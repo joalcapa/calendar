@@ -1,13 +1,13 @@
 'use client'
 
-import {useState, useMemo, useEffect, useCallback} from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { TargetEvent, TargetCheckEvent, CreateEventProps } from "@/app/types/types";
 import { formatDateForInput, formatDateYYYYMMDD } from '../../../../../app/utils/utils';
 import useWeather from "../../../../../app/hooks/useWeather";
 import useEvents from "../../../../../app/hooks/useEvents";
 
 const useCreateEvent = (props: CreateEventProps) => {
-  const { onClose = () => { }, isDelete = false, day, dayNumber } = props;
+  const { onClose = () => { }, isDelete = false, day } = props;
   const [ isLoading, setLoading ] = useState('');
   const [ title, setTitle ] = useState('');
   const [ weather, setWeather ] = useState('');
@@ -20,7 +20,7 @@ const useCreateEvent = (props: CreateEventProps) => {
   const [ debouncedCity, setDebouncedCity ] = useState(city);
   const [ debouncedStartDate, setDebouncedStartDate ] = useState(startDate);
   const { getWeather } = useWeather();
-  const { onCreate, isCreating } = useEvents({ dayNumber });
+  const { onCreate, isCreating } = useEvents();
 
   useEffect(() => {
     const handler = setTimeout(() => {

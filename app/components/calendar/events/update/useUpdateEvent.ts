@@ -10,12 +10,11 @@ interface UpdateEventProps {
   event: Event,
   isVisible: boolean,
   onClose: () => void,
-  dayNumber: number;
 }
 
 const useUpdateEvent = (props: UpdateEventProps) => {
-  const { event, onClose, dayNumber} = props;
-  const { deleteEvent, updateEvent } = useEvents({ dayNumber });
+  const { event, onClose } = props;
+  const { deleteEvent, updateEvent } = useEvents();
   const hook = useCreateEvent({ onClose, isDelete: true });
 
   const {
