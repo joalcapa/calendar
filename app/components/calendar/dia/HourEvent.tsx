@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 import { Event } from "../../../../types/event";
-import { Day } from '../../../../types/month';
 
 interface HourEventProps {
     onMouseEnter: () => void;
@@ -32,37 +31,22 @@ const HourEvent = (
     }: HourEventProps
 ): ReactNode => (
     <div
-        className="absolute bg-blue-500 text-white cursor-pointer border-2 border-r border-white-200"
+        className={`absolute bg-blue-500 text-white cursor-pointer border-2 border-r border-white-200 flex ${isDragging ? 'opacity-0' : 'opacity-100'} ${height < 40 ? 'flex-row' : 'flex-col'} ${isHovered ? 'z-[5]' : 'z-[3]'} rounded-[10px] pl-[5px] ${height < 40 ? 'pt-[5px]' : 'pt-0'}`}
         style={{
             top: `${eventStart}px`,
             height: `${height}px`,
             width: '100%',
             left: isHours ? leftPosition : 0,
             right: isHours ? '80px' : 0,
-            borderRadius: 10,
-            zIndex: isHovered ? 5 : 3,
-            paddingTop: height < 40 ? 5 : 0,
-            paddingLeft: 5,
-            display: 'flex',
-            flexDirection: height < 40 ? 'row' : 'column',
-            opacity: isDragging ? 0 : 1,
         }}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onClick={onClick}
     >
-        <span
-            className="text-xs"
-            style={{ marginTop: height < 20 ? -9 : 0 }}
-        >
+        <span className={`text-x ${height < 20 ? "mt-[-9px]" : "mt-0"}`}>
             { event.title }
         </span>
-        <span className="text-xs"
-              style={{
-                  marginTop: height < 20 ? -9 : 0,
-                  paddingLeft: height < 40 ? 10 : 0,
-              }}
-        >
+        <span className={`text-xs ${height < 20 ? 'mt-[-9px]' : 'mt-0'} ${height < 40 ? 'pl-[10px]' : 'pl-0'}`}>
             { hourLabel }
         </span>
     </div>

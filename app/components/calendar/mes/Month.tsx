@@ -1,13 +1,15 @@
 'use client';
 
 import React from 'react';
-import { useDrag, useDrop, DndProvider } from 'react-dnd';
+import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Event } from '../../../../types/event';
 import { Day, MonthEvents } from '../../../../types/month';
 import useCalendar from '../../../../app/hooks/useCalendarRQ';
 import MonthServer from './MonthServer';
 import EventManager from "../../../../app/components/calendar/events/eventManager/EventManager";
+import DraggableEvent from "../../../../app/components/dnd/DraggableEvent";
+import EventDrop from "../../../../app/components/dnd/EventDrop";
 
 interface MonthProps {
     today: number;
@@ -17,93 +19,10 @@ interface MonthProps {
     isMount: boolean;
     onDrop: (event: Event, day: Day) => void;
     onDay: (day: Day) => void;
-    onDrag: (event: Event) => void;
     onEvent: (event: Event) => void;
     monthName: string;
     eventDrag: Event;
 }
-
-const ItemTypes = {
-    EVENT: 'event',
-};
-
-const DraggableEvent: React.FC<{
-    event: Event,
-    onDrag: (event: Event) => void,
-    onEvent: (event: Event) => void,
-}> = (
-    {
-        event,
-        onDrag,
-        onEvent,
-    }
-) => {
-        const [{ isDragging }, drag] = useDrag(() => ({
-            type: ItemTypes.EVENT,
-            item: { event },
-            collect: (monitor) => {
-                if (monitor.isDragging()) {
-                    onDrag(event);
-                }
-
-                return ({
-                    isDragging: monitor.isDragging(),
-                })
-            },
-        }));
-
-        return (
-            <div
-                ref={drag}
-                className={`text-xs text-left truncate bg-blue-100 p-1 mb-1 rounded cursor-pointer ${isDragging ? 'opacity-50' : ''}`}
-                style={{ maxWidth: '100%', maxHeight: '20px', paddingBottom: 20 }}
-                onClick={(e) => {
-                    e.stopPropagation(); onEvent(event);
-                }}
-            >
-                {event.title}
-            </div>
-        );
-    };
-
-const DroppableDay: React.FC<{
-    today: number,
-    day: Day;
-    onDrop: (event: Event, day: Day) => void,
-    onDay: (day: Day) => void
-}
-> = (
-    {
-        day,
-        onDrop,
-        children,
-        onDay,
-        today,
-    }) => {
-        const [, drop] = useDrop(() => ({
-            accept: ItemTypes.EVENT,
-            drop: (item: { event: Event }) => {
-                onDrop(item.event, day);
-            },
-        }));
-
-        return (
-            <div
-                ref={drop}
-                className={`relative flex flex-col items-start justify-start border h-32 w-32 p-1 overflow-hidden cursor-pointer ${day.isCurrentMonth
-                    ? (day.isToday ? 'border-2 border-yellow-600 shadow-lg' : day.isCurrent ? 'border-2 border-blue-600 shadow-lg' : 'bg-white hover:bg-gray-100')
-                    : 'bg-gray-200 opacity-50'
-                    }`}
-                onClick={(e) => {
-                    e.stopPropagation();
-                    onDay(day);
-                }
-                }
-            >
-                {children}
-            </div>
-        );
-    };
 
 const Month: React.FC<MonthProps> = (
     {
@@ -113,7 +32,6 @@ const Month: React.FC<MonthProps> = (
         isMount,
         onDrop,
         onDay,
-        onDrag,
         onEvent,
         monthName,
         eventDrag,
@@ -134,33 +52,45 @@ const Month: React.FC<MonthProps> = (
                 <div className="grid grid-cols-7 gap-1">
                     {Array.from({length: startDayOfMonth}, (_, index) => (
                         <div key={`empty-${index}`} className="flex items-center justify-center">
-                            <div
-                                className="relative flex flex-col items-start justify-start border border-gray-300 h-32 w-32 bg-gray-200"></div>
+                            <div className="relative flex flex-col items-start justify-start border border-gray-300 h-32 w-32 bg-gray-200"></div>
                         </div>
                     ))}
                     {days.map((day, index) => (
                         <div key={index} className="flex items-center justify-center">
-                            <DroppableDay
-                                key={day.day}
-                                today={today}
-                                day={day}
-                                onDrop={onDrop}
-                                onDay={onDay}
-                            >
-                                <span
-                                    className="absolute top-1 left-1 text-xs font-bold">{day.day} {day.isToday ? '- HOY' : ''}</span>
-                                <div className="mt-5 w-full h-full overflow-hidden">
-                                    {day.events.filter((e) => e.id != eventDrag?.id).map((event, eventIndex) => (
-                                        <DraggableEvent
-                                            key={eventIndex}
-                                            event={event}
-                                            onDrag={onDrag}
-                                            day={day}
-                                            onEvent={onEvent}
-                                        />
-                                    ))}
+                            <EventDrop key={day.day} onDrop={onDrop}>
+                                <div
+                                    className={`relative flex flex-col items-start justify-start border h-32 w-32 p-1 overflow-hidden cursor-pointer ${day.isCurrentMonth
+                                        ? (day.isToday ? 'border-2 border-yellow-600 shadow-lg' : day.isCurrent ? 'border-2 border-blue-600 shadow-lg' : 'bg-white hover:bg-gray-100')
+                                        : 'bg-gray-200 opacity-50'
+                                    }`}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        onDay(day);
+                                    }}
+                                >
+                                   <span
+                                       className="absolute top-1 left-1 text-xs font-bold">{day.day} {day.isToday ? '- HOY' : ''}</span>
+                                    <div className="mt-5 w-full h-full overflow-hidden">
+                                        {day.events.filter((e) => e.id != eventDrag?.id).map((event) => (
+                                            <DraggableEvent key={event.id} event={event} day={day}>
+                                                {
+                                                    ({isDragging}) => (
+                                                        <div
+                                                            className={`max-w-full max-h-[20px] pb-5 pb text-xs text-left truncate bg-blue-100 p-1 mb-1 rounded cursor-pointer ${isDragging ? 'opacity-50' : ''}`}
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                onEvent(event);
+                                                            }}
+                                                        >
+                                                            {event.title}
+                                                        </div>
+                                                    )
+                                                }
+                                            </DraggableEvent>
+                                        ))}
+                                    </div>
                                 </div>
-                            </DroppableDay>
+                            </EventDrop>
                         </div>
                     ))}
                     {Array.from({length: startDayOfMonth + days.length % 7 === 0 ? 0 : 7 - (startDayOfMonth + days.length % 7)}, (_, index) => (
@@ -183,12 +113,12 @@ const Month: React.FC<MonthProps> = (
 );
 
 const Calendar: React.FC<MonthEvents> = (props) => {
-    const { month, eventForUpdate, dayForCreateEvent } = useCalendar(props);
+    const { month, eventForUpdate, dayForCreateEvent} = useCalendar(props);
 
     return (
         <>
             <DndProvider backend={HTML5Backend}>
-                <Month {...month} daysServer={props.days} />
+                <Month {...month} daysServer={props.days}/>
             </DndProvider>
             <EventManager
                 eventForUpdate={eventForUpdate}
