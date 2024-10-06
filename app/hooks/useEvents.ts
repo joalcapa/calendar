@@ -115,6 +115,7 @@ const useEvents = () => {
         const oldDay = payload.oldDay;
         const currentDay = payload.currentDay;
 
+        console.log("MONTH", payload)
         if (isWeek) {
             if (oldDay && currentDay && oldDay.day !== currentDay.day) {
                 queryClient.setQueryData(queryType, (oldData) => {
@@ -165,22 +166,34 @@ const useEvents = () => {
                 })
             } else {
                 queryClient.setQueryData(queryType, (oldData) => {
-                    return [
+                    let e = null;
+
+                    const newData = [
                         ...oldData.map(weekDay => ({
                             ...weekDay,
                             days: weekDay.days.map((day) => ({
                                 ...day,
-                                events: day.events.map((event) => {
-                                    if (event.id === payload.id) {
-                                        return {
-                                            ...event,
-                                            ...payload.data,
-                                        }
-                                    }
-
-                                    return event;
+                                events: day.events.filter((event) => {
+                                    e = event;
+                                    return (event.id !== payload.id);
                                 })
                             })),
+                        })),
+                    ];
+
+                    return [
+                        ...newData.map(weekDay => ({
+                            ...weekDay,
+                            days: weekDay.days.map((day) => {
+                                if (day.day === new Date(payload.data.start_date).getDate()) {
+                                    day.events.unshift({
+                                        ...e,
+                                        ...payload.data,
+                                    });
+                                }
+
+                                return day;
+                            }),
                         })),
                     ]
                 })
@@ -229,23 +242,31 @@ const useEvents = () => {
                 })
             } else {
                 queryClient.setQueryData(queryType, (oldData) => {
-                    console.log("MONT", payload, oldData)
-                    return {
+                    let e = null;
+
+                    const newData = {
                         ...oldData,
                         days: oldData.days.map((day) => ({
                             ...day,
-                            events: day.events
-                                .map((event) => {
-                                    if (event.id === payload.id) {
-                                        return {
-                                            ...event,
-                                            ...payload.data,
-                                        }
-                                    }
-
-                                    return event;
-                                }),
+                            events: day.events.filter((event) => {
+                                e = event;
+                                return event.id !== payload.id;
+                            }),
                         })),
+                    };
+
+                    return {
+                        ...newData,
+                        days: newData.days.map((day) => {
+                            if (day.day === new Date(payload.data.start_date).getDate()) {
+                                day.events.unshift({
+                                    ...e,
+                                    ...payload.data,
+                                });
+                            }
+
+                            return day;
+                        }),
                     }
                 });
             }
