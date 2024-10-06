@@ -6,10 +6,11 @@ import { Day } from '../../../../types/month';
 import DayServer from './DayServer';
 import EventManager from '../../../../app/components/calendar/events/eventManager/EventManager';
 import DraggableEvent from '../../../../app/components/dnd/DraggableEvent';
-import useCalendar from '../../../../app/hooks/useCalendar';
+import useCalendar from '../../../../app/hooks/useCalendarRQ';
 import Hour from "../../../../app/components/calendar/dia/Hour";
 import HourEvent from "../../../../app/components/calendar/dia/HourEvent";
 import { getPropsFromEventForHours } from '../../../../app/utils/utils';
+import { MonthEvents } from "../../../../types/month";
 
 interface CalendarColumnProps {
     day: Day,
@@ -101,7 +102,7 @@ const Calendar: React.FC<MonthEvents> = (props) => {
                 month.isMount ?
                     <CalendarColumn {...month} /> :
                     <DayServer
-                        day={month.days[0]}
+                        day={{...props.days[0]}}
                         isHours={props.isHours}
                         dayName={month.dayName}
                     />
@@ -109,6 +110,9 @@ const Calendar: React.FC<MonthEvents> = (props) => {
             <EventManager
                 eventForUpdate={eventForUpdate}
                 dayForCreateEvent={dayForCreateEvent}
+                path={props.path}
+                RQTypes={props.RQTypes}
+                dayNumber={props.dayNumber}
             />
         </>
     );

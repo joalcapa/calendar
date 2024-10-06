@@ -9,12 +9,33 @@ interface EventManagerProps {
     dayForCreateEvent: {
         isVisible: boolean;
     };
+    path: string;
+    RQTypes: string;
+    dayNumber: number;
 };
 
-const EventManager = ({ eventForUpdate, dayForCreateEvent }: EventManagerProps) => (
+const EventManager = ({ eventForUpdate, dayForCreateEvent, path, RQTypes, dayNumber }: EventManagerProps) => (
     <>
-        {eventForUpdate.isVisible && <UpdateEvent {...eventForUpdate} />}
-        {dayForCreateEvent.isVisible && <CreateEvent {...dayForCreateEvent} />}
+        {
+            eventForUpdate.isVisible && (
+                <UpdateEvent
+                    {...eventForUpdate}
+                    path={path}
+                    RQTypes={RQTypes}
+                    dayNumber={dayNumber}
+                />
+            )
+        }
+        {
+            dayForCreateEvent.isVisible && (
+                <CreateEvent
+                    {...dayForCreateEvent}
+                    path={path}
+                    RQTypes={RQTypes}
+                    dayNumber={dayNumber}
+                />
+            )
+        }
     </>
 );
 

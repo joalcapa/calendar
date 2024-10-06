@@ -18,6 +18,9 @@ export interface CreateEventProps {
     isDelete?: boolean;
     onCreateEvent?: (event: Event) => void;
     day: Day | null;
+    path: string;
+    RQTypes: string;
+    dayNumber?: number;
 }
 
 export const ItemTypes = {

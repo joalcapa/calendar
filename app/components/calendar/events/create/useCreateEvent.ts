@@ -2,14 +2,12 @@
 
 import {useState, useMemo, useEffect, useCallback} from 'react';
 import { TargetEvent, TargetCheckEvent, CreateEventProps } from "@/app/types/types";
-import useCreateEventHook from "../../../../../app/hooks/useCreateEvent";
-import { Event } from "../../../../../types/event";
-import { Day } from '../../../../../types/month';
 import { formatDateForInput, formatDateYYYYMMDD } from '../../../../../app/utils/utils';
 import useWeather from "../../../../../app/hooks/useWeather";
+import useEvents from "../../../../../app/hooks/useEvents";
 
 const useCreateEvent = (props: CreateEventProps) => {
-  const { onClose = () => { }, isDelete = false, onCreateEvent = () => {}, day } = props;
+  const { onClose = () => { }, isDelete = false, day, path, RQTypes, dayNumber } = props;
   const [title, setTitle] = useState('');
   const [weather, setWeather] = useState('');
   const [weatherUrl, setWeatherUrl] = useState('');
@@ -20,8 +18,8 @@ const useCreateEvent = (props: CreateEventProps) => {
   const [finishDate, setFinishDate] = useState(formatDateForInput(day?.dayDate || new Date()));
   const [debouncedCity, setDebouncedCity] = useState(city);
   const [debouncedStartDate, setDebouncedStartDate] = useState(startDate);
-  const { createEvent } = useCreateEventHook();
   const { getWeather } = useWeather();
+  const { onCreate } = useEvents({ path, RQTypes, dayNumber });
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -58,11 +56,11 @@ const useCreateEvent = (props: CreateEventProps) => {
     }
   }, [debouncedCity, debouncedStartDate]);
 
-  const onCreate = useCallback(async () => {
+  const onSend = useCallback(async () => {
     if (isValidForm) {
       try {
         if (isValidForm) {
-          const payload = {
+          await onCreate({
             title,
             description,
             city,
@@ -71,12 +69,9 @@ const useCreateEvent = (props: CreateEventProps) => {
             is_all_day: isAllDay,
             start_date: new Date(startDate + "Z").toISOString(),
             finish_date: new Date(finishDate + "Z").toISOString(),
-          };
+          });
 
-          const eventUpdated: Event | null = await createEvent(payload);
-          if (eventUpdated) {
-            onCreateEvent(eventUpdated);
-          }
+          onClose();
         }
       } catch { }
     }
@@ -151,7 +146,7 @@ const useCreateEvent = (props: CreateEventProps) => {
     changeFinishDate,
     isValidForm,
     setAllDay,
-    onCreate,
+    onSend,
     changeWeather: setWeather,
     changeWeatherUrl: setWeatherUrl,
   };

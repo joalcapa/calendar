@@ -5,7 +5,7 @@ import { useDrag, useDrop, DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Event } from '../../../../types/event';
 import { Day, MonthEvents } from '../../../../types/month';
-import useCalendar from '../../../../app/hooks/useCalendar';
+import useCalendar from '../../../../app/hooks/useCalendarRQ';
 import MonthServer from './MonthServer';
 import EventManager from "../../../../app/components/calendar/events/eventManager/EventManager";
 
@@ -13,6 +13,7 @@ interface MonthProps {
     today: number;
     startDayOfMonth: number;
     days: Day[];
+    daysServer: Day[];
     isMount: boolean;
     onDrop: (event: Event, day: Day) => void;
     onDay: (day: Day) => void;
@@ -117,6 +118,7 @@ const Month: React.FC<MonthProps> = (
         onEvent,
         monthName,
         eventDrag,
+        daysServer,
     }
 ) => (
     <>
@@ -172,7 +174,7 @@ const Month: React.FC<MonthProps> = (
             </div>
         ) : (
             <MonthServer
-                days={days}
+                days={daysServer}
                 today={today}
                 startDayOfMonth={startDayOfMonth}
                 monthName={monthName}
@@ -187,11 +189,12 @@ const Calendar: React.FC<MonthEvents> = (props) => {
     return (
         <>
             <DndProvider backend={HTML5Backend}>
-                <Month {...month} />
+                <Month {...month} daysServer={props.days} />
             </DndProvider>
             <EventManager
                 eventForUpdate={eventForUpdate}
                 dayForCreateEvent={dayForCreateEvent}
+                path={props.path}
             />
         </>
     );

@@ -22,7 +22,7 @@ interface CreateEventProps {
   changeStartDate: () => void;
   changeAllDay: () => void;
   changeFinishDate: () => void;
-  onCreate: () => void;
+  onSend: () => void;
   operationLabel?: string;
   buttonLabel: string;
   isValidForm: boolean;
@@ -47,7 +47,7 @@ export const CreateEvent = ({
   changeStartDate = () => { },
   changeAllDay = () => { },
   changeFinishDate = () => { },
-  onCreate = () => { },
+  onSend = () => { },
   onClose = () => { },
   operationLabel = 'Crear Evento',
   buttonLabel = '¡Crear ahora!',
@@ -145,7 +145,7 @@ export const CreateEvent = ({
             </div>
         )}
         <button
-            onClick={onCreate}
+            onClick={onSend}
             disabled={!isValidForm}
             className={`${isValidForm ? 'bg-blue-500' : 'bg-gray-500'} text-white p-2 rounded w-full`}
         >

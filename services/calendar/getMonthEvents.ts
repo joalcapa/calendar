@@ -74,6 +74,6 @@ export default class GetMonthEvents extends BaseService {
   }
 
   public getEvents(): MonthEvents | null {
-    return this.events;
+    return this.events ? { ...this.events } : null; // Retorna una copia superficial del objeto
   }
 }

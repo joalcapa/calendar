@@ -2,28 +2,22 @@
 
 import { useEffect } from "react";
 import { Event } from "../../../../../types/event";
-import { Day } from '../../../../../types/month';
 import { formatDateForInput } from '../../../../../app/utils/utils';
 import useCreateEvent from "../create/useCreateEvent";
-import useGetEvent from "../../../../../app/hooks/useGetEvent";
+import useEvents from "../../../../hooks/useEvents";
 
 interface UpdateEventProps {
   event: Event,
   isVisible: boolean,
-  onDeleteEvent: () => void,
-  onUpdateEvent: (event: Event) => void
   onClose: () => void,
+  path: string;
+  RQTypes: string;
+  dayNumber: number;
 }
 
 const useUpdateEvent = (props: UpdateEventProps) => {
-  const {
-    event,
-    onDeleteEvent,
-    onUpdateEvent,
-    onClose,
-  } = props;
-
-  const { deleteEvent, updateEvent, isLoading, error } = useGetEvent();
+  const { event, onClose, path, RQTypes, dayNumber} = props;
+  const { deleteEvent, updateEvent } = useEvents({ path, RQTypes, dayNumber });
   const hook = useCreateEvent({ onClose, isDelete: true });
 
   const {
@@ -76,21 +70,21 @@ const useUpdateEvent = (props: UpdateEventProps) => {
   const onUpdate = async () => {
     try {
       if (isValidForm) {
-        const payload = {
-          title,
-          description,
-          city,
-          weather,
-          weather_url: weatherUrl,
-          is_all_day: isAllDay,
-          start_date: new Date(startDate + "Z").toISOString(),
-          finish_date: new Date(finishDate + "Z").toISOString(),
-        };
+        await updateEvent({
+          id: event.id,
+          data: {
+            title,
+            description,
+            city,
+            weather,
+            weather_url: weatherUrl,
+            is_all_day: isAllDay,
+            start_date: new Date(startDate + "Z").toISOString(),
+            finish_date: new Date(finishDate + "Z").toISOString(),
+          },
+        })
 
-        const eventUpdated: Event | null = await updateEvent(event.id, payload);
-        if (eventUpdated) {
-          onUpdateEvent(eventUpdated);
-        }
+        onClose();
       }
     } catch { }
   };
@@ -98,15 +92,15 @@ const useUpdateEvent = (props: UpdateEventProps) => {
   const onDelete = async () => {
     try {
       await deleteEvent(event.id);
-      onDeleteEvent(event);
+      onClose();
     } catch { }
   };
 
   return {
     ...hook,
-    isLoading,
-    error,
-    onCreate: onUpdate,
+    isLoading: false,
+    error: '',
+    onSend: onUpdate,
     onDelete,
     onClose,
   };

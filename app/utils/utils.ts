@@ -17,7 +17,7 @@ export const formatDateYYYYMMDD = (d: Date | string) => {
 };
 
 export const getHourLabel = (hour: number) => {
-    return `${ hour > 12 ? hour - 12 : `0${ hour }`  }:00 ${ hour < 12 ? 'AM' : 'PM' }`
+    return `${ hour > 12 ? hour - 12 : `${ hour < 10 ? `0${ hour }` : hour }`  }:00 ${ hour < 12 ? 'AM' : 'PM' }`
 };
 
 export const getPropsFromEventForHours = (event: Event, positions: any, hoveredEventId: number) => {
