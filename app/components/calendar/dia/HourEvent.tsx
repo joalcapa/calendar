@@ -13,6 +13,7 @@ interface HourEventProps {
     leftPosition: string;
     isHovered: boolean;
     isDragging: boolean;
+    isSmallHour?: boolean;
 }
 
 const HourEvent = (
@@ -28,6 +29,7 @@ const HourEvent = (
         onMouseEnter,
         onMouseLeave,
         onClick,
+        isSmallHour = false,
     }: HourEventProps
 ): ReactNode => (
     <div
@@ -36,7 +38,7 @@ const HourEvent = (
             top: `${eventStart}px`,
             height: `${height}px`,
             width: '100%',
-            left: isHours ? leftPosition : 0,
+            left: isHours && !isSmallHour ? leftPosition : 0,
             right: isHours ? '80px' : 0,
         }}
         onMouseEnter={onMouseEnter}

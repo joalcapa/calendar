@@ -9,7 +9,7 @@ const Week = ({ days }: { days: Day[] }) => (
     <DndProvider backend={HTML5Backend}>
         <div className="flex flex-row w-full">
             <div className="w-[14.28%]">
-                <CalendarDay {...days[0]} isHours={false} dayNumber={0} />
+                <CalendarDay {...days[0]} isHours={true} isSmallHour dayNumber={0} />
             </div>
             <div className="w-[14.28%]">
                 <CalendarDay {...days[1]} isHours={false} dayNumber={1} />

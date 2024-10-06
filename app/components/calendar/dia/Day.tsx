@@ -33,6 +33,7 @@ const CalendarColumn: React.FC<CalendarColumnProps> = (
         hours,
         dayName,
         today,
+        isSmallHour,
     }
 ) => {
     const events = day.events || [];
@@ -61,6 +62,7 @@ const CalendarColumn: React.FC<CalendarColumnProps> = (
                                 onMouseLeave={() => setHoveredEventId(null)}
                                 onClick={() => onEvent(event)}
                                 isHours={isHours}
+                                isSmallHour={isSmallHour}
                             />
                         )
                     }
@@ -86,6 +88,7 @@ const CalendarColumn: React.FC<CalendarColumnProps> = (
                             onHour={() => onHour(hour)}
                             isHours={isHours}
                             hour={hour}
+                            isSmallHour={isSmallHour}
                         />
                     ))
                 }
@@ -108,6 +111,7 @@ const Calendar: React.FC<MonthEvents> = (props) => {
                         isHours={props.isHours}
                         dayName={month.dayName}
                         today={month.today}
+                        isSmallHour={month.isSmallHour}
                     />
             }
             <EventManager

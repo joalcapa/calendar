@@ -10,9 +10,10 @@ interface CalendarColumnProps {
     isHours?: boolean;
     dayName: string;
     today: number;
+    isSmallHour?: boolean;
 }
 
-const CalendarColumn: React.FC<CalendarColumnProps> = ({ day, isHours = true, dayName, today }) => {
+const CalendarColumn: React.FC<CalendarColumnProps> = ({ day, isHours = true, dayName, today, isSmallHour = false }) => {
     const events = day.events || [];
     const hours = Array.from({ length: 13 }, (_, i) => i + 7);
 
@@ -29,6 +30,7 @@ const CalendarColumn: React.FC<CalendarColumnProps> = ({ day, isHours = true, da
                     {...eventProps}
                     event={event}
                     isHours={isHours}
+                    isSmallHour={isSmallHour}
                 />
             );
         });
@@ -49,9 +51,7 @@ const CalendarColumn: React.FC<CalendarColumnProps> = ({ day, isHours = true, da
                         className="border-t border-b border-gray-200 relative h-16 flex items-center cursor-pointer hover:bg-gray-300"
                     >
                         {
-                            isHours && (<span className="absolute left-2 top-0 text-xs">
-              {getHourLabel(hour)}
-            </span>)
+                            isHours && (<span className={`${isSmallHour ? 'relative float-left -left-12 text-[0.7rem] pr-2' : 'absolute left-2 top-0 text-xs'}`}>{getHourLabel(hour)}</span>)
                         }
                     </div>
                 ))}

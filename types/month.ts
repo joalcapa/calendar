@@ -17,4 +17,5 @@ export interface MonthEvents {
   isHours?: boolean;
   dayName: string;
   dayNumber?: number;
+  isSmallHour?: boolean;
 }

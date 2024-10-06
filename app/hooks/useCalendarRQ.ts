@@ -13,6 +13,7 @@ const useCalendar = (props: MonthEvents) => {
         dayName,
         isHours,
         dayNumber,
+        isSmallHour = false,
     } = props;
 
     const { days } = useDays({ dayNumber });
@@ -111,6 +112,7 @@ const useCalendar = (props: MonthEvents) => {
             onEvent,
             onHour,
             onDropHour,
+            isSmallHour,
             hours: Array.from({ length: 13 }, (_, i) => i + 7),
         },
         eventForUpdate: {

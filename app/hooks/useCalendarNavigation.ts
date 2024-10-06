@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { addMonths, addWeeks, addDays, startOfToday, format } from 'date-fns';
+import { addMonths, addWeeks, addDays, startOfToday } from 'date-fns';
+import { format } from '../utils/utils';
 
 export type View = 'MONTH' | 'WEEK' | 'DAY';
 
