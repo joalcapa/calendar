@@ -1,5 +1,5 @@
 import db from '../libs/db';
-import { Event } from '../types/event';
+import { Event, EventRequest } from '../types/event';
 
 interface FindManyOptions {
   where: {
@@ -17,13 +17,13 @@ export const eventRepository = {
   findById: async (id: number): Promise<Event | null> => {
     return db.event.findUnique({ where: { id } });
   },
-  create: async (data: Omit<Event, 'id'>): Promise<Event> => {
+  create: async (data: EventRequest): Promise<Event> => {
     return db.event.create({ data });
   },
   deleteById: async (id: number): Promise<Event | null> => {
     return db.event.delete({ where: { id } });
   },
-  update: async (id: number, data: Event): Promise<Event | null> => {
+  update: async (id: number, data: EventRequest): Promise<Event | null> => {
     return db.event.update({ where: { id }, data });
   },
   findMany: async (where: FindManyOptions): Promise<Event[]> => {

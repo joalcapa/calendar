@@ -5,7 +5,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Event } from '../../../../types/event';
 import { Day, MonthEvents } from '../../../../types/month';
-import useCalendar from '../../../../app/hooks/useCalendarRQ';
+import useCalendar from '../../../hooks/useCalendar';
 import MonthServer from './MonthServer';
 import EventManager from "../../../../app/components/calendar/events/eventManager/EventManager";
 import DraggableEvent from "../../../../app/components/dnd/DraggableEvent";

@@ -11,3 +11,14 @@ export interface Event {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface EventRequest {
+  title: string;
+  city: string;
+  weather: string;
+  weather_url: string;
+  description: string;
+  start_date: string;
+  finish_date: string;
+  is_all_day: boolean;
+}
