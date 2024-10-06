@@ -25,7 +25,9 @@ const useCalendarNavigation = (props: { type: string | null }) => {
   const { replace } = useRouter();
 
   const onResetToday = () => {
-    setCurrentDate((prev) => startOfToday());
+    const newDate = startOfToday();
+    setCurrentDate(newDate);
+    replace(`/${ view === MONTH ? 'mes' : view.toLocaleLowerCase() }?date=${format(newDate, DATE_FORMAT)}&type=${view.toLocaleLowerCase()}`);
   };
 
   const onPrev = () => {
