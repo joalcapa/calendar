@@ -15,7 +15,6 @@ import { MonthEvents } from "../../../../types/month";
 interface CalendarColumnProps {
     day: Day,
     onHour: (hour: number) => void,
-    onDragHour: (event: Event, day: Day) => void,
     onDropHour,
     onEvent: (event: Event) => void,
     isHours: boolean;
@@ -27,7 +26,6 @@ const CalendarColumn: React.FC<CalendarColumnProps> = (
     {
         day,
         onHour,
-        onDragHour,
         onDropHour,
         onEvent,
         isHours,
@@ -50,7 +48,6 @@ const CalendarColumn: React.FC<CalendarColumnProps> = (
                     key={"EVEN" + i}
                     day={day}
                     event={event}
-                    onDrag={onDragHour}
                 >
                     {
                         ({ isDragging }: { isDragging: boolean }) => (
@@ -80,7 +77,7 @@ const CalendarColumn: React.FC<CalendarColumnProps> = (
                     hours.map((hour, i) => (
                         <Hour
                             key={'ED' + i}
-                            onDrop={() => onDropHour(hour, day)}
+                            onDrop={(event: Event, oldDay: Day) => onDropHour(event, oldDay, hour, day)}
                             onHour={() => onHour(hour)}
                             isHours={isHours}
                             hour={hour}
@@ -110,8 +107,6 @@ const Calendar: React.FC<MonthEvents> = (props) => {
             <EventManager
                 eventForUpdate={eventForUpdate}
                 dayForCreateEvent={dayForCreateEvent}
-                path={props.path}
-                RQTypes={props.RQTypes}
                 dayNumber={props.dayNumber}
             />
         </>

@@ -5,6 +5,7 @@ import SmallCalendar from "../components/calendar/smallCalendar/smallCalendar";
 import { Hydrate, ReactQueryProvider } from '../components/rq/RQ';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { EVENTS_RQ } from "../../app/config/constants";
+import { DateTime } from "luxon";
 
 export default async ({ searchParams }: {
     searchParams?: {
@@ -12,7 +13,7 @@ export default async ({ searchParams }: {
         type?: string,
     },
 }) => {
-    const dateParam = searchParams?.date || new Date().toISOString();
+    const dateParam = searchParams?.date || DateTime.now().toISODate();
     const typeParam = searchParams?.type || "month";
     const parsedDate = parseISO(dateParam);
     const path = dateParam + typeParam;
@@ -23,7 +24,7 @@ export default async ({ searchParams }: {
     const events = service.getEvents();
 
     await queryClient.prefetchQuery({
-        queryKey: [EVENTS_RQ, path],
+        queryKey: [ EVENTS_RQ, path ],
         queryFn: async () => {
             return events;
         },
@@ -39,7 +40,7 @@ export default async ({ searchParams }: {
                         <SmallCalendar date={new Date(parsedDate)} />
                     </div>
                     <div className="flex-1 p-4">
-                        <Calendar {...events} path={path} />
+                        <Calendar {...events} />
                     </div>
                 </div>
             </Hydrate>

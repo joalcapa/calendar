@@ -16,7 +16,5 @@ export interface MonthEvents {
   days: Day[];
   isHours?: boolean;
   dayName: string;
-  path: string;
-  RQTypes: string;
   dayNumber?: number;
 }

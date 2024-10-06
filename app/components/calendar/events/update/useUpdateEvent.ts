@@ -10,14 +10,12 @@ interface UpdateEventProps {
   event: Event,
   isVisible: boolean,
   onClose: () => void,
-  path: string;
-  RQTypes: string;
   dayNumber: number;
 }
 
 const useUpdateEvent = (props: UpdateEventProps) => {
-  const { event, onClose, path, RQTypes, dayNumber} = props;
-  const { deleteEvent, updateEvent } = useEvents({ path, RQTypes, dayNumber });
+  const { event, onClose, dayNumber} = props;
+  const { deleteEvent, updateEvent } = useEvents({ dayNumber });
   const hook = useCreateEvent({ onClose, isDelete: true });
 
   const {

@@ -13,8 +13,7 @@ const EventDrop = ({ children, onDrop }: DraggableProps) => {
     const [, drop] = useDrop({
         accept: ItemTypes.EVENT,
         drop: ({ event, day }: { event: Event, day: Day }) => {
-            alert("DROPPPP")
-            onDrop()
+            onDrop(event, day)
         },
         collect: (monitor) => ({
             isOver: monitor.isOver(),

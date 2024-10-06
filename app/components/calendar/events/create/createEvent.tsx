@@ -28,6 +28,7 @@ interface CreateEventProps {
   isValidForm: boolean;
   isDelete: boolean;
   onDelete: () => void;
+  isCreating: boolean;
 };
 
 export const CreateEvent = ({
@@ -54,6 +55,7 @@ export const CreateEvent = ({
   isValidForm = false,
   isDelete = false,
   onDelete = () => { },
+  isCreating = false,
 }: CreateEventProps) => (
   <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
     <div className="bg-white p-6 rounded shadow-lg w-96">
@@ -75,13 +77,18 @@ export const CreateEvent = ({
               </div>
           )}
         </div>
-        {isDelete && <button
-            onClick={onDelete}
-            className="text-red-500 hover:text-red-700"
-            type="button"
-        >
-          Borrar
-        </button>}
+        {
+          isDelete && (
+              <button
+                onClick={onDelete}
+                className="text-red-500 hover:text-red-700"
+                type="button"
+              >
+                Borrar
+              </button>
+            )
+        }
+        { ( isCreating || isLoading ) && <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-8 w-8"></div> }
       </div>
       {error && <p className="text-red-500 mb-4">{error}</p>}
       <div>
@@ -93,6 +100,7 @@ export const CreateEvent = ({
               value={title}
               onChange={changeTitle}
               required
+              disabled={isCreating}
           />
         </div>
         <div className="mb-4">
@@ -102,6 +110,7 @@ export const CreateEvent = ({
               value={description}
               onChange={changeDescription}
               required
+              disabled={isCreating}
           />
         </div>
         <div className="mb-4">
@@ -111,6 +120,7 @@ export const CreateEvent = ({
               value={city}
               onChange={changeCity}
               required
+              disabled={isCreating}
           />
         </div>
         <div className="mb-4">
@@ -121,6 +131,7 @@ export const CreateEvent = ({
               value={startDate}
               onChange={changeStartDate}
               required
+              disabled={isCreating}
           />
         </div>
         <div className="mb-4 flex items-center">
@@ -129,6 +140,7 @@ export const CreateEvent = ({
               checked={isAllDay}
               onChange={changeAllDay}
               className="mr-2"
+              disabled={isCreating}
           />
           <label>Todo el día</label>
         </div>
@@ -141,18 +153,19 @@ export const CreateEvent = ({
                   value={finishDate}
                   min={startDate}
                   onChange={changeFinishDate}
+                  disabled={isCreating}
               />
             </div>
         )}
         <button
             onClick={onSend}
-            disabled={!isValidForm}
+            disabled={isCreating || !isValidForm}
             className={`${isValidForm ? 'bg-blue-500' : 'bg-gray-500'} text-white p-2 rounded w-full`}
         >
           {buttonLabel}
         </button>
       </div>
-      <button onClick={onClose} className="mt-4 text-gray-500">
+      <button onClick={onClose} className="mt-4 text-gray-500" disabled={isCreating}>
         Cancelar
       </button>
     </div>

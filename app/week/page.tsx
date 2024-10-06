@@ -5,6 +5,7 @@ import { parseISO } from 'date-fns';
 import { Hydrate, ReactQueryProvider } from '../components/rq/RQ';
 import { EVENTS_WEEK_RQ } from "@/app/config/constants";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
+import { DateTime } from "luxon";
 
 export default async ({ searchParams }: {
     searchParams?: {
@@ -12,7 +13,7 @@ export default async ({ searchParams }: {
         type?: string,
     },
 }) => {
-    const dateParam = searchParams?.date || new Date().toISOString();
+    const dateParam = searchParams?.date || DateTime.now().toISODate();
     const typeParam = searchParams?.type || "month";
     const parsedDate = parseISO(dateParam);
     const path = dateParam + typeParam;
@@ -39,11 +40,7 @@ export default async ({ searchParams }: {
                         <SmallCalendar date={new Date(parsedDate)}/>
                     </div>
                     <div className="flex-1 p-4">
-                        <Calendar
-                            days={events}
-                            path={path}
-                            RQTypes={EVENTS_WEEK_RQ}
-                        />
+                        <Calendar days={events} />
                     </div>
                 </div>
             </Hydrate>

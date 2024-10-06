@@ -1,20 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
-import { EVENTS_RQ, EVENTS_WEEK_RQ } from "../config/constants";
+import useEventsPath from "./useEventsPath";
 
-const useEvents = ({ path, RQTypes, dayNumber } : { path: string, RQTypes?: string, dayNumber?: number }) => {
+const useEvents = ({ dayNumber } : { dayNumber?: number }) => {
+    const { queryKey, rqType, isWeek } = useEventsPath();
+
     const { data, isLoading, error } = useQuery({
-        queryKey: [ RQTypes || EVENTS_RQ, path ],
+        queryKey,
         queryFn: async () => {
             return {}
         },
         staleTime: Infinity,
         initialData: () => {
-            return typeof window !== 'undefined' ? window.__REACT_QUERY_STATE__?.[EVENTS_RQ]?.data : null;
+            return typeof window !== 'undefined' ? window.__REACT_QUERY_STATE__?.[rqType]?.data : null;
         },
     });
 
     return {
-        days: RQTypes === EVENTS_WEEK_RQ ? data[dayNumber].days : data.days,
+        days: isWeek ? data[dayNumber].days : data.days,
         isLoading,
         error,
     }

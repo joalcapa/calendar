@@ -7,19 +7,20 @@ import useWeather from "../../../../../app/hooks/useWeather";
 import useEvents from "../../../../../app/hooks/useEvents";
 
 const useCreateEvent = (props: CreateEventProps) => {
-  const { onClose = () => { }, isDelete = false, day, path, RQTypes, dayNumber } = props;
-  const [title, setTitle] = useState('');
-  const [weather, setWeather] = useState('');
-  const [weatherUrl, setWeatherUrl] = useState('');
-  const [city, setCity] = useState('');
-  const [description, setDescription] = useState('');
-  const [startDate, setStartDate] = useState(formatDateForInput(day?.dayDate || new Date()));
-  const [isAllDay, setAllDay] = useState(false);
-  const [finishDate, setFinishDate] = useState(formatDateForInput(day?.dayDate || new Date()));
-  const [debouncedCity, setDebouncedCity] = useState(city);
-  const [debouncedStartDate, setDebouncedStartDate] = useState(startDate);
+  const { onClose = () => { }, isDelete = false, day, dayNumber } = props;
+  const [ isLoading, setLoading ] = useState('');
+  const [ title, setTitle ] = useState('');
+  const [ weather, setWeather ] = useState('');
+  const [ weatherUrl, setWeatherUrl ] = useState('');
+  const [ city, setCity ] = useState('');
+  const [ description, setDescription ] = useState('');
+  const [ startDate, setStartDate ] = useState(formatDateForInput(day?.dayDate || new Date()));
+  const [ isAllDay, setAllDay ] = useState(false);
+  const [ finishDate, setFinishDate ] = useState(formatDateForInput(day?.dayDate || new Date()));
+  const [ debouncedCity, setDebouncedCity ] = useState(city);
+  const [ debouncedStartDate, setDebouncedStartDate ] = useState(startDate);
   const { getWeather } = useWeather();
-  const { onCreate } = useEvents({ path, RQTypes, dayNumber });
+  const { onCreate, isCreating } = useEvents({ dayNumber });
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -45,6 +46,8 @@ const useCreateEvent = (props: CreateEventProps) => {
     if (debouncedCity && debouncedStartDate) {
       (async () => {
         try {
+          setLoading(true);
+
           const response = await getWeather({ location: city, datetime: formatDateYYYYMMDD(startDate) });
           if (response) {
             const { condition, icon } = response;
@@ -52,9 +55,11 @@ const useCreateEvent = (props: CreateEventProps) => {
             setWeatherUrl(icon);
           }
         } catch { }
+
+        setLoading(false);
       })();
     }
-  }, [debouncedCity, debouncedStartDate]);
+  }, [ debouncedCity, debouncedStartDate ]);
 
   const onSend = useCallback(async () => {
     if (isValidForm) {
@@ -128,7 +133,9 @@ const useCreateEvent = (props: CreateEventProps) => {
   }, [title, description, city, startDate, isAllDay, finishDate]);
 
   return {
+    isLoading,
     isDelete,
+    isCreating,
     title,
     city,
     description,

@@ -7,23 +7,16 @@ import { Day } from '../../../types/month';
 export interface DraggableProps {
     event: Event,
     day: Day,
-    onDrag: (event: Event, day: Day) => void,
     children: ReactNode,
 }
 
-const DraggableEvent = ({ event, day, onDrag, children }: DraggableProps) => {
+const DraggableEvent = ({ event, day, children }: DraggableProps) => {
     const [{ isDragging }, drag] = useDrag({
         type: ItemTypes.EVENT,
         item: { event: event, day: day },
-        collect: (monitor) => {
-            if (monitor.isDragging()) {
-                onDrag(event, day)
-            }
-
-            return {
-                isDragging: monitor.isDragging(),
-            }
-        },
+        collect: (monitor) => ({
+            isDragging: monitor.isDragging(),
+        }),
     });
 
     return (

@@ -16,11 +16,9 @@ export default class GetDayEvents extends BaseService {
 
   public async call(): Promise<void> {
     try {
-      console.log("Vamo a buscar ---: ")
       const service = new GetEvents({ date: this.date, queryType: 'day' });
       await service.call();
 
-      console.log(service.error)
       if (!service.valid) {
         this.setError(
           service.error && service.error["message"] ?
@@ -31,7 +29,6 @@ export default class GetDayEvents extends BaseService {
 
       this.events = this.createEvents(service.getEvents());
     } catch (error) {
-      console.log("error: ---------------------------->", error.message)
       this.setError('Error al obtener los eventos');
     }
   }

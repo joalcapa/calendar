@@ -10,6 +10,7 @@ export default class UpdateEvent extends BaseService {
 
   constructor(private id: number, private params: Event) {
     super();
+    this.id = id;
     this.event = null;
     this.params = params;
   }

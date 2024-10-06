@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { EVENTS_RQ } from "../config/constants";
 import { Event} from "../../types/event";
+import { Day } from '../../types/month';
 import { deleteEvent, updateEvent, createEvent } from '../../app/services/event';
 import useApi from "../hooks/useApi";
+import useEventsPath from "@/app/hooks/useEventsPath";
 
 interface CreatePayload {
     title: string;
@@ -18,12 +19,14 @@ interface CreatePayload {
 interface UpdatePayload {
     id: number,
     data: CreatePayload,
+    oldDay?: Day,
+    currentDay?: Day,
 }
 
-const useEvents = ({ path, RQTypes, dayNumber } : { path: string, RQTypes: string, dayNumber?: number }) => {
+const useEvents = ({ dayNumber } : { dayNumber?: number }) => {
+    const { queryKey: queryType, isWeek } = useEventsPath();
     const queryClient = useQueryClient();
     const { fetch } = useApi();
-    const queryType = [ RQTypes || EVENTS_RQ, path ];
 
     const onError = (err, eventId, context) => {
         queryClient.setQueryData(queryType, context.previousData);
@@ -38,22 +41,43 @@ const useEvents = ({ path, RQTypes, dayNumber } : { path: string, RQTypes: strin
         const previousData = await getQueryClient();
         const event = data.data;
 
-        queryClient.setQueryData(queryType, (oldData) => ({
-            ...oldData,
-            days: (dayNumber ? oldData.days[dayNumber] : oldData.days).map((day) => {
-                if (day.day === new Date(event.start_date).getDate()) {
-                    return {
-                        ...day,
-                        events: [
-                            event,
-                            ...day.events,
-                        ],
-                    }
-                }
+        if (isWeek) {
+            queryClient.setQueryData(queryType, (oldData) => ([
+                ...oldData.map(weekDay => ({
+                    ...weekDay,
+                    days: weekDay.days.map((day) => {
+                        if (day.day === new Date(event.start_date).getDate()) {
+                            return {
+                                ...day,
+                                events: [
+                                    event,
+                                    ...day.events,
+                                ],
+                            }
+                        }
 
-                return { ...day };
-            }),
-        }));
+                        return day;
+                    }),
+                })),
+            ]));
+        } else {
+            queryClient.setQueryData(queryType, (oldData) => ({
+                ...oldData,
+                days: oldData.days.map((day) => {
+                    if (day.day === new Date(event.start_date).getDate()) {
+                        return {
+                            ...day,
+                            events: [
+                                event,
+                                ...day.events,
+                            ],
+                        }
+                    }
+
+                    return { ...day };
+                }),
+            }));
+        }
 
         return { previousData };
     }
@@ -61,15 +85,27 @@ const useEvents = ({ path, RQTypes, dayNumber } : { path: string, RQTypes: strin
     const onDelete = async (eventId: number) => {
         const previousData = await getQueryClient();
 
-        queryClient.setQueryData(queryType, (oldData) => (
-            {
-                ...oldData,
-                days: (dayNumber ? oldData.days[dayNumber] : oldData.days).map((day) => ({
-                    ...day,
-                    events: day.events.filter((event) => event.id !== eventId),
+        if (isWeek) {
+            queryClient.setQueryData(queryType, (oldData) => ([
+                ...oldData.map(weekDay => ({
+                    ...weekDay,
+                    days: weekDay.days.map((day) => ({
+                        ...day,
+                        events: day.events.filter((event) => event.id !== eventId),
+                    })),
                 })),
-            }
-        ));
+            ]));
+        } else {
+            queryClient.setQueryData(queryType, (oldData) => (
+                {
+                    ...oldData,
+                    days: oldData.days.map((day) => ({
+                        ...day,
+                        events: day.events.filter((event) => event.id !== eventId),
+                    })),
+                }
+            ));
+        }
 
         return { previousData };
     };
@@ -77,22 +113,98 @@ const useEvents = ({ path, RQTypes, dayNumber } : { path: string, RQTypes: strin
     const onUpdate = async (payload: UpdatePayload) => {
         const previousData = await getQueryClient();
 
-        queryClient.setQueryData(queryType, (oldData) => ({
-            ...oldData,
-            days: (dayNumber ? oldData.days[dayNumber] : oldData.days).map((day) => ({
-                ...day,
-                events: day.events.map((event) => {
-                    if (event.id === payload.id) {
-                        return {
-                            ...event,
-                            ...payload.data,
-                        }
-                    }
+        if (isWeek) {
+            const oldDay = payload.oldDay;
+            const currentDay = payload.currentDay;
 
-                    return event;
-                }),
-            })),
-        }));
+            if (oldDay && currentDay && oldDay.day !== currentDay.day) {
+                queryClient.setQueryData(queryType, (oldData) => {
+                    let currentEvent = null;
+                    let currentDayFind = null;
+                    let oldDayFind = null;
+
+                    oldData.forEach((weekDay) => {
+                        weekDay.days.forEach((day) => {
+                            if (day.day === oldDay.day) {
+                                oldDayFind = day;
+                                oldDayFind.events = oldDayFind.events.filter((event) => {
+                                    currentEvent = event;
+                                    return event.id !== payload.id
+                                });
+                            }
+                        });
+                    })
+
+                    oldData.forEach((weekDay) => {
+                        weekDay.days.forEach((day) => {
+                            if (day.day === currentDay.day) {
+                                currentDayFind = day;
+                                currentDayFind.events.push({
+                                    ...currentEvent,
+                                    ...payload.data,
+                                })
+                            }
+                        });
+                    })
+
+                    return [
+                        ...oldData.map(weekDay => ({
+                            ...weekDay,
+                            days: weekDay.days.map((day) => {
+                                if (day.day === currentDayFind.day) {
+                                    return currentDayFind;
+                                }
+
+                                if (day.day === oldDayFind.day) {
+                                    return oldDayFind;
+                                }
+
+                                return day;
+                            }),
+                        })),
+                    ]
+                })
+            } else {
+                queryClient.setQueryData(queryType, (oldData) => {
+                    return [
+                        ...oldData.map(weekDay => ({
+                            ...weekDay,
+                            days: weekDay.days.map((day) => ({
+                                ...day,
+                                events: day.events.map((event) => {
+                                    if (event.id === payload.id) {
+                                        return {
+                                            ...event,
+                                            ...payload.data,
+                                        }
+                                    }
+
+                                    return event;
+                                })
+                            })),
+                        })),
+                    ]
+                })
+            }
+        } else {
+            queryClient.setQueryData(queryType, (oldData) => ({
+                ...oldData,
+                days: oldData.days.map((day) => ({
+                    ...day,
+                    events: day.events
+                        .map((event) => {
+                            if (event.id === payload.id) {
+                                return {
+                                    ...event,
+                                    ...payload.data,
+                                }
+                            }
+
+                            return event;
+                        }),
+                })),
+            }));
+        }
 
         return { previousData };
     };

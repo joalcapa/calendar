@@ -43,7 +43,6 @@ const DraggableEvent: React.FC<{
             item: { event },
             collect: (monitor) => {
                 if (monitor.isDragging()) {
-                    console.log("Vamos a mover, ", event.id)
                     onDrag(event);
                 }
 
@@ -194,7 +193,6 @@ const Calendar: React.FC<MonthEvents> = (props) => {
             <EventManager
                 eventForUpdate={eventForUpdate}
                 dayForCreateEvent={dayForCreateEvent}
-                path={props.path}
             />
         </>
     );

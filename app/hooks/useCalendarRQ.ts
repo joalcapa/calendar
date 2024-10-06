@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { Event } from "../../types/event";
 import { MonthEvents, Day } from '../../types/month';
-import useGetEvent from "../../app/hooks/useGetEvent";
 import {DateTime} from "luxon";
 import useDays from "../../app/hooks/useDays";
+import useEvents from "../../app/hooks/useEvents";
 
 const useCalendar = (props: MonthEvents) => {
     const {
@@ -12,26 +12,16 @@ const useCalendar = (props: MonthEvents) => {
         monthName,
         dayName,
         isHours,
-        onDropEvent = () => {},
-        onDragEvent = ()=> {},
-        path,
-        RQTypes,
         dayNumber,
     } = props;
 
+    const { days } = useDays({ dayNumber });
     const [isMount, seMount] = useState<boolean>(false);
-
-    const { days, isLoading, error } = useDays({ path, RQTypes, dayNumber });
-
-    //const [days, setDays] = useState<Day[]>(props.days);
-
-    const [event, setEvent] = useState<Event | null>(null);
-    const [eventDrag, setEventDrag] = useState<Event | null>(null);
-    const [day, setDay] = useState<Day | null>(null);
-    const [isUpdateEvent, setUpdateEvent] = useState<boolean>(false);
-    const [isCreateEvent, setCreateEvent] = useState<boolean>(false);
-    const { updateEvent } = useGetEvent();
-    const dragEventRef = useRef(false);
+    const { updateEvent } = useEvents({ dayNumber });
+    const [ event, setEvent ] = useState<Event | null>(null);
+    const [ day, setDay ] = useState<Day | null>(null);
+    const [ isUpdateEvent, setUpdateEvent ] = useState<boolean>(false);
+    const [ isCreateEvent, setCreateEvent ] = useState<boolean>(false);
 
     useEffect(() => {
         let isMounted = true;
@@ -109,8 +99,6 @@ const useCalendar = (props: MonthEvents) => {
         } catch {
 
         }
-
-        dragEventRef.current = false;
     };
 
     const onDay = (d: Day): void => {
@@ -128,89 +116,50 @@ const useCalendar = (props: MonthEvents) => {
     };
 
     const onDrag = (eventDeleted: Event): void => {
-        if (!dragEventRef.current) {
-            dragEventRef.current = true;
-            /*setDays((prevDays) =>
-                prevDays.map((d) => ({
-                    ...d,
-                    events: d.events.filter((e) => e.id !== eventDeleted.id),
-                }))
-            );*/
-        }
+
     };
 
-    const onDragHour = (eventDeleted: Event, day: Day): void => {
-        if (!dragEventRef.current) {
-            dragEventRef.current = true;
-            setEventDrag(eventDeleted);
+    const onDropHour = async (event: Event, oldDay: Day, hour: number, day: Day) => {
+        const dayDateTime = DateTime.fromJSDate(day.dayDate);
+        const startDateTime = DateTime.fromJSDate(new Date(event.start_date)).toUTC();
+        const finishDateTime = DateTime.fromJSDate(new Date(event.finish_date)).toUTC();
+        const duration = finishDateTime.diff(startDateTime, 'hours').hours;
 
-            onDragEvent(eventDeleted, day, () => {});
+        const newStartDateTime = startDateTime.set({
+            year: dayDateTime.year,
+            month: dayDateTime.month,
+            day: dayDateTime.day,
+            hour: event.is_all_day ? 7 : hour,
+            minute: 0,
+            second: 0
+        });
 
-            /*setDays((prevDays) =>
-                prevDays.map((d) => ({
-                  ...d,
-                  events: d.events.filter((e) => e.id !== eventDeleted.id),
-                }))
-            );*/
-        }
-    };
+        const newFinishDateTime = newStartDateTime.plus({ hours: event.is_all_day ? 12 : duration }).set({
+            year: dayDateTime.year,
+            month: dayDateTime.month,
+        });
 
-    const onDropHour = async (hour: number, day: Day) => {
-        if (eventDrag) {
-            onDropEvent(hour, day, () => {})
-            // Convertir start_date a DateTime con la zona horaria UTC
-            const startDateTime = DateTime.fromJSDate(new Date(eventDrag.start_date)).toUTC();
-
-            // Calcular la duración del evento en horas (de inicio a fin)
-            const finishDateTime = DateTime.fromJSDate(new Date(eventDrag.finish_date)).toUTC();
-            const duration = finishDateTime.diff(startDateTime, 'hours').hours;
-
-            // Ajustar start_date al nuevo valor de hour y mantener los minutos/segundos en cero
-            const newStartDateTime = startDateTime.set({ hour: hour, minute: 0, second: 0 });
-
-            // Calcular la nueva fecha de fin, manteniendo la duración original
-            const newFinishDateTime = newStartDateTime.plus({ hours: duration });
-
-            // Actualizar el evento con las nuevas fechas
-            eventDrag.start_date = newStartDateTime.toJSDate(); // Convertir a objeto Date de JavaScript
-            eventDrag.finish_date = newFinishDateTime.toJSDate(); // Convertir a objeto Date de JavaScript
-
-            // Ejecutar la función de actualización del evento
-            await onUpdateEvent(eventDrag);
-
-            // Resetear el estado después de actualizar
-            setEventDrag(null);
-            dragEventRef.current = false;
-
-            await onDrop(eventDrag, days[0])
-        }
+        await updateEvent({
+            id: event.id,
+            data: {
+                title: event.title,
+                description: event.description,
+                city: event.city,
+                weather: event.weather,
+                weather_url: event.weather_url,
+                is_all_day: event.is_all_day,
+                start_date: newStartDateTime.toJSDate(),
+                finish_date: newFinishDateTime.toJSDate(),
+            },
+            oldDay,
+            currentDay: day,
+        });
     };
 
 
     const onEvent = (e: Event): void => {
         setUpdateEvent(true);
         setEvent(e);
-    };
-
-    const onUpdateEvent = (eventUpdated: Event): void => {
-        /*setDays((prevDays) =>
-            prevDays
-                .map((d) => ({
-                    ...d,
-                    events: d.events.filter((e) => e.id !== eventUpdated.id),
-                }))
-                .map((d) => {
-                    if (d.day === new Date(eventUpdated.start_date).getDate()) {
-                        return {
-                            ...d,
-                            events: [...d.events, eventUpdated],
-                        };
-                    }
-                    return d;
-                })
-        );*/
-
-        onClose();
     };
 
     const onClose = (): void => {
@@ -235,15 +184,12 @@ const useCalendar = (props: MonthEvents) => {
             onDrag,
             onEvent,
             onHour,
-            onDragHour,
             onDropHour,
-            eventDrag,
             hours: Array.from({ length: 13 }, (_, i) => i + 7),
         },
         eventForUpdate: {
             event,
             isVisible: isUpdateEvent,
-            onUpdateEvent,
             onClose,
         },
         dayForCreateEvent: {
