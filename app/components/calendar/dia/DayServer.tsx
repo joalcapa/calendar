@@ -9,9 +9,10 @@ interface CalendarColumnProps {
     day: Day;
     isHours?: boolean;
     dayName: string;
+    today: number;
 }
 
-const CalendarColumn: React.FC<CalendarColumnProps> = ({ day, isHours = true, dayName }) => {
+const CalendarColumn: React.FC<CalendarColumnProps> = ({ day, isHours = true, dayName, today }) => {
     const events = day.events || [];
     const hours = Array.from({ length: 13 }, (_, i) => i + 7);
 
@@ -37,8 +38,11 @@ const CalendarColumn: React.FC<CalendarColumnProps> = ({ day, isHours = true, da
 
     return (
         <>
-            <h3 className="text-xl font-semibold text-gray-800 pb-3">{dayName}</h3>
-            <div className="relative border-l border-r border-gray-200">
+            <h3 className="flex flex-row text-xl font-semibold text-gray-800 pb-3">
+                {dayName}
+                {today === day.day && <div className="text-xs pl-3 text-orange-600">HOY</div>}
+            </h3>
+            <div className={`relative border-r ${today === day.day ? 'border-l border-orange-600' : day.isCurrent ? 'border-l border-blue-600' : 'border-l border-gray-200'}`}>
                 {hours.map((hour) => (
                     <div
                         key={hour}

@@ -6,11 +6,13 @@ import GetEvents from '../events/getEvents';
 
 export default class GetDayEvents extends BaseService {
   private date: Date;
+  private currentDate: Date;
   private events: MonthEvents | null;
 
-  constructor(date: Date = new Date()) {
+  constructor(date: Date = new Date(), currentDate: Date | null) {
     super();
     this.date = date;
+    this.currentDate = currentDate || this.date;
     this.events = null;
   }
 
@@ -46,6 +48,8 @@ export default class GetDayEvents extends BaseService {
       events: Event[]
     }[]
   } {
+    const dayDate = getDateFromNumberDay(this.date, this.date.getDate());
+
     return {
       today: new Date().getDate(),
       dayName: getDayLabel(this.date),
@@ -53,9 +57,9 @@ export default class GetDayEvents extends BaseService {
       days: [
         {
           day: this.date.getDate(),
-          isCurrent: false,
+          isCurrent: dayDate.getDate() === this.currentDate.getDate(),
           isToday: (new Date().getDate() === (this.date.getDate())) && this.date.getMonth() === new Date().getMonth(),
-          dayDate: getDateFromNumberDay(this.date, this.date.getDate()),
+          dayDate: dayDate,
           isCurrentMonth: true,
           events: events,
         }

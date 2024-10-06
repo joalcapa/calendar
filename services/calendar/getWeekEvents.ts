@@ -16,23 +16,16 @@ export default class GetWeekEvents extends BaseService {
   public async call(): Promise<void> {
     try {
       const dt = DateTime.fromJSDate(this.date);
-
-      // Obtener el día de la semana (0 = Domingo, 1 = Lunes, ..., 6 = Sábado)
-      const dayOfWeek = dt.weekday % 7; // Ajustar para que Domingo sea 0
-
-      // Calcular el domingo anterior o actual restando los días necesarios
+      const dayOfWeek = dt.weekday % 7;
       const startOfWeek = dt.minus({ days: dayOfWeek });
-
-      // Usar map para generar el array de eventos
       const eventsPromises = Array.from({ length: 7 }, (_, i) =>
         startOfWeek.plus({ days: i }).toJSDate()
       ).map(async (day) => {
-        const service = new GetDayEvents(day);
+        const service = new GetDayEvents(day, this.date);
         await service.call();
         return service.getEvents();
       });
 
-      // Esperar a que todas las promesas se resuelvan
       this.events = await Promise.all(eventsPromises);
 
     } catch (error) {

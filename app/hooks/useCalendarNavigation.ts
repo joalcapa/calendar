@@ -24,39 +24,39 @@ const useCalendarNavigation = (props: { type: string | null }) => {
   const [view, setView] = useState<View>(type ? (type.toUpperCase() as View) : MONTH);
   const { replace } = useRouter();
 
-  const setCurrentDateHandler = useCallback((call: (prev: Date) => Date) => {
-    setCurrentDate((prev) => {
-      const newDate = call(prev);
-
-      const viewType = view.toLocaleLowerCase();
-      replace(`/${view !== MONTH ? viewType : ''}?date=${format(newDate, DATE_FORMAT)}&type=${viewType}`);
-
-      return newDate;
-    });
-  }, [replace, view]);
-
-
   const onResetToday = () => {
-    setCurrentDateHandler((prev) => startOfToday());
+    setCurrentDate((prev) => startOfToday());
   };
 
   const onPrev = () => {
     if (view === MONTH) {
-      setCurrentDateHandler((prev) => addMonths(prev, DIFF_COUNT));
+      const newDate = addMonths(currentDate, DIFF_COUNT);
+      setCurrentDate(newDate);
+      replace(`/mes?date=${format(newDate, DATE_FORMAT)}&type=${MONTH.toLocaleLowerCase()}`);
     } else if (view === WEEK) {
-      setCurrentDateHandler((prev) => addWeeks(prev, DIFF_COUNT));
+      const newDate = addWeeks(currentDate, DIFF_COUNT);
+      setCurrentDate(newDate);
+      replace(`/week?date=${format(newDate, DATE_FORMAT)}&type=${WEEK.toLocaleLowerCase()}`);
     } else if (view === DAY) {
-      setCurrentDateHandler((prev) => addDays(prev, DIFF_COUNT));
+      const newDate = addDays(currentDate, DIFF_COUNT);
+      setCurrentDate(newDate);
+      replace(`/day?date=${format(newDate, DATE_FORMAT)}&type=${DAY.toLocaleLowerCase()}`);
     }
   };
 
   const onNext = () => {
     if (view === MONTH) {
-      setCurrentDateHandler((prev) => addMonths(prev, ADD_COUNT));
+      const newDate = addMonths(currentDate, ADD_COUNT);
+      setCurrentDate(newDate);
+      replace(`/mes?date=${format(newDate, DATE_FORMAT)}&type=${MONTH.toLocaleLowerCase()}`);
     } else if (view === WEEK) {
-      setCurrentDateHandler((prev) => addWeeks(prev, ADD_COUNT));
+      const newDate = addWeeks(currentDate, ADD_COUNT);
+      setCurrentDate(newDate);
+      replace(`/week?date=${format(newDate, DATE_FORMAT)}&type=${WEEK.toLocaleLowerCase()}`);
     } else if (view === DAY) {
-      setCurrentDateHandler((prev) => addDays(prev, ADD_COUNT));
+      const newDate = addDays(currentDate, ADD_COUNT);
+      setCurrentDate(newDate);
+      replace(`/day?date=${format(newDate, DATE_FORMAT)}&type=${DAY.toLocaleLowerCase()}`);
     }
   };
 
@@ -66,7 +66,7 @@ const useCalendarNavigation = (props: { type: string | null }) => {
 
   const onMonth = useCallback(() => {
     setView(MONTH);
-    replace(`/?date=${format(currentDate, DATE_FORMAT)}&type=${MONTH.toLocaleLowerCase()}`);
+    replace(`/mes?date=${format(currentDate, DATE_FORMAT)}&type=${MONTH.toLocaleLowerCase()}`);
   }, [replace, currentDate]);
 
   const onWeek = useCallback(() => {
