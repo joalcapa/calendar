@@ -8,6 +8,19 @@ import { EVENTS_RQ } from "../app/config/constants";
 import { DateTime } from 'luxon';
 import CalendarNavigation from "@/app/components/calendar/navigation/navigationClient";
 
+/**
+ * Main component for displaying the monthly calendar.
+ *
+ * This component is responsible for fetching the events for the month,
+ * handling calendar navigation, and rendering the main calendar
+ * alongside a small calendar for date selection.
+ *
+ * @param {Object} params - The parameters for the component.
+ * @param {Object} [params.searchParams] - Optional search parameters.
+ * @param {string} [params.searchParams.date] - Date in ISO format.
+ * @param {string} [params.searchParams.type] - Calendar view type (defaults to "month").
+ * @returns {JSX.Element} Calendar component to display the month's events.
+ */
 export default async ({ searchParams }: {
     searchParams?: {
         date?: string,
@@ -21,7 +34,7 @@ export default async ({ searchParams }: {
 
     const queryClient = new QueryClient();
     const service = new GetMonthEvents(parsedDate);
-    await service.call()
+    await service.call();
     const events = service.getEvents();
 
     await queryClient.prefetchQuery({

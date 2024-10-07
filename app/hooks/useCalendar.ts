@@ -5,6 +5,35 @@ import { DateTime } from "luxon";
 import useDays from "../../app/hooks/useDays";
 import useEvents from "../../app/hooks/useEvents";
 
+/**
+ * Custom hook to manage calendar events and interactions.
+ *
+ * @param {MonthEvents} props - The properties for the calendar events.
+ * @returns {Object} An object containing the month and event management functionality.
+ * @returns {Object} month - Contains properties and methods related to the month view.
+ * @returns {boolean} month.isHours - Indicates if the calendar displays hours.
+ * @returns {string} month.monthName - The name of the current month.
+ * @returns {string} month.dayName - The name of the current day.
+ * @returns {Date} month.today - The current date.
+ * @returns {Date} month.startDayOfMonth - The start date of the current month.
+ * @returns {boolean} month.isMount - Indicates if the component is mounted.
+ * @returns {Array<Day>} month.days - The array of days in the current month.
+ * @returns {Day} month.day - The current day object.
+ * @returns {Function} month.onDay - Function to handle day selection.
+ * @returns {Function} month.onEvent - Function to handle event selection.
+ * @returns {Function} month.onHour - Function to handle hour selection.
+ * @returns {Function} month.onDropHour - Function to handle hour drop event.
+ * @returns {boolean} month.isSmallHour - Indicates if the hour display is small.
+ * @returns {Array<number>} month.hours - The array of hours for the day.
+ * @returns {Object} eventForUpdate - Contains properties and methods for updating events.
+ * @returns {Event | null} eventForUpdate.event - The event being updated.
+ * @returns {boolean} eventForUpdate.isVisible - Indicates if the update event modal is visible.
+ * @returns {Function} eventForUpdate.onClose - Function to close the update event modal.
+ * @returns {Object} dayForCreateEvent - Contains properties and methods for creating events.
+ * @returns {Day | null} dayForCreateEvent.day - The day for creating a new event.
+ * @returns {boolean} dayForCreateEvent.isVisible - Indicates if the create event modal is visible.
+ * @returns {Function} dayForCreateEvent.onClose - Function to close the create event modal.
+ */
 const useCalendar = (props: MonthEvents) => {
     const {
         today,
@@ -17,30 +46,40 @@ const useCalendar = (props: MonthEvents) => {
     } = props;
 
     const { days } = useDays({ dayNumber });
-    const [ isMount, seMount ] = useState<boolean>(false);
+    const [isMount, seMount] = useState<boolean>(false);
     const { updateEvent } = useEvents();
-    const [ event, setEvent ] = useState<Event | null>(null);
-    const [ day, setDay ] = useState<Day | null>(null);
-    const [ isUpdateEvent, setUpdateEvent ] = useState<boolean>(false);
-    const [ isCreateEvent, setCreateEvent ] = useState<boolean>(false);
+    const [event, setEvent] = useState<Event | null>(null);
+    const [day, setDay] = useState<Day | null>(null);
+    const [isUpdateEvent, setUpdateEvent] = useState<boolean>(false);
+    const [isCreateEvent, setCreateEvent] = useState<boolean>(false);
 
     useEffect(() => {
         let isMounted = true;
 
         if (isMounted) {
-            seMount(true)
+            seMount(true);
         }
 
         return () => {
             isMounted = false;
-        }
+        };
     }, []);
 
+    /**
+     * Handles the selection of a day.
+     *
+     * @param {Day} d - The selected day.
+     */
     const onDay = (d: Day): void => {
         setDay(d);
         setCreateEvent(true);
     };
 
+    /**
+     * Handles the selection of an hour.
+     *
+     * @param {number} hour - The selected hour.
+     */
     const onHour = (hour: number): void => {
         const d = days[0];
         d.dayDate = new Date(d.dayDate);
@@ -50,6 +89,14 @@ const useCalendar = (props: MonthEvents) => {
         setCreateEvent(true);
     };
 
+    /**
+     * Handles the event when an hour is dropped on a day.
+     *
+     * @param {Event} event - The event being updated.
+     * @param {Day} oldDay - The old day of the event.
+     * @param {number | null} hour - The hour to set for the event.
+     * @param {Day} day - The new day for the event.
+     */
     const onDropHour = async (event: Event, oldDay: Day, hour: number | null, day: Day) => {
         const dayDateTime = DateTime.fromJSDate(day.dayDate);
         const startDateTime = DateTime.fromJSDate(new Date(event.start_date)).toUTC();
@@ -85,12 +132,19 @@ const useCalendar = (props: MonthEvents) => {
         });
     };
 
-
+    /**
+     * Handles the selection of an event.
+     *
+     * @param {Event} e - The selected event.
+     */
     const onEvent = (e: Event): void => {
         setUpdateEvent(true);
         setEvent(e);
     };
 
+    /**
+     * Closes the event creation or update modal.
+     */
     const onClose = (): void => {
         setUpdateEvent(false);
         setCreateEvent(false);
@@ -125,7 +179,7 @@ const useCalendar = (props: MonthEvents) => {
             isVisible: isCreateEvent,
             onClose,
         },
-    }
+    };
 };
 
 export default useCalendar;

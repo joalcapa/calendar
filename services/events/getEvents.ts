@@ -3,20 +3,40 @@ import { eventRepository } from '../../repositories/eventRepository';
 import { Event } from '../../types/event';
 import BaseService from '../baseService';
 
+// Constants for query types
 const MONTH = "month";
 const DAY = "day";
 const WEEK = "week";
 
+/**
+ * Parameters for retrieving events.
+ */
 export interface GetEventsParams {
+  /** The date to query events for. */
   date?: Date;
+  /** The type of query: 'month', 'day', or 'week'. */
   queryType?: 'month' | 'day' | 'week';
 }
 
+/**
+ * A service class for retrieving events based on a specified date and query type.
+ * Inherits from BaseService to provide error handling functionality.
+ */
 export default class GetEvents extends BaseService {
+  /** The list of retrieved events. */
   private events: Event[];
+
+  /** The date used for querying events. */
   private date: Date | null;
+
+  /** The type of query to perform. */
   private queryType: 'month' | 'day' | 'week';
 
+  /**
+   * Initializes a new instance of the GetEvents class.
+   *
+   * @param params - The parameters for retrieving events, including date and query type.
+   */
   constructor(params: GetEventsParams) {
     super();
     this.events = [];
@@ -24,11 +44,17 @@ export default class GetEvents extends BaseService {
     this.queryType = params.queryType || MONTH;
   }
 
+  /**
+   * Retrieves events based on the specified date and query type.
+   *
+   * @returns A promise that resolves when the retrieval is complete.
+   *          Sets an error message if the query type is unsupported, or if an error occurs during retrieval.
+   */
   public async call(): Promise<void> {
     try {
       if (this.queryType !== MONTH && this.queryType !== WEEK && this.queryType !== DAY) {
-        this.setError("Tipo de busqueda no soportada")
-        return
+        this.setError("Tipo de busqueda no soportada");
+        return;
       }
 
       if (this.date) {
@@ -85,7 +111,13 @@ export default class GetEvents extends BaseService {
     }
   }
 
+  /**
+   * Gets the list of retrieved events.
+   *
+   * @returns An array of events retrieved from the repository.
+   */
   public getEvents(): Event[] {
     return this.events;
   }
 }
+

@@ -9,6 +9,19 @@ import { EVENTS_RQ } from "../../app/config/constants";
 import { DateTime } from "luxon";
 import CalendarNavigation from "@/app/components/calendar/navigation/navigationClient";
 
+/**
+ * Main component for displaying the day's calendar.
+ *
+ * This component is responsible for fetching the day's events, handling
+ * calendar navigation, and rendering the main calendar along
+ * with a small calendar for date selection.
+ *
+ * @param {Object} props - Component props.
+ * @param {Object} props.searchParams - Optional search parameters.
+ * @param {string} [props.searchParams.date] - Date in ISO format.
+ * @param {string} [props.searchParams.type] - Type of calendar view (default is "month").
+ * @returns {JSX.Element} Calendar component to display events for the day.
+ */
 export default async ({ searchParams }: {
     searchParams?: {
         date?: string,

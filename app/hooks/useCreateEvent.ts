@@ -6,6 +6,39 @@ import { formatDateForInput, formatDateYYYYMMDD } from '../utils/utils';
 import useWeather from "./useWeather";
 import useEvents from "./useEvents";
 
+/**
+ * Custom hook to manage the creation of an event.
+ *
+ * @param props - The properties for creating an event.
+ * @param props.onClose - Callback function to be called when the event creation is closed. Defaults to a no-op function.
+ * @param props.isDelete - Boolean indicating if the event is being deleted. Defaults to false.
+ * @param props.day - An object representing the day for which the event is being created.
+ *
+ * @returns The current state and functions to create an event.
+ * @returns isLoading - Boolean indicating if the weather data is being loaded.
+ * @returns isDelete - Boolean indicating if the event is being deleted.
+ * @returns isCreating - Boolean indicating if the event is currently being created.
+ * @returns title - The title of the event.
+ * @returns city - The city associated with the event.
+ * @returns description - The description of the event.
+ * @returns startDate - The start date of the event in ISO format.
+ * @returns isAllDay - Boolean indicating if the event is an all-day event.
+ * @returns finishDate - The finish date of the event in ISO format.
+ * @returns weather - The weather condition for the specified date and location.
+ * @returns weatherUrl - The URL of the weather icon.
+ * @returns isValidForm - Boolean indicating if the form is valid for submission.
+ * @returns onClose - Function to close the event creation dialog.
+ * @returns changeTitle - Function to handle changes to the event title.
+ * @returns changeCity - Function to handle changes to the city input.
+ * @returns changeDescription - Function to handle changes to the event description.
+ * @returns changeStartDate - Function to handle changes to the start date.
+ * @returns changeAllDay - Function to handle changes to the all-day checkbox.
+ * @returns changeFinishDate - Function to handle changes to the finish date.
+ * @returns setAllDay - Function to directly set the all-day status.
+ * @returns onSend - Function to send the event creation request.
+ * @returns changeWeather - Function to update the weather condition.
+ * @returns changeWeatherUrl - Function to update the weather icon URL.
+ */
 const useCreateEvent = (props: CreateEventProps) => {
     const { onClose = () => { }, isDelete = false, day } = props;
     const [ isLoading, setLoading ] = useState(false);

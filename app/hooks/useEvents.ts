@@ -32,6 +32,17 @@ export interface UpdatePayload {
     currentDay?: Day,
 }
 
+/**
+ * Custom hook to manage events, including creation, update, and deletion.
+ *
+ * @returns An object containing event management functions and their loading states.
+ * @returns onCreate - Function to create a new event.
+ * @returns deleteEvent - Function to delete an existing event.
+ * @returns updateEvent - Function to update an existing event.
+ * @returns isDeleting - Boolean indicating if a delete operation is in progress.
+ * @returns isUpdating - Boolean indicating if an update operation is in progress.
+ * @returns isCreating - Boolean indicating if a create operation is in progress.
+ */
 const useEvents = () => {
     const { queryKey: queryType, isWeek } = useEventsPath();
     const queryClient = useQueryClient();

@@ -6,8 +6,17 @@ import { Hydrate, ReactQueryProvider } from '../components/rq/RQ';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { EVENTS_RQ } from "../../app/config/constants";
 import { DateTime } from "luxon";
-import CalendarNavigation from "@/app/components/calendar/navigation/navigationClient";
+import CalendarNavigation from "../../app/components/calendar/navigation/navigationClient";
 
+/**
+ * Asynchronously fetches and displays the monthly calendar with events.
+ *
+ * @param {Object} params - The parameters for the function.
+ * @param {Object} [params.searchParams] - Optional search parameters.
+ * @param {string} [params.searchParams.date] - The date in ISO format. Defaults to today's date.
+ * @param {string} [params.searchParams.type] - The type of calendar view. Defaults to "month".
+ * @returns {JSX.Element} The rendered calendar component with events.
+ */
 export default async ({ searchParams }: {
     searchParams?: {
         date?: string,
@@ -21,11 +30,11 @@ export default async ({ searchParams }: {
 
     const queryClient = new QueryClient();
     const service = new GetMonthEvents(parsedDate);
-    await service.call()
+    await service.call();
     const events = service.getEvents();
 
     await queryClient.prefetchQuery({
-        queryKey: [ EVENTS_RQ, path ],
+        queryKey: [EVENTS_RQ, path],
         queryFn: async () => {
             return events;
         },

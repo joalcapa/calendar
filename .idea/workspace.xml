@@ -5,13 +5,47 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c81626c-480e-4816-894f-569d1b70dab6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/__tests__/app/components/calendar/dia/Hour.test.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/__tests__/app/components/calendar/dia/HourEvent.test.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/__tests__/app/hooks/useCalendar.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/typedoc.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/__tests__/app/hooks/useUpdateEvent.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/__tests__/app/hooks/useUpdateEvent.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/calendar/dia/Hour.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/calendar/dia/Hour.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/calendar/dia/HourEvent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/calendar/dia/HourEvent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/events/[id]/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/events/[id]/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/events/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/events/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/weather/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/weather/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/config/constants.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/constants.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/config/endpoints.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/endpoints.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/day/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/day/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/hooks/useApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/hooks/useApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/hooks/useCalendar.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/hooks/useCalendar.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/hooks/useCalendarNavigation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/hooks/useCalendarNavigation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/hooks/useCreateEvent.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/hooks/useCreateEvent.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/hooks/useDays.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/hooks/useDays.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/hooks/useEvents.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/hooks/useEvents.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/hooks/useEventsPath.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/hooks/useEventsPath.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/hooks/useUpdateEvent.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/hooks/useUpdateEvent.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/hooks/useWeather.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/hooks/useWeather.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/month/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/month/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/types/types.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/types/types.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/utils/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/utils/utils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/week/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/week/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/repositories/eventRepository.ts" beforeDir="false" afterPath="$PROJECT_DIR$/repositories/eventRepository.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/baseService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/services/baseService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/calendar/getDayEvents.ts" beforeDir="false" afterPath="$PROJECT_DIR$/services/calendar/getDayEvents.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/calendar/getMonthEvents.ts" beforeDir="false" afterPath="$PROJECT_DIR$/services/calendar/getMonthEvents.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/calendar/getWeekEvents.ts" beforeDir="false" afterPath="$PROJECT_DIR$/services/calendar/getWeekEvents.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/events/createEvent.ts" beforeDir="false" afterPath="$PROJECT_DIR$/services/events/createEvent.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/events/deleteEvent.ts" beforeDir="false" afterPath="$PROJECT_DIR$/services/events/deleteEvent.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/events/getEvent.ts" beforeDir="false" afterPath="$PROJECT_DIR$/services/events/getEvent.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/events/getEvents.ts" beforeDir="false" afterPath="$PROJECT_DIR$/services/events/getEvents.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/events/updateEvent.ts" beforeDir="false" afterPath="$PROJECT_DIR$/services/events/updateEvent.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/weather/getWeather.ts" beforeDir="false" afterPath="$PROJECT_DIR$/services/weather/getWeather.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/types/event.ts" beforeDir="false" afterPath="$PROJECT_DIR$/types/event.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/types/location.ts" beforeDir="false" afterPath="$PROJECT_DIR$/types/location.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/types/month.ts" beforeDir="false" afterPath="$PROJECT_DIR$/types/month.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/types/request.ts" beforeDir="false" afterPath="$PROJECT_DIR$/types/request.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/types/weather.ts" beforeDir="false" afterPath="$PROJECT_DIR$/types/weather.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/utils/utils.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +66,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "feat-doc",
     "last_opened_file_path": "C:/Users/JOALCAPA/Desktop/calendar",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",

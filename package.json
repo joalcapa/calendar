@@ -41,6 +41,7 @@
     "swc-jest": "^1.0.2",
     "tailwindcss": "^3.4.1",
     "ts-jest": "^29.2.5",
+    "typedoc": "^0.26.8",
     "typescript": "^5"
   }
 }
