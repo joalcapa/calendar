@@ -1,8 +1,6 @@
 {
-  "out": "docs",
-  "includes": "src",
-  "exclude": "**/*.test.ts",
-  "theme": "default",
-  "tsconfig": "./tsconfig.json",
-  "mode": "file"
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./src/index.ts", "./src/secondary-entry.ts"],
+  "out": "doc"
 }
+

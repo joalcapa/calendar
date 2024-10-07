@@ -66,6 +66,7 @@ const Month: React.FC<MonthProps> = (
                                 onDrop={(event: Event, oldDay: Day) => onDropHour(event, oldDay, null, day)}
                             >
                                 <div
+                                    className="w-full h-full"
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         onDay(day);
@@ -75,14 +76,14 @@ const Month: React.FC<MonthProps> = (
                                        className="absolute top-1 left-1 text-xs font-bold">{day.day} {day.isToday ? '- HOY' : ''}</span>
                                     <div className="mt-5 w-full h-full overflow-hidden">
                                         {day.events.filter((e) => e.id != eventDrag?.id).map((event) => (
-                                            <DraggableEvent key={event.id} event={event} day={day}>
+                                            <DraggableEvent key={event.id} event={event} day={day} className="w-full h-full">
                                                 {
                                                     ({isDragging}) => (
                                                         <div
-                                                            className={`max-w-full max-h-[20px] pb-5 pb text-xs text-left truncate bg-blue-100 p-1 mb-1 rounded cursor-pointer ${isDragging ? 'opacity-50' : ''}`}
+                                                            className={`max-w-full h-full max-h-[20px] pb-5 pb text-xs text-left truncate bg-blue-100 p-1 mb-1 rounded cursor-pointer ${isDragging ? 'opacity-50' : ''}`}
                                                             onClick={(e) => {
-                                                                e.stopPropagation();
                                                                 onEvent(event);
+                                                                e.stopPropagation();
                                                             }}
                                                         >
                                                             {event.title}

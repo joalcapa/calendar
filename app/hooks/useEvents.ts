@@ -4,6 +4,11 @@ import { Day } from '../../types/month';
 import useApi from "../hooks/useApi";
 import useEventsPath from "@/app/hooks/useEventsPath";
 import {
+    deleteEvent as deleteEventService,
+    updateEvent as updateEventService,
+    createEvent as createEventService,
+} from '../../app/services/event';
+import {
     createEventOnWeek,
     createEvent,
     deleteEventOnWeek,
@@ -103,7 +108,7 @@ const useEvents = () => {
         mutate: (eventId: number) => void,
         isLoading: boolean,
     } = useMutation({
-        mutationFn: (eventId: number) => fetch(deleteEvent(eventId)),
+        mutationFn: (eventId: number) => fetch(deleteEventService(eventId)),
         onMutate: onDelete,
         onError,
     });
@@ -115,7 +120,7 @@ const useEvents = () => {
         mutate: (payload: UpdatePayload) => void,
         isLoading: boolean,
     } = useMutation({
-        mutationFn: (payload: UpdatePayload) => fetch(updateEvent(payload.id, payload.data)),
+        mutationFn: (payload: UpdatePayload) => fetch(updateEventService(payload.id, payload.data)),
         onMutate: onUpdate,
         onError,
     });
@@ -127,7 +132,7 @@ const useEvents = () => {
         mutate: (data: CreatePayload) => void,
         isLoading: boolean,
     } = useMutation({
-        mutationFn: (data: CreatePayload) => fetch(createEvent(data)),
+        mutationFn: (data: CreatePayload) => fetch(createEventService(data)),
         onSuccess: onCreate,
         onError,
     });
