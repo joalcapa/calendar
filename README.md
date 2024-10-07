@@ -40,7 +40,9 @@ Este proyecto se puede ejecutar utilizando Docker. A continuación, se describen
 
 Asegúrate de tener [Docker](https://www.docker.com/get-started) y [Docker Compose](https://docs.docker.com/compose/install/) instalados en tu sistema.
 
-### Archivos de configuración
+### Configuración
+
+Estos son los archivos de configuarción necesarios para probar la aplicación Calendar:
 
 - `Dockerfile`
 - `docker-compose.yml`
