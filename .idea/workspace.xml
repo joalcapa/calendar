@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3c81626c-480e-4816-894f-569d1b70dab6" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/app/components/calendar/mes/Month.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/calendar/mes/Month.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/dnd/DraggableEvent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/dnd/DraggableEvent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/dnd/EventDrop.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/dnd/EventDrop.tsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2muFWht9iWEEZbfZiyoGswtplaw" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feat-query&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/JOALCAPA/Desktop/calendar&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\JOALCAPA\\Desktop\\calendar\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-WS-241.14494.235" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3c81626c-480e-4816-894f-569d1b70dab6" name="Changes" comment="" />
+      <created>1727918588835</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1727918588835</updated>
+      <workItem from="1727918589852" duration="16271000" />
+      <workItem from="1727966864229" duration="3936000" />
+      <workItem from="1727972837339" duration="2576000" />
+      <workItem from="1727975511787" duration="17431000" />
+      <workItem from="1728006379737" duration="16157000" />
+      <workItem from="1728024542754" duration="744000" />
+      <workItem from="1728051282662" duration="10956000" />
+      <workItem from="1728063371291" duration="1699000" />
+      <workItem from="1728065182034" duration="1114000" />
+      <workItem from="1728066430531" duration="3680000" />
+      <workItem from="1728075647516" duration="4988000" />
+      <workItem from="1728080952968" duration="715000" />
+      <workItem from="1728179277455" duration="17223000" />
+      <workItem from="1728227522337" duration="46190000" />
+      <workItem from="1728307531873" duration="343000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="GitHub.CommitStatus" />
+      </list>
+    </option>
+  </component>
+</project>
