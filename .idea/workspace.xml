@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c81626c-480e-4816-894f-569d1b70dab6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/__tests__/app/components/calendar/dia/Hour.test.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/__tests__/app/components/calendar/dia/HourEvent.test.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/__tests__/app/hooks/useCalendar.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/__tests__/app/hooks/useUpdateEvent.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/__tests__/app/hooks/useUpdateEvent.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/calendar/dia/Hour.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/calendar/dia/Hour.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/calendar/dia/HourEvent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/calendar/dia/HourEvent.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +28,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "feat-doc",
     "last_opened_file_path": "C:/Users/JOALCAPA/Desktop/calendar",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",

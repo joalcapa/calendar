@@ -1,0 +1,8 @@
+{
+  "out": "docs",
+  "includes": "src",
+  "exclude": "**/*.test.ts",
+  "theme": "default",
+  "tsconfig": "./tsconfig.json",
+  "mode": "file"
+}

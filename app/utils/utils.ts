@@ -1,6 +1,12 @@
 import { Event } from "../../types/event";
 import { DateTime } from "luxon";
 
+/**
+ * Formats a date for input fields in the format YYYY-MM-DDTHH:MM.
+ *
+ * @param {Date | string} d - The date to format.
+ * @returns {string} Formatted date string.
+ */
 export const formatDateForInput = (d: Date | string) => {
     const date = new Date(d);
     const year = date.getUTCFullYear();
@@ -11,16 +17,36 @@ export const formatDateForInput = (d: Date | string) => {
     return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
 
+/**
+ * Formats a date to YYYY-MM-DD format.
+ *
+ * @param {Date | string} d - The date to format.
+ * @returns {string} Formatted date string.
+ */
 export const formatDateYYYYMMDD = (d: Date | string) => {
     const startDate = new Date(d);
     return `${startDate.getFullYear()}-${String(startDate.getMonth() + 1).padStart(2, '0')}-${String(startDate.getDate()).padStart(2, '0')}`;
 };
 
+/**
+ * Returns a formatted hour label in 12-hour format with AM/PM.
+ *
+ * @param {number} hour - The hour to format.
+ * @returns {string} Formatted hour label.
+ */
 export const getHourLabel = (hour: number) => {
-    return `${ hour > 12 ? `0${ hour - 12 }` : `${ hour < 10 ? `0${ hour }` : hour }`  }:00 ${ hour < 12 ? 'AM' : 'PM' }`
+    return `${hour > 12 ? `0${hour - 12}` : `${hour < 10 ? `0${hour}` : hour}`} :00 ${hour < 12 ? 'AM' : 'PM'}`;
 };
 
-export const getPropsFromEventForHours = (event: Event, positions: any, hoveredEventId: number) => {
+/**
+ * Extracts properties for event rendering, calculating positions and dimensions.
+ *
+ * @param {Event} event - The event object.
+ * @param {Object} positions - Current positions of events.
+ * @param {number} hoveredEventId - ID of the currently hovered event.
+ * @returns {Object} Properties for event rendering.
+ */
+export const getPropsFromEventForHours = (event: Event, positions: unknown, hoveredEventId: number) => {
     const startLocal = DateTime.fromJSDate(new Date(event.start_date)).toLocal();
     const endLocal = DateTime.fromJSDate(new Date(event.finish_date)).toLocal();
 
@@ -73,15 +99,22 @@ export const getPropsFromEventForHours = (event: Event, positions: any, hoveredE
         }:${
             eventStartMinute < 10 ? '0' + eventStartMinute : eventStartMinute
         } ${
-            eventStartHour >= 12 ? 'PM' : 'AM'} - ${mm < 10 ? '0' + mm : mm
+            eventStartHour >= 12 ? 'PM' : 'AM'
+        } - ${mm < 10 ? '0' + mm : mm
         }:${
             eventEndMinute < 10 ? '0' + eventEndMinute : eventEndMinute
         } ${
             eventEndHour >= 12 ? 'PM' : 'AM'
         }`,
     }
-}
+};
 
+/**
+ * Formats a date to YYYY-MM-DD format.
+ *
+ * @param {string | Date} d - The date to format.
+ * @returns {string} Formatted date string.
+ */
 export const format = (d: string | Date) => {
     const date = new Date(d);
     const year = date.getUTCFullYear();

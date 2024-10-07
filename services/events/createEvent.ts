@@ -3,16 +3,33 @@ import { EventRequest, Event } from '../../types/event';
 import { DateTime } from 'luxon';
 import BaseService from '../baseService';
 
+/**
+ * A service class for creating an event.
+ * Inherits from BaseService to provide error handling functionality.
+ */
 export default class CreateEvent extends BaseService {
+  /** The event request data. */
   private data: EventRequest;
+
+  /** The created event, if successful. */
   private event: Event | null;
 
+  /**
+   * Initializes a new instance of the CreateEvent class.
+   *
+   * @param data - The event request data.
+   */
   constructor(data: EventRequest) {
     super();
     this.data = data;
     this.event = null;
   }
 
+  /**
+   * Validates the event request data and creates the event.
+   *
+   * @returns A promise that resolves when the event creation is complete.
+   */
   public async call(): Promise<void> {
     try {
       if (!this.data.title) {
@@ -96,6 +113,11 @@ export default class CreateEvent extends BaseService {
     }
   }
 
+  /**
+   * Gets the created event.
+   *
+   * @returns The created event or null if creation failed.
+   */
   public getEvent(): Event | null {
     return this.event;
   }
