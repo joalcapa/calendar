@@ -82,7 +82,7 @@ export const getPropsFromEventForHours = (event: Event, positions: any, hoveredE
     }
 }
 
-export const format = (d) => {
+export const format = (d: string | Date) => {
     const date = new Date(d);
     const year = date.getUTCFullYear();
     const month = String(date.getUTCMonth() + 1).padStart(2, '0');

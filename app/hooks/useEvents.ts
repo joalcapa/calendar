@@ -1,9 +1,18 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Event} from "../../types/event";
+import { Event } from "../../types/event";
 import { Day } from '../../types/month';
-import { deleteEvent, updateEvent, createEvent } from '../../app/services/event';
 import useApi from "../hooks/useApi";
 import useEventsPath from "@/app/hooks/useEventsPath";
+import {
+    createEventOnWeek,
+    createEvent,
+    deleteEventOnWeek,
+    deleteEvent,
+    updateEvent,
+    updateEventOnWeek,
+    updateEventWithDifferentDays,
+    updateEventWithDifferentDaysOnWeek,
+} from '../lib/eventUtils';
 
 interface CreatePayload {
     title: string;
@@ -16,7 +25,7 @@ interface CreatePayload {
     finish_date: string;
 }
 
-interface UpdatePayload {
+export interface UpdatePayload {
     id: number,
     data: CreatePayload,
     oldDay?: Day,
@@ -41,43 +50,7 @@ const useEvents = () => {
         const previousData = await getQueryClient();
         const event = data.data;
 
-        if (isWeek) {
-            queryClient.setQueryData(queryType, (oldData) => ([
-                ...oldData.map(weekDay => ({
-                    ...weekDay,
-                    days: weekDay.days.map((day) => {
-                        if (day.day === new Date(event.start_date).getDate()) {
-                            return {
-                                ...day,
-                                events: [
-                                    event,
-                                    ...day.events,
-                                ],
-                            }
-                        }
-
-                        return day;
-                    }),
-                })),
-            ]));
-        } else {
-            queryClient.setQueryData(queryType, (oldData) => ({
-                ...oldData,
-                days: oldData.days.map((day) => {
-                    if (day.day === new Date(event.start_date).getDate()) {
-                        return {
-                            ...day,
-                            events: [
-                                event,
-                                ...day.events,
-                            ],
-                        }
-                    }
-
-                    return { ...day };
-                }),
-            }));
-        }
+        queryClient.setQueryData(queryType, isWeek ? createEventOnWeek(event) : createEvent(event));
 
         return { previousData };
     }
@@ -85,27 +58,7 @@ const useEvents = () => {
     const onDelete = async (eventId: number) => {
         const previousData = await getQueryClient();
 
-        if (isWeek) {
-            queryClient.setQueryData(queryType, (oldData) => ([
-                ...oldData.map(weekDay => ({
-                    ...weekDay,
-                    days: weekDay.days.map((day) => ({
-                        ...day,
-                        events: day.events.filter((event) => event.id !== eventId),
-                    })),
-                })),
-            ]));
-        } else {
-            queryClient.setQueryData(queryType, (oldData) => (
-                {
-                    ...oldData,
-                    days: oldData.days.map((day) => ({
-                        ...day,
-                        events: day.events.filter((event) => event.id !== eventId),
-                    })),
-                }
-            ));
-        }
+        queryClient.setQueryData(queryType, isWeek ? deleteEventOnWeek(eventId) : deleteEvent(eventId));
 
         return { previousData };
     };
@@ -115,160 +68,17 @@ const useEvents = () => {
         const oldDay = payload.oldDay;
         const currentDay = payload.currentDay;
 
-        console.log("MONTH", payload)
         if (isWeek) {
             if (oldDay && currentDay && oldDay.day !== currentDay.day) {
-                queryClient.setQueryData(queryType, (oldData) => {
-                    let currentEvent = null;
-                    let currentDayFind = null;
-                    let oldDayFind = null;
-
-                    oldData.forEach((weekDay) => {
-                        weekDay.days.forEach((day) => {
-                            if (day.day === oldDay.day) {
-                                oldDayFind = day;
-                                oldDayFind.events = oldDayFind.events.filter((event) => {
-                                    currentEvent = event;
-                                    return event.id !== payload.id
-                                });
-                            }
-                        });
-                    })
-
-                    oldData.forEach((weekDay) => {
-                        weekDay.days.forEach((day) => {
-                            if (day.day === currentDay.day) {
-                                currentDayFind = day;
-                                currentDayFind.events.push({
-                                    ...currentEvent,
-                                    ...payload.data,
-                                })
-                            }
-                        });
-                    })
-
-                    return [
-                        ...oldData.map(weekDay => ({
-                            ...weekDay,
-                            days: weekDay.days.map((day) => {
-                                if (day.day === currentDayFind.day) {
-                                    return currentDayFind;
-                                }
-
-                                if (day.day === oldDayFind.day) {
-                                    return oldDayFind;
-                                }
-
-                                return day;
-                            }),
-                        })),
-                    ]
-                })
+                queryClient.setQueryData(queryType, updateEventWithDifferentDaysOnWeek(oldDay, currentDay, payload));
             } else {
-                queryClient.setQueryData(queryType, (oldData) => {
-                    let e = null;
-
-                    const newData = [
-                        ...oldData.map(weekDay => ({
-                            ...weekDay,
-                            days: weekDay.days.map((day) => ({
-                                ...day,
-                                events: day.events.filter((event) => {
-                                    e = event;
-                                    return (event.id !== payload.id);
-                                })
-                            })),
-                        })),
-                    ];
-
-                    return [
-                        ...newData.map(weekDay => ({
-                            ...weekDay,
-                            days: weekDay.days.map((day) => {
-                                if (day.day === new Date(payload.data.start_date).getDate()) {
-                                    day.events.unshift({
-                                        ...e,
-                                        ...payload.data,
-                                    });
-                                }
-
-                                return day;
-                            }),
-                        })),
-                    ]
-                })
+                queryClient.setQueryData(queryType, updateEventOnWeek(payload))
             }
         } else {
             if (oldDay && currentDay && oldDay.day !== currentDay.day) {
-                queryClient.setQueryData(queryType, (oldData) => {
-                    let currentEvent = null;
-                    let currentDayFind = null;
-                    let oldDayFind = null;
-
-                    oldData.days.forEach((day) => {
-                        if (day.day === oldDay.day) {
-                            oldDayFind = day;
-                            oldDayFind.events = oldDayFind.events.filter((event) => {
-                                currentEvent = event;
-                                return event.id !== payload.id
-                            });
-                        }
-                    });
-
-                    oldData.days.forEach((day) => {
-                        if (day.day === currentDay.day) {
-                            currentDayFind = day;
-                            currentDayFind.events.push({
-                                ...currentEvent,
-                                ...payload.data,
-                            })
-                        }
-                    });
-
-                    return {
-                        ...oldData,
-                        days: oldData.days.map((day) => {
-                            if (day.day === currentDayFind.day) {
-                                return currentDayFind;
-                            }
-
-                            if (day.day === oldDayFind.day) {
-                                return oldDayFind;
-                            }
-
-                            return day;
-                        }),
-                    }
-                })
+                queryClient.setQueryData(queryType, updateEventWithDifferentDays(oldDay, currentDay, payload))
             } else {
-                queryClient.setQueryData(queryType, (oldData) => {
-                    let e = null;
-
-                    const newData = {
-                        ...oldData,
-                        days: oldData.days.map((day) => ({
-                            ...day,
-                            events: day.events.filter((event) => {
-                                e = event;
-                                return event.id !== payload.id;
-                            }),
-                        })),
-                    };
-
-                    return {
-                        ...newData,
-                        days: newData.days.map((day) => {
-                            if (day.day === new Date(payload.data.start_date).getDate()) {
-                                day.events.unshift({
-                                    ...e,
-                                    ...payload.data,
-                                });
-                            }
-
-                            return day;
-                        }),
-                    }
-                });
+                queryClient.setQueryData(queryType, updateEvent(payload));
             }
         }
 
@@ -291,7 +101,7 @@ const useEvents = () => {
         mutate: updateEventHandler,
         isLoading: isUpdating,
     }: {
-        mutate: (eventId: number, payload: UpdatePayload) => void,
+        mutate: (payload: UpdatePayload) => void,
         isLoading: boolean,
     } = useMutation({
         mutationFn: (payload: UpdatePayload) => fetch(updateEvent(payload.id, payload.data)),

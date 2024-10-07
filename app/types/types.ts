@@ -1,4 +1,3 @@
-import { Event } from "../../types/event";
 import { Day } from '../../types/month';
 
 export interface TargetEvent {
@@ -16,8 +15,7 @@ export interface TargetCheckEvent {
 export interface CreateEventProps {
     onClose: () => void;
     isDelete?: boolean;
-    onCreateEvent?: (event: Event) => void;
-    day: Day | null;
+    day?: Day | null;
 }
 
 export const ItemTypes = {

@@ -150,8 +150,8 @@ describe('CreateEvent', () => {
       expect(event?.city).toBe(eventToCreated.city);
       expect(event?.weather).toBe(eventToCreated.weather);
       expect(event?.weather_url).toBe(eventToCreated.weather_url);
-      expect(event?.createdAt).toBe(eventToCreated.createdAt);
-      expect(event?.updatedAt).toBe(eventToCreated.updatedAt);
+      expect(event?.created_at).toBe(eventToCreated.created_at);
+      expect(event?.updated_at).toBe(eventToCreated.updated_at);
 
       expect(createMock).toHaveBeenCalled();
     });

@@ -8,7 +8,6 @@ const useWeather = () => {
   const getWeatherHandler = async (props: Location) => {
     try {
       const response = await fetch(getWeather(props));
-      console.log(response);
       return response?.data;
     } catch { }
   };

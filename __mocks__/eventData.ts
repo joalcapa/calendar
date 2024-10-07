@@ -1,6 +1,6 @@
 export const mockEvents = [
   {
-    id: 1,
+    id: 14,
     title: 'Test title',
     description: 'Test description',
     start_date: new Date('2024-10-01T07:00:00.000Z'),
@@ -9,7 +9,7 @@ export const mockEvents = [
     city: 'Cucuta',
     weather: 'Soleado',
     weather_url: "google.com/images/ico.png",
-    createdAt: new Date('2024-01-01'),
-    updatedAt: new Date('2024-01-01'),
+    created_at: new Date('2024-01-01'),
+    updated_at: new Date('2024-01-01'),
   },
 ];

@@ -8,7 +8,7 @@ import useEvents from "./useEvents";
 
 const useCreateEvent = (props: CreateEventProps) => {
     const { onClose = () => { }, isDelete = false, day } = props;
-    const [ isLoading, setLoading ] = useState('');
+    const [ isLoading, setLoading ] = useState(false);
     const [ title, setTitle ] = useState('');
     const [ weather, setWeather ] = useState('');
     const [ weatherUrl, setWeatherUrl ] = useState('');
@@ -49,6 +49,7 @@ const useCreateEvent = (props: CreateEventProps) => {
                     setLoading(true);
 
                     const response = await getWeather({ location: city, datetime: formatDateYYYYMMDD(startDate) });
+
                     if (response) {
                         const { condition, icon } = response;
                         setWeather(condition);
@@ -62,24 +63,22 @@ const useCreateEvent = (props: CreateEventProps) => {
     }, [ debouncedCity, debouncedStartDate ]);
 
     const onSend = useCallback(async () => {
-        if (isValidForm) {
-            try {
-                if (isValidForm) {
-                    await onCreate({
-                        title,
-                        description,
-                        city,
-                        weather,
-                        weather_url: weatherUrl,
-                        is_all_day: isAllDay,
-                        start_date: new Date(startDate + "Z").toISOString(),
-                        finish_date: new Date(finishDate + "Z").toISOString(),
-                    });
+        try {
+            if (isValidForm) {
+                await onCreate({
+                    title,
+                    description,
+                    city,
+                    weather,
+                    weather_url: weatherUrl,
+                    is_all_day: isAllDay,
+                    start_date: new Date(startDate + "Z").toISOString(),
+                    finish_date: new Date(finishDate + "Z").toISOString(),
+                });
 
-                    onClose();
-                }
-            } catch { }
-        }
+                onClose();
+            }
+        } catch { }
     }, [
         title,
         description,
@@ -148,6 +147,7 @@ const useCreateEvent = (props: CreateEventProps) => {
         finishDate,
         weather,
         weatherUrl,
+        isValidForm,
         onClose,
         changeTitle,
         changeCity,
@@ -155,7 +155,6 @@ const useCreateEvent = (props: CreateEventProps) => {
         changeStartDate,
         changeAllDay,
         changeFinishDate,
-        isValidForm,
         setAllDay,
         onSend,
         changeWeather: setWeather,

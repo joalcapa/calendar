@@ -8,8 +8,8 @@ export interface Event {
   start_date: Date;
   finish_date: Date;
   is_all_day: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  created_at: Date;
+  updated_at: Date;
 }
 
 export interface EventRequest {
