@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3c81626c-480e-4816-894f-569d1b70dab6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/dnd/DraggableEvent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/dnd/DraggableEvent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/dnd/EventDrop.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/dnd/EventDrop.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/rq/RQ.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/rq/RQ.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/__tests__/app/lib/eventUtils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/__tests__/app/lib/eventUtils.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

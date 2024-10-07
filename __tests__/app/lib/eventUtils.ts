@@ -23,7 +23,6 @@ describe('Event Manipulation Functions', () => {
 
     test('createEventOnWeek adds event to correct day', () => {
         const result = createEventOnWeek(eventRequest)(initialData);
-        console.log(result[0].days[0].events)
         expect(result[0].days[0].events).toHaveLength(2);
         expect(result[0].days[0].events[0]).toEqual(eventRequest);
     });
