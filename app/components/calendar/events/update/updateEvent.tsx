@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { CreateEvent } from '../../../../../app/components/calendar/events/create/createEvent';
-import useUpdateEvent from './useUpdateEvent';
+import useUpdateEvent from '../../../../hooks/useUpdateEvent';
 
 const UpdateEvent = (props) => {
   const hook = useUpdateEvent(props);

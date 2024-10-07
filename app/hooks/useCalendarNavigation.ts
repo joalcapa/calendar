@@ -28,14 +28,14 @@ const useCalendarNavigation = (props: { type: string | null }) => {
   const onResetToday = () => {
     const newDate = startOfToday();
     setCurrentDate(newDate);
-    replace(`/${ view === MONTH ? 'mes' : view.toLocaleLowerCase() }?date=${format(newDate, DATE_FORMAT)}&type=${view.toLocaleLowerCase()}`);
+    replace(`/${ view === MONTH ? 'month' : view.toLocaleLowerCase() }?date=${format(newDate, DATE_FORMAT)}&type=${view.toLocaleLowerCase()}`);
   };
 
   const onPrev = () => {
     if (view === MONTH) {
       const newDate = addMonths(currentDate, DIFF_COUNT);
       setCurrentDate(newDate);
-      replace(`/mes?date=${format(newDate, DATE_FORMAT)}&type=${MONTH.toLocaleLowerCase()}`);
+      replace(`/month?date=${format(newDate, DATE_FORMAT)}&type=${MONTH.toLocaleLowerCase()}`);
     } else if (view === WEEK) {
       const newDate = addWeeks(currentDate, DIFF_COUNT);
       setCurrentDate(newDate);
@@ -51,7 +51,7 @@ const useCalendarNavigation = (props: { type: string | null }) => {
     if (view === MONTH) {
       const newDate = addMonths(currentDate, ADD_COUNT);
       setCurrentDate(newDate);
-      replace(`/mes?date=${format(newDate, DATE_FORMAT)}&type=${MONTH.toLocaleLowerCase()}`);
+      replace(`/month?date=${format(newDate, DATE_FORMAT)}&type=${MONTH.toLocaleLowerCase()}`);
     } else if (view === WEEK) {
       const newDate = addWeeks(currentDate, ADD_COUNT);
       setCurrentDate(newDate);
@@ -69,7 +69,7 @@ const useCalendarNavigation = (props: { type: string | null }) => {
 
   const onMonth = useCallback(() => {
     setView(MONTH);
-    replace(`/mes?date=${format(currentDate, DATE_FORMAT)}&type=${MONTH.toLocaleLowerCase()}`);
+    replace(`/month?date=${format(currentDate, DATE_FORMAT)}&type=${MONTH.toLocaleLowerCase()}`);
   }, [replace, currentDate]);
 
   const onWeek = useCallback(() => {

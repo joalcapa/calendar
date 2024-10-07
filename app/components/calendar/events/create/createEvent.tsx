@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import useCreateEvent from './useCreateEvent';
+import useCreateEvent from '../../../../hooks/useCreateEvent';
 import Image from 'next/image';
 
 interface CreateEventProps {
