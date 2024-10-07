@@ -108,3 +108,116 @@ Para iniciar los servicios, utiliza el siguiente comando en la raíz del proyect
 docker-compose up
 ```
 Esto construirá y levantará los contenedores definidos en docker-compose.yml. Una vez que los contenedores estén en funcionamiento, podrás acceder a la aplicación en http://localhost:3000.
+
+## Estructura del Proyecto
+```
+calendar/  
+    ├── mocks/ # Mocks para pruebas 
+    ├── tests/ # Archivos de prueba 
+    ├── app/ # Código de la aplicación Next.js 
+    │ └── api
+    │ │ └── events # Rutas CRUD para los eventos
+    │ │ └── weather # Ruta get para los datos del clima
+    │ └── components
+    │ │ └── calendar # Set de componentes para el calendario
+    │ │ └── dnd # Set de componentes drag and drop
+    │ │ └── rq # Componente para la hidratación del estado del servidor para el cliente
+    │ └── config
+    │ │ └── env.ts # Configuración de la api url para el entorno
+    │ └── day # Page del calendario tipo día
+    │ └── fonts # Tipos de fuentes para el proyecto
+    │ └── hooks # Set de custom hooks para manipular los eventos, navegación, entre otras
+    │ └── lib # Operación de los eventos para react-query
+    │ └── month # Page del calendario tipo mes
+    │ └── services # Servicios para la comunicación con la API
+    │ └── types # Interfaces TS
+    │ └── utils # Utilidades para manejo de fechas
+    │ └── week # Page del calendario de tipo mes
+    │ └── page.tsx # Página principal 
+    │ └── layout.tsx # Layout principal 
+    │ └── global.css # CSS global 
+    │ └──  page.tsx # Página principal 
+    ├── libs/ # Librerías reutilizables 
+    ├── prisma/ # Configuración de Prisma 
+    ├── repositories/ # Repositorios para el acceso a datos 
+    ├── services/ # Lógica de negocio 
+    ├── types/ # Definiciones de tipos TypeScript 
+    ├── utils/ # Funciones utilitarias 
+    ├── .eslintrc.json # Configuración de ESLint 
+    ├── Dockerfile # Dockerfile para contenerización 
+    ├── docker-compose.yml # Configuración de Docker Compose 
+    ├── jest.config.js # Configuración de Jest para pruebas 
+    ├── next.config.mjs # Configuración de Next.js 
+    ├── package.json # Dependencias y scripts del proyecto 
+    ├── postcss.config.mjs # Configuración de PostCSS 
+    ├── tailwind.config.ts # Configuración de Tailwind CSS 
+    └── tsconfig.json # Configuración de TypeScript
+```
+
+## Uso
+
+### Clonar el repositorio
+
+Clona el repositorio y accede al directorio del proyecto:
+
+```bash
+git clone https://github.com/joalcapa/calendar.git
+cd calendar
+```
+
+#### Instala dependencias
+Ejecuta el siguiente comando para instalar todas las dependencias:
+
+```bash
+npm install
+```
+
+#### Configurar Prisma
+Configura la base de datos con Prisma y ejecuta la migración:
+
+```bash
+npm run migrate
+```
+
+#### Ejecutar el proyecto
+Inicia el servidor en modo desarrollo:
+
+```bash
+npm run dev
+```
+
+El servidor estará disponible en http://localhost:3000.
+
+#### Ejecutar test
+Para ejecutar los tests:
+
+```bash
+npm run test
+```
+
+### Descripción de Directorios y Archivos Clave
+
+- **app/**: Contiene las páginas y componentes de la aplicación.
+- **libs/**: Objeto Prisma Singleton que favorece la centralización a las llamadas a la base de datos.
+- **prisma/**: Configuraciones y modelos de base de datos utilizados por Prisma.
+- **repositories/**: Abstracción para interactuar con la base de datos, aquí podrás cambiar facilemnte el proveedor de la base datos.
+- **services/**: Contiene la lógica de negocio, conectando los repositorios para exponer servicios para la API.
+- **types/**: Definiciones de tipos TypeScript, mejorando la mantenibilidad y la legibilidad.
+- **utils/**: Funciones auxiliares que son utilizadas en diferentes partes del proyecto.
+
+### Testing
+
+Este proyecto cuenta con un enfoque sólido para garantizar la calidad mediante diversas pruebas, incluyendo pruebas de componentes, hooks, y funciones.
+
+- **Total de tests**: 67 pruebas que pasan satisfactoriamente.
+- **Mocks**: Se utilizan mocks personalizados ubicados en el directorio `__mocks__/` para simular datos y servicios externos.
+- **Component Testing**: Pruebas de componentes React con **@testing-library/react**.
+- **Hook Testing**: Pruebas específicas de hooks para garantizar su correcto comportamiento.
+- **Jest**: Se utiliza **Jest** como el framework principal para las pruebas, con el entorno **jest-environment-jsdom**.
+
+### Comando para ejecutar las pruebas
+
+Para correr todas las pruebas:
+
+```bash
+npm run test
