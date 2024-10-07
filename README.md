@@ -157,6 +157,16 @@ calendar/
     └── tsconfig.json # Configuración de TypeScript
 ```
 
+### Descripción de Directorios y Archivos Clave
+
+- **app/**: Contiene las páginas y componentes de la aplicación.
+- **libs/**: Objeto Prisma Singleton que favorece la centralización a las llamadas a la base de datos.
+- **prisma/**: Configuraciones y modelos de base de datos utilizados por Prisma.
+- **repositories/**: Abstracción para interactuar con la base de datos, aquí podrás cambiar facilemnte el proveedor de la base datos.
+- **services/**: Contiene la lógica de negocio, conectando los repositorios para exponer servicios para la API.
+- **types/**: Definiciones de tipos TypeScript, mejorando la mantenibilidad y la legibilidad.
+- **utils/**: Funciones auxiliares que son utilizadas en diferentes partes del proyecto.
+
 ## Uso
 
 ### Clonar el repositorio
@@ -197,16 +207,6 @@ Para ejecutar los tests:
 ```bash
 npm run test
 ```
-
-### Descripción de Directorios y Archivos Clave
-
-- **app/**: Contiene las páginas y componentes de la aplicación.
-- **libs/**: Objeto Prisma Singleton que favorece la centralización a las llamadas a la base de datos.
-- **prisma/**: Configuraciones y modelos de base de datos utilizados por Prisma.
-- **repositories/**: Abstracción para interactuar con la base de datos, aquí podrás cambiar facilemnte el proveedor de la base datos.
-- **services/**: Contiene la lógica de negocio, conectando los repositorios para exponer servicios para la API.
-- **types/**: Definiciones de tipos TypeScript, mejorando la mantenibilidad y la legibilidad.
-- **utils/**: Funciones auxiliares que son utilizadas en diferentes partes del proyecto.
 
 ### Testing
 
