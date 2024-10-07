@@ -3,7 +3,11 @@ import { eventRepository } from '../../repositories/eventRepository';
 import { Event } from '../../types/event';
 import BaseService from '../baseService';
 
-interface GetEventsParams {
+const MONTH = "month";
+const DAY = "day";
+const WEEK = "week";
+
+export interface GetEventsParams {
   date?: Date;
   queryType?: 'month' | 'day' | 'week';
 }
@@ -17,11 +21,16 @@ export default class GetEvents extends BaseService {
     super();
     this.events = [];
     this.date = params.date || null;
-    this.queryType = params.queryType || 'month';
+    this.queryType = params.queryType || MONTH;
   }
 
   public async call(): Promise<void> {
     try {
+      if (this.queryType !== MONTH && this.queryType !== WEEK && this.queryType !== DAY) {
+        this.setError("Tipo de busqueda no soportada")
+        return
+      }
+
       if (this.date) {
         const dt = DateTime.fromJSDate(this.date);
 
@@ -66,7 +75,7 @@ export default class GetEvents extends BaseService {
         return;
       }
 
-      this.events = await eventRepository.findAll();
+      this.events = await eventRepository.findAll() || [];
     } catch (error) {
       if (error instanceof Error) {
         this.setError(error.message);

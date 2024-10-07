@@ -14,8 +14,12 @@ export default class GetEvent extends BaseService {
 
   public async call(): Promise<void> {
     try {
-      this.event = await eventRepository.findById(this.id);
+      if (!this.id) {
+        this.setError("El id es requerido");
+        return
+      }
 
+      this.event = await eventRepository.findById(this.id);
       if (!this.event) {
         this.setError('El evento no existe')
       }

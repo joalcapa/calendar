@@ -6,4 +6,5 @@ export const eventRepository = {
   deleteById: jest.fn() as jest.Mock<Promise<void>>,
   findById: jest.fn() as jest.Mock<Promise<Event>>,
   update: jest.fn() as jest.Mock<Promise<Event>>,
+  findMany: jest.fn() as jest.Mock<Promise<Event[]>>,
 };

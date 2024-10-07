@@ -88,6 +88,9 @@ export default class CreateEvent extends BaseService {
       }
 
       this.event = await eventRepository.create(this.data) as Event;
+      if (!this.event) {
+        this.setError("Ha ocurrido un error en la creación del evento, por favor intente más tarde");
+      }
     } catch {
       this.setError("Ha ocurrido un error en la creación del evento, por favor intente más tarde");
     }
