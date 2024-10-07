@@ -4,11 +4,14 @@ import useEvents from '../../../app/hooks/useEvents';
 import { Event } from "../../../types/event";
 import { mockEvents } from '../../../__mocks__/eventData'
 
+const updateEventMock = jest.fn();
+const deleteEventMock = jest.fn();
+
 jest.mock('../../../app/hooks/useEvents', () => ({
     __esModule: true,
     default: () => ({
-        deleteEvent: jest.fn(),
-        updateEvent: jest.fn(),
+        deleteEvent: deleteEventMock,
+        updateEvent: updateEventMock,
     }),
 }));
 
@@ -50,7 +53,7 @@ describe('useUpdateEvent', () => {
         });
 
         expect(mockOnClose).toHaveBeenCalled();
-        /*expect(useEvents().updateEvent).toHaveBeenCalledWith({
+        expect(updateEventMock).toHaveBeenCalledWith({
             id: mockEvent.id,
             data: {
                 title: 'Updated Event',
@@ -59,10 +62,10 @@ describe('useUpdateEvent', () => {
                 weather: 'Cloudy',
                 weather_url: 'http://example.com/updated-weather.png',
                 is_all_day: true,
-                start_date: new Date(mockEvent.start_date + "Z").toISOString(),
-                finish_date: new Date(mockEvent.finish_date + "Z").toISOString(),
+                start_date:  "2024-10-01T07:00:00.000Z",
+                finish_date: "2024-10-01T08:22:00.000Z",
             },
-        });*/
+        });
     });
 
     it('should call deleteEvent with correct id on onDelete', async () => {
@@ -72,7 +75,7 @@ describe('useUpdateEvent', () => {
             await result.current.onDelete();
         });
 
-        //expect(useEvents().deleteEvent).toHaveBeenCalledWith(mockEvent.id);
+        expect(deleteEventMock).toHaveBeenCalledWith(mockEvent.id);
         expect(mockOnClose).toHaveBeenCalled();
     });
 
@@ -90,11 +93,11 @@ describe('useUpdateEvent', () => {
         expect(useEvents().updateEvent).not.toHaveBeenCalled();
         expect(mockOnClose).not.toHaveBeenCalled();
     });
-    /*
+
     it('should handle error in onUpdate gracefully', async () => {
         const { result } = renderHook(() => useUpdateEvent({ event: mockEvent, isVisible: true, onClose: mockOnClose }));
 
-        useEvents().updateEvent.mockRejectedValue(new Error('Update failed'));
+        updateEventMock.mockRejectedValue(new Error('Update failed'));
 
         act(() => {
             result.current.changeTitle({ target: { value: 'Updated Event' } });
@@ -107,22 +110,8 @@ describe('useUpdateEvent', () => {
 
         expect(useEvents().updateEvent).toHaveBeenCalled();
         expect(mockOnClose).not.toHaveBeenCalled();
-    });*/
-/*
-    it('should handle error in onDelete gracefully', async () => {
-        const { result } = renderHook(() => useUpdateEvent({ event: mockEvent, isVisible: true, onClose: mockOnClose }));
-
-        // Simulamos que deleteEvent lanza un error
-        useEvents().deleteEvent.mockRejectedValue(new Error('Delete failed'));
-
-        await act(async () => {
-            await result.current.onDelete(); // Llama a la función onDelete
-        });
-
-        expect(useEvents().deleteEvent).toHaveBeenCalledWith(mockEvent.id);
-        expect(mockOnClose).not.toHaveBeenCalled(); // No se debe cerrar si hay un error
     });
-*/
+
     it('should set all day correctly', () => {
         const { result } = renderHook(() => useUpdateEvent({ event: mockEvent, isVisible: true, onClose: mockOnClose }));
 
