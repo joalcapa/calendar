@@ -72,6 +72,7 @@ environment:
   REACT_APP_PUBLIC_API_URL: "http://localhost:3000/api"
 ```
 
+**NOTA**: La aplicación Calendar, esta diseñada para trabajar con el proveedor de datos metereologicos WEATHER API, puedes crearte una cuenta y obtener el API KEY (WEATHER_API_KEY) en: https://www.weatherapi.com/signup.aspx
 - Crea un archivo `.env` en la raíz del proyecto con la siguiente estructura:
 
 ```
