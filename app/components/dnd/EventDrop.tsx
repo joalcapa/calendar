@@ -7,9 +7,10 @@ import { Day } from '../../../types/month';
 export interface DraggableProps {
     onDrop: () => void,
     children: ReactNode,
+    className?: string;
 }
 
-const EventDrop = ({ children, onDrop }: DraggableProps) => {
+const EventDrop = ({ children, onDrop, className }: DraggableProps) => {
     const [, drop] = useDrop({
         accept: ItemTypes.EVENT,
         drop: ({ event, day }: { event: Event, day: Day }) => {
@@ -22,7 +23,7 @@ const EventDrop = ({ children, onDrop }: DraggableProps) => {
     });
 
     return (
-        <div ref={drop}>
+        <div className={className} ref={drop}>
             {children}
         </div>
     );

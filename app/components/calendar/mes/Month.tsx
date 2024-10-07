@@ -57,12 +57,15 @@ const Month: React.FC<MonthProps> = (
                     ))}
                     {days.map((day, index) => (
                         <div key={index} className="flex items-center justify-center">
-                            <EventDrop key={day.day} onDrop={(event: Event, oldDay: Day) => onDropHour(event, oldDay, null, day)}>
+                            <EventDrop
+                                key={day.day}
+                                className={`relative flex flex-col items-start justify-start border h-32 w-32 p-1 overflow-hidden cursor-pointer ${day.isCurrentMonth
+                                    ? (day.isToday ? 'border-2 border-yellow-600 shadow-lg' : day.isCurrent ? 'border-2 border-blue-600 shadow-lg' : 'bg-white hover:bg-gray-100')
+                                    : 'bg-gray-200 opacity-50'
+                                }`}
+                                onDrop={(event: Event, oldDay: Day) => onDropHour(event, oldDay, null, day)}
+                            >
                                 <div
-                                    className={`relative flex flex-col items-start justify-start border h-32 w-32 p-1 overflow-hidden cursor-pointer ${day.isCurrentMonth
-                                        ? (day.isToday ? 'border-2 border-yellow-600 shadow-lg' : day.isCurrent ? 'border-2 border-blue-600 shadow-lg' : 'bg-white hover:bg-gray-100')
-                                        : 'bg-gray-200 opacity-50'
-                                    }`}
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         onDay(day);

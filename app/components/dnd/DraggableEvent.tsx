@@ -8,9 +8,10 @@ export interface DraggableProps {
     event: Event,
     day: Day,
     children: ReactNode,
+    className?: string;
 }
 
-const DraggableEvent = ({ event, day, children }: DraggableProps) => {
+const DraggableEvent = ({ event, day, children, className }: DraggableProps) => {
     const [{ isDragging }, drag] = useDrag({
         type: ItemTypes.EVENT,
         item: { event: event, day: day },
@@ -20,7 +21,7 @@ const DraggableEvent = ({ event, day, children }: DraggableProps) => {
     });
 
     return (
-        <div ref={drag}>
+        <div className={className} ref={drag}>
             {children({ isDragging })}
         </div>
     );
