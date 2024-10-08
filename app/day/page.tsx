@@ -1,13 +1,13 @@
 import Calendar from '../../app/components/calendar/dia/Day';
 import CalendarDay from "../../app/components/calendar/dia/DayHOC";
 import GetDayEvents from '../../services/calendar/getDayEvents';
-import SmallCalendar from "@/app/components/calendar/smallCalendar/smallCalendar";
+import SmallCalendar from "../../app/components/calendar/smallCalendar/smallCalendar";
 import { parseISO } from 'date-fns';
 import { Hydrate, ReactQueryProvider } from '../components/rq/RQ';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { EVENTS_RQ } from "../../app/config/constants";
 import { DateTime } from "luxon";
-import CalendarNavigation from "@/app/components/calendar/navigation/navigationClient";
+import CalendarNavigation from "../../app/components/calendar/navigation/navigationClient";
 
 /**
  * Main component for displaying the day's calendar.

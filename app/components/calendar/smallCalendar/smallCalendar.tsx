@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay } from "date-fns";
 import { es } from 'date-fns/locale';
-import SmallCalendarServer from "@/app/components/calendar/smallCalendar/smallCaldendarServer";
+import SmallCalendarServer from "./smallCaldendarServer";
 import { useRouter, useSearchParams } from "next/navigation";
 const DATE_FORMAT = 'yyyy-MM-dd';
 

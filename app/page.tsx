@@ -6,7 +6,7 @@ import { Hydrate, ReactQueryProvider } from './components/rq/RQ';
 import { QueryClient, dehydrate } from '@tanstack/react-query';
 import { EVENTS_RQ } from "../app/config/constants";
 import { DateTime } from 'luxon';
-import CalendarNavigation from "@/app/components/calendar/navigation/navigationClient";
+import CalendarNavigation from "../app/components/calendar/navigation/navigationClient";
 
 /**
  * Main component for displaying the monthly calendar.

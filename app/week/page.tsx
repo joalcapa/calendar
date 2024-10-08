@@ -1,12 +1,12 @@
 import Calendar from '../../app/components/calendar/semana/Week';
 import GetWeekEvents from '../../services/calendar/getWeekEvents';
-import SmallCalendar from "@/app/components/calendar/smallCalendar/smallCalendar";
+import SmallCalendar from "../../app/components/calendar/smallCalendar/smallCalendar";
 import { parseISO } from 'date-fns';
 import { Hydrate, ReactQueryProvider } from '../components/rq/RQ';
-import { EVENTS_WEEK_RQ } from "@/app/config/constants";
+import { EVENTS_WEEK_RQ } from "../../app/config/constants";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { DateTime } from "luxon";
-import CalendarNavigation from "@/app/components/calendar/navigation/navigationClient";
+import CalendarNavigation from "../../app/components/calendar/navigation/navigationClient";
 
 /**
  * Main component for displaying the week calendar.

@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Event } from "../../types/event";
 import { Day } from '../../types/month';
 import useApi from "../hooks/useApi";
-import useEventsPath from "@/app/hooks/useEventsPath";
+import useEventsPath from "../hooks/useEventsPath";
 import {
     deleteEvent as deleteEventService,
     updateEvent as updateEventService,
