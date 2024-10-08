@@ -3,6 +3,7 @@
 import React from 'react';
 import NavigationServer from './navigationServer';
 import useNavigation from './useNavigation';
+import { SessionProvider } from 'next-auth/react';
 import { View, MONTH, WEEK, DAY } from '../../../../app/hooks/useCalendarNavigation';
 
 interface NavigationProps {
@@ -19,6 +20,9 @@ interface NavigationProps {
   onNext: () => void,
   selectedButton: string;
   view: View;
+  signOut: () => void,
+  signIn: () => void,
+  isSession: boolean,
 }
 
 const NavigationClient: React.FC<NavigationProps> = (
@@ -35,6 +39,9 @@ const NavigationClient: React.FC<NavigationProps> = (
     onPrev,
     onNext,
     view,
+    signOut,
+    signIn,
+    isSession,
   }
 ) => (
   <>{isMount ? (
@@ -71,18 +78,32 @@ const NavigationClient: React.FC<NavigationProps> = (
           {'>'}
         </button>
       </div>
-      <button
-        className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded transition duration-300"
-        onClick={onResetToday}
-      >
-        {todayLabelButton}
-      </button>
+        <div className="flex space-x-4">
+            <button
+                className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded transition duration-300"
+                onClick={isSession ? signOut : signIn}
+            >
+                { isSession ? "Salir" : "Google" }
+            </button>
+            <button
+                className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded transition duration-300"
+                onClick={onResetToday}
+            >
+                {todayLabelButton}
+            </button>
+        </div>
     </nav>
-  ) : <NavigationServer view={view} />}
+  ) : <NavigationServer view={view}/>}
   </>
 )
 
-export default (props: { type: string }) => {
-  const hook = useNavigation(props);
-  return <NavigationClient {...hook} />
+const Nav = (props: { type: string }) => {
+    const hook = useNavigation(props);
+    return <NavigationClient {...hook} />;
 }
+
+export default (props: { type: string }) => (
+    <SessionProvider>
+        <Nav {...props} />
+    </SessionProvider>
+);

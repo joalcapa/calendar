@@ -1,6 +1,16 @@
 import { Event } from "../../types/event";
 import { DateTime } from "luxon";
 
+const setDateTimeLocalValue = (date) => {
+    const offset = date.getTimezoneOffset(); // Obtén el desplazamiento en minutos
+    const localDate = new Date(date.getTime() - offset * 60000); // Ajusta la fecha a la hora local
+    return localDate.toISOString().slice(0, 16); // Formato correcto para input
+};
+
+// Ejemplo de uso
+const date = new Date('2024-10-08T09:30:00'); // Tu fecha original
+const finishDate = setDateTimeLocalValue(date);
+
 /**
  * Formats a date for input fields in the format YYYY-MM-DDTHH:MM.
  *
@@ -9,6 +19,7 @@ import { DateTime } from "luxon";
  */
 export const formatDateForInput = (d: Date | string) => {
     const date = new Date(d);
+    return setDateTimeLocalValue(date);
     const year = date.getUTCFullYear();
     const month = String(date.getUTCMonth() + 1).padStart(2, '0');
     const day = String(date.getUTCDate()).padStart(2, '0');
@@ -47,17 +58,21 @@ export const getHourLabel = (hour: number) => {
  * @returns {Object} Properties for event rendering.
  */
 export const getPropsFromEventForHours = (event: Event, positions: unknown, hoveredEventId: number) => {
-    const startLocal = DateTime.fromJSDate(new Date(event.start_date)).toLocal();
-    const endLocal = DateTime.fromJSDate(new Date(event.finish_date)).toLocal();
+    //const startLocal = DateTime.fromISO(formatDateForInput(event.start_date)).toLocal();
+    //const endLocal = DateTime.fromISO(formatDateForInput(event.finish_date)).toLocal();
 
-    const start = startLocal.setZone('UTC');
-    const end = endLocal.setZone('UTC');
+    //const start = startLocal.setZone('UTC');
+    //const end = endLocal.setZone('UTC');
 
-    const eventStartHour = start.hour;
-    const eventStartMinute = start.minute;
+    const start = new Date(formatDateForInput(event.start_date));
+    const end = new Date(formatDateForInput(event.finish_date));
 
-    const eventEndHour = end.hour;
-    const eventEndMinute = end.minute;
+
+    const eventStartHour = start.getHours();
+    const eventStartMinute = start.getMinutes();
+
+    const eventEndHour = end.getHours();
+    const eventEndMinute = end.getMinutes();
 
     const eventStart = (eventStartHour - 7) * 64 + eventStartMinute;
     const eventEnd = (eventEndHour - 7) * 64 + eventEndMinute;

@@ -76,4 +76,16 @@ export default {
     uri: '/events',
     method: 'post',
   },
+
+  /**
+   * Configuration for sync google events.
+   *
+   * @type {Object}
+   * @property {string} uri - The endpoint URI to create a new event.
+   * @property {string} method - The HTTP method used for the request.
+   */
+  sync: {
+    uri: '/sync',
+    method: 'post',
+  },
 };

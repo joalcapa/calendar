@@ -5,9 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3c81626c-480e-4816-894f-569d1b70dab6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/app/api/auth/[...nextauth]/route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/api/sync/route.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/hooks/useGoogle.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/services/google/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/services/events/createEventsFromGoogle.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/calendar/mes/Month.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/calendar/mes/Month.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/calendar/mes/MonthServer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/calendar/mes/MonthServer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/calendar/navigation/navigationClient.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/calendar/navigation/navigationClient.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/calendar/navigation/navigationServer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/calendar/navigation/navigationServer.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/calendar/navigation/useNavigation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/calendar/navigation/useNavigation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/config/endpoints.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/config/endpoints.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/hooks/useCalendar.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/hooks/useCalendar.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/hooks/useUpdateEvent.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/hooks/useUpdateEvent.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/services/event/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/event/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/utils/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/utils/utils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/events/createEvent.ts" beforeDir="false" afterPath="$PROJECT_DIR$/services/events/createEvent.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/events/updateEvent.ts" beforeDir="false" afterPath="$PROJECT_DIR$/services/events/updateEvent.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +45,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feat-googleapis&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/JOALCAPA/Desktop/calendar&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -74,7 +91,8 @@
       <workItem from="1728337075034" duration="1659000" />
       <workItem from="1728338799632" duration="365000" />
       <workItem from="1728339260109" duration="551000" />
-      <workItem from="1728339921633" duration="8071000" />
+      <workItem from="1728339921633" duration="11789000" />
+      <workItem from="1728353907612" duration="12048000" />
     </task>
     <servers />
   </component>

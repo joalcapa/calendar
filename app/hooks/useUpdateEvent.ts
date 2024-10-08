@@ -60,6 +60,10 @@ const useUpdateEvent = (props: UpdateEventProps) => {
             setAllDay(event.is_all_day)
             changeTitle({ target: { value: event.title }});
             changeDescription({ target: { value: event.description }});
+
+            console.log("HORA STRING: ", event.start_date)
+            console.log("HORA STRING: ", formatDateForInput(event.start_date))
+
             changeStartDate({ target: { value: formatDateForInput(event.start_date) }});
             changeFinishDate({ target: { value: formatDateForInput(event.finish_date) }});
             changeCity({ target: { value: event.city }})

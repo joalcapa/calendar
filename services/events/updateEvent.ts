@@ -5,6 +5,12 @@ import { DateTime } from 'luxon';
 import GetWeather from "../../services/weather/getWeather";
 import { formatDateYYYYMMDD } from '../../utils/utils';
 
+const setDateTimeLocalValue = (date) => {
+  const offset = date.getTimezoneOffset(); // Obtén el desplazamiento en minutos
+  const localDate = new Date(date.getTime() - offset * 60000); // Ajusta la fecha a la hora local
+  return localDate.toISOString().slice(0, 16); // Formato correcto para input
+};
+
 /**
  * A service class for updating an event in the repository.
  * Inherits from BaseService to provide error handling functionality.
@@ -52,8 +58,6 @@ export default class UpdateEvent extends BaseService {
         return;
       }
 
-      this.normalizeDates();
-
       if (!this.params.finish_date || !this.params.start_date) {
         this.setError("Ha ocurrido un error al actualizar el evento");
         return;
@@ -70,6 +74,9 @@ export default class UpdateEvent extends BaseService {
         }
       }
 
+      this.params.start_date = DateTime.fromISO(this.params.start_date).toUTC().toISO({ suppressMilliseconds: false });
+      this.params.finish_date = DateTime.fromISO(this.params.finish_date).toUTC().toISO({ suppressMilliseconds: false });
+
       await eventRepository.update(this.id, this.params);
       this.event = await eventRepository.findById(this.id);
 
@@ -78,57 +85,6 @@ export default class UpdateEvent extends BaseService {
       }
     } catch {
       this.setError('Error al obtener el evento');
-    }
-  }
-
-  /**
-   * Normalizes the start and finish dates in the event parameters.
-   * Adjusts the time zones and formats the dates to ISO format.
-   */
-  private normalizeDates(): void {
-    try {
-      if (this.params.start_date) {
-        this.params.start_date = DateTime.fromISO(this.params.start_date, { zone: 'UTC' })
-            .toUTC()
-            .toISO() ?? "";
-      }
-
-      if (this.params.finish_date) {
-        this.params.finish_date = DateTime.fromISO(this.params.finish_date, { zone: 'UTC' })
-            .toUTC()
-            .toISO() ?? "";
-      }
-
-      if (this.params.is_all_day) {
-        this.setAllDayDates();
-      }
-    } catch { }
-  }
-
-  /**
-   * Sets the start and finish dates for all-day events.
-   * Adjusts the start and finish times to the specified hours in the America/Bogota time zone.
-   */
-  private setAllDayDates(): void {
-    const startDate = this.params.start_date || this.event?.start_date.toDateString();
-    if (startDate) {
-      let adjustedStartDate = DateTime.fromISO(startDate, { zone: 'UTC' })
-          .setZone('America/Bogota')
-          .set({ hour: 7, minute: 0, second: 0, millisecond: 0 })
-          .toUTC() ?? "";
-
-      const adjustedFinishDate = adjustedStartDate
-          .set({ hour: 19, minute: 0, second: 0, millisecond: 0 })
-          .setZone('America/Bogota')
-          .toUTC() ?? "";
-
-      adjustedStartDate = adjustedStartDate
-          .set({ hour: 7, minute: 0, second: 0, millisecond: 0 })
-          .setZone('America/Bogota')
-          .toUTC() ?? "";
-
-      this.params.finish_date = adjustedFinishDate.toISO() ?? "";
-      this.params.start_date = adjustedStartDate.toISO() ?? "";
     }
   }
 

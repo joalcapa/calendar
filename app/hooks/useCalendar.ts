@@ -82,6 +82,7 @@ const useCalendar = (props: MonthEvents) => {
      */
     const onHour = (hour: number): void => {
         const d = days[0];
+        console.log("hola: " + hour, day)
         d.dayDate = new Date(d.dayDate);
         d.dayDate.setUTCHours(hour, 0, 0);
 

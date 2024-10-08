@@ -1,5 +1,4 @@
 import endpoints from "../../../app/config/endpoints";
-import { Event } from "../../../types/event";
 
 export const getEvent = (id: number) => {
   const endpoint = endpoints.getEvent;

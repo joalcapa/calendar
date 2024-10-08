@@ -12,7 +12,7 @@ export default function RootLayout({ children }: Readonly<{
     return (
         <html lang="en">
             <body className="flex flex-col h-screen">
-                {children}
+                { children }
             </body>
         </html>
     );
