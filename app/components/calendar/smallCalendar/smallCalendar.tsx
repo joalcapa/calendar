@@ -1,9 +1,8 @@
 'use client'
 
 import { useState, useEffect } from "react";
-import { addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay } from "date-fns";
+import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay } from "date-fns";
 import { es } from 'date-fns/locale';
-import { format } from '../../../utils/utils';
 import SmallCalendarServer from "./smallCaldendarServer";
 import { useRouter, useSearchParams } from "next/navigation";
 const DATE_FORMAT = 'yyyy-MM-dd';
