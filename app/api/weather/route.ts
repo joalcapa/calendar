@@ -26,3 +26,5 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json(service.getWeather(), { status: 200 });
 }
+
+export const dynamic = 'force-dynamic'

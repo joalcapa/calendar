@@ -60,3 +60,5 @@ export async function DELETE(request: NextRequest, params: { params: { id: strin
 
   return NextResponse.json({ message: 'Borrado exitosamente' }, { status: 200 });
 }
+
+export const dynamic = 'force-dynamic'
