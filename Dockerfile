@@ -35,5 +35,6 @@ RUN chmod +x start.sh
 EXPOSE 3000
 
 # Iniciar la aplicación Next.js usando el script
-CMD ["./start.sh"]
+CMD ["sh", "./start.sh"]
+
 

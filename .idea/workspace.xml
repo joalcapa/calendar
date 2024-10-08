@@ -6,11 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="3c81626c-480e-4816-894f-569d1b70dab6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/calendar/smallCalendar/smallCalendar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/calendar/smallCalendar/smallCalendar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/day/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/day/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/hooks/useEvents.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/hooks/useEvents.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/week/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/week/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,6 +75,7 @@
       <workItem from="1728338799632" duration="365000" />
       <workItem from="1728339260109" duration="551000" />
       <workItem from="1728339921633" duration="8071000" />
+      <workItem from="1728369575075" duration="721000" />
     </task>
     <servers />
   </component>

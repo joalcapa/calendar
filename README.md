@@ -108,7 +108,7 @@ npm run dev
 #### Ejecuta la aplicación
 Para iniciar los servicios, utiliza el siguiente comando en la raíz del proyecto:
 ```
-docker-compose up
+docker-compose up --build
 ```
 Esto construirá y levantará los contenedores definidos en docker-compose.yml. Una vez que los contenedores estén en funcionamiento, podrás acceder a la aplicación en http://localhost:3000.
 
