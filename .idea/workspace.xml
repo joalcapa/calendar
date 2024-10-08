@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="3c81626c-480e-4816-894f-569d1b70dab6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/week/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/week/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/calendar/mes/Month.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/calendar/mes/Month.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/calendar/mes/MonthServer.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/calendar/mes/MonthServer.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +74,7 @@
       <workItem from="1728337075034" duration="1659000" />
       <workItem from="1728338799632" duration="365000" />
       <workItem from="1728339260109" duration="551000" />
-      <workItem from="1728339921633" duration="7595000" />
+      <workItem from="1728339921633" duration="8071000" />
     </task>
     <servers />
   </component>
