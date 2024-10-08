@@ -5,6 +5,8 @@ Calendar APP esta desplegado en VERCEL, con la siguiente URL:
 
 https://calendar-beige-sigma.vercel.app/
 
+![image GIF Meuler](https://dl.dropboxusercontent.com/scl/fi/bycsyzdtm3yp11b2cfoog/Calendar1.gif?rlkey=xv42jj0vwh5w4e3jqyzthwkxr&st=3ua8vl4j)
+
 Esta aplicación web está construida con Next.js v14 y se conecta a una base de datos PostgreSQL mediante Prisma. 
 Consume servicios de clima de un proveedor externo, permitiendo a los usuarios acceder a datos meteorológicos en tiempo real de manera eficiente y sencilla,
 además con los datos meteorológicos poder crear eventos en su calendario, permitiendo filtrar los eventos por vistas de mes, semana y día.
