@@ -54,6 +54,7 @@ const useCalendarNavigation = (props: { type: string | null }) => {
   const { type } = props;
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams.toString());
+  console.log(params.get('date'))
 
   const [currentDate, setCurrentDate] = useState<Date>(() => {
     const dateParam = params.get('date');

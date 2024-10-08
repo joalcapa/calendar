@@ -43,13 +43,11 @@ export default class CreateEvent extends BaseService {
       }
 
       if (!this.data.weather) {
-        this.setError('El clima es requerido');
-        return;
+        this.data.weather = "No registra clima";
       }
 
       if (!this.data.weather_url) {
-        this.setError('El clima es requerido');
-        return;
+        this.data.weather_url = "";
       }
 
       if (!this.data.description) {

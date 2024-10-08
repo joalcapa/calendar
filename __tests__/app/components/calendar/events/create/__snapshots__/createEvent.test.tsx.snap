@@ -43,6 +43,7 @@ exports[`CreateEvent Component renders correctly when loading 1`] = `
           <input
             class="border border-gray-300 p-2 w-full rounded"
             data-testid="title"
+            disabled=""
             required=""
             type="text"
             value="Evento de prueba"
@@ -58,6 +59,7 @@ exports[`CreateEvent Component renders correctly when loading 1`] = `
           </label>
           <textarea
             class="border border-gray-300 p-2 w-full rounded"
+            disabled=""
             required=""
           />
         </div>
@@ -71,6 +73,7 @@ exports[`CreateEvent Component renders correctly when loading 1`] = `
           </label>
           <input
             class="border border-gray-300 p-2 w-full rounded"
+            disabled=""
             required=""
             value=""
           />
@@ -85,6 +88,7 @@ exports[`CreateEvent Component renders correctly when loading 1`] = `
           </label>
           <input
             class="border border-gray-300 p-2 w-full rounded"
+            disabled=""
             required=""
             type="datetime-local"
             value=""
@@ -95,6 +99,7 @@ exports[`CreateEvent Component renders correctly when loading 1`] = `
         >
           <input
             class="mr-2"
+            disabled=""
             type="checkbox"
           />
           <label>
@@ -111,6 +116,7 @@ exports[`CreateEvent Component renders correctly when loading 1`] = `
           </label>
           <input
             class="border border-gray-300 p-2 w-full rounded"
+            disabled=""
             min=""
             type="datetime-local"
             value=""
@@ -125,6 +131,7 @@ exports[`CreateEvent Component renders correctly when loading 1`] = `
       </div>
       <button
         class="mt-4 text-gray-500"
+        disabled=""
       >
         Cancelar
       </button>

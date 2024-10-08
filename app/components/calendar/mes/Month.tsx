@@ -74,13 +74,13 @@ const Month: React.FC<MonthProps> = (
                                 >
                                    <span
                                        className="absolute top-1 left-1 text-xs font-bold">{day.day} {day.isToday ? '- HOY' : ''}</span>
-                                    <div className="mt-5 w-full h-full overflow-hidden">
+                                    <div className="mt-5 h-full overflow-hidden">
                                         {day.events.filter((e) => e.id != eventDrag?.id).map((event) => (
-                                            <DraggableEvent key={event.id} event={event} day={day} className="w-full h-full">
+                                            <DraggableEvent key={event.id} event={event} day={day} className="w-full">
                                                 {
                                                     ({isDragging}) => (
                                                         <div
-                                                            className={`max-w-full h-full max-h-[20px] pb-5 pb text-xs text-left truncate bg-blue-100 p-1 mb-1 rounded cursor-pointer ${isDragging ? 'opacity-50' : ''}`}
+                                                            className={`max-w-full max-h-[20px] pb-5 pb text-xs text-left truncate bg-blue-100 p-1 mb-1 rounded cursor-pointer ${isDragging ? 'opacity-50' : ''}`}
                                                             onClick={(e) => {
                                                                 onEvent(event);
                                                                 e.stopPropagation();

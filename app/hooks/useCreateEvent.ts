@@ -53,7 +53,14 @@ const useCreateEvent = (props: CreateEventProps) => {
     const [ debouncedCity, setDebouncedCity ] = useState(city);
     const [ debouncedStartDate, setDebouncedStartDate ] = useState(startDate);
     const { getWeather } = useWeather();
-    const { onCreate, isCreating } = useEvents();
+    const { onCreate, isCreating, isSuccessCreate } = useEvents();
+
+    useEffect(() => {
+        if (isSuccessCreate) {
+            setLoading(false);
+            onClose();
+        }
+    }, [ isSuccessCreate ]);
 
     useEffect(() => {
         const handler = setTimeout(() => {
@@ -98,6 +105,8 @@ const useCreateEvent = (props: CreateEventProps) => {
     const onSend = useCallback(async () => {
         try {
             if (isValidForm) {
+                setLoading(true)
+
                 await onCreate({
                     title,
                     description,
@@ -108,8 +117,6 @@ const useCreateEvent = (props: CreateEventProps) => {
                     start_date: new Date(startDate + "Z").toISOString(),
                     finish_date: new Date(finishDate + "Z").toISOString(),
                 });
-
-                onClose();
             }
         } catch { }
     }, [
@@ -180,7 +187,7 @@ const useCreateEvent = (props: CreateEventProps) => {
         finishDate,
         weather,
         weatherUrl,
-        isValidForm,
+        isValidForm: isValidForm && !isLoading,
         onClose,
         changeTitle,
         changeCity,

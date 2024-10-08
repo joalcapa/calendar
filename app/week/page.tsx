@@ -48,15 +48,17 @@ export default async ({ searchParams }: {
 
     return (
         <>
-            <CalendarNavigation type={typeParam} />
+            <CalendarNavigation key={parsedDate} type={typeParam} />
             <ReactQueryProvider state={dehydratedState}>
                 <Hydrate state={dehydratedState}>
-                    <div key={parsedDate} className="flex flex-1">
-                        <div className="w-1/4 md:w-1/5 p-4">
-                            <SmallCalendar date={new Date(parsedDate)} />
+                    <div className="flex flex-1">
+                        <div className="w-[50px] show 1470:block">
+                        </div>
+                        <div className="w-1/4 md:w-1/5 p-4 hidden 1470:block">
+                            <SmallCalendar key={parsedDate} date={new Date(parsedDate)}/>
                         </div>
                         <div className="flex-1 p-4">
-                            <Calendar days={events} />
+                            <Calendar days={events}/>
                         </div>
                     </div>
                 </Hydrate>

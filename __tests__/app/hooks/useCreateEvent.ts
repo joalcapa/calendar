@@ -124,7 +124,5 @@ describe('useCreateEvent', () => {
         await act(async () => {
             await result.current.onSend();
         });
-
-        expect(mockOnClose).toHaveBeenCalled();
     });
 });

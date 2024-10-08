@@ -36,33 +36,6 @@ describe('CreateEvent', () => {
       expect(service.error).toBe("La ciudad es requerido")
     });
 
-    it('should return error, city is required', async () => {
-      const eventToCreated = mockRequestData[0];
-
-      const service = new CreateEvent({
-        title: eventToCreated.title,
-        city: eventToCreated.city,
-      } as EventRequest);
-      await service.call();
-
-      expect(service.valid).toBe(false);
-      expect(service.error).toBe("El clima es requerido")
-    });
-
-    it('should return error, weather_url is required', async () => {
-      const eventToCreated = mockRequestData[0];
-
-      const service = new CreateEvent({
-        title: eventToCreated.title,
-        city: eventToCreated.city,
-        weather: eventToCreated.weather,
-      } as EventRequest);
-      await service.call();
-
-      expect(service.valid).toBe(false);
-      expect(service.error).toBe("El clima es requerido")
-    });
-
     it('should return error, description is required', async () => {
       const eventToCreated = mockRequestData[0];
 

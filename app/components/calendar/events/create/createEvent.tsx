@@ -101,7 +101,7 @@ export const CreateEvent = ({
               value={title}
               onChange={changeTitle}
               required
-              disabled={isCreating}
+              disabled={isCreating || isLoading}
           />
         </div>
         <div className="mb-4">
@@ -111,7 +111,7 @@ export const CreateEvent = ({
               value={description}
               onChange={changeDescription}
               required
-              disabled={isCreating}
+              disabled={isCreating || isLoading}
           />
         </div>
         <div className="mb-4">
@@ -121,7 +121,7 @@ export const CreateEvent = ({
               value={city}
               onChange={changeCity}
               required
-              disabled={isCreating}
+              disabled={isCreating || isLoading}
           />
         </div>
         <div className="mb-4">
@@ -132,7 +132,7 @@ export const CreateEvent = ({
               value={startDate}
               onChange={changeStartDate}
               required
-              disabled={isCreating}
+              disabled={isCreating || isLoading}
           />
         </div>
         <div className="mb-4 flex items-center">
@@ -141,7 +141,7 @@ export const CreateEvent = ({
               checked={isAllDay}
               onChange={changeAllDay}
               className="mr-2"
-              disabled={isCreating}
+              disabled={isCreating || isLoading}
           />
           <label>Todo el día</label>
         </div>
@@ -154,19 +154,19 @@ export const CreateEvent = ({
                   value={finishDate}
                   min={startDate}
                   onChange={changeFinishDate}
-                  disabled={isCreating}
+                  disabled={isCreating || isLoading}
               />
             </div>
         )}
         <button
             onClick={onSend}
-            disabled={isCreating || !isValidForm}
+            disabled={isCreating || !isValidForm || isLoading}
             className={`${isValidForm ? 'bg-blue-500' : 'bg-gray-500'} text-white p-2 rounded w-full`}
         >
           {buttonLabel}
         </button>
       </div>
-      <button onClick={onClose} className="mt-4 text-gray-500" disabled={isCreating}>
+      <button onClick={onClose} className="mt-4 text-gray-500" disabled={isCreating || isLoading}>
         Cancelar
       </button>
     </div>

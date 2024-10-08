@@ -128,6 +128,7 @@ const useEvents = () => {
     const {
         mutate: createEventHandler,
         isLoading: isCreating,
+        isSuccess: isSuccessCreate,
     }: {
         mutate: (data: CreatePayload) => void,
         isLoading: boolean,
@@ -144,6 +145,7 @@ const useEvents = () => {
         isDeleting,
         isUpdating,
         isCreating,
+        isSuccessCreate,
     }
 };
 
