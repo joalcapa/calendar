@@ -52,7 +52,7 @@ export default async ({ searchParams }: {
             <ReactQueryProvider state={dehydratedState}>
                 <Hydrate state={dehydratedState}>
                     <div className="flex flex-1">
-                        <div className="w-[50px] show 1470:block">
+                        <div className="show 1470:block">
                         </div>
                         <div className="w-1/4 md:w-1/5 p-4 hidden 1470:block">
                             <SmallCalendar key={parsedDate} date={new Date(parsedDate)}/>
