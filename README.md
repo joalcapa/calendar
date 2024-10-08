@@ -219,7 +219,7 @@ npm run test
 
 Este proyecto cuenta con un enfoque sólido para garantizar la calidad mediante diversas pruebas, incluyendo pruebas de componentes, hooks, y funciones.
 
-- **Total de tests**: 65 pruebas que pasan satisfactoriamente.
+- **Total de tests**: **65** pruebas que pasan satisfactoriamente.
 - **Mocks**: Se utilizan mocks personalizados ubicados en el directorio `__mocks__/` para simular datos y servicios externos.
 - **Component Testing**: Pruebas de componentes React con **@testing-library/react**.
 - **Hook Testing**: Pruebas específicas de hooks para garantizar su correcto comportamiento.
