@@ -1,8 +1,9 @@
 'use client'
 
 import { useState, useEffect } from "react";
-import { format, addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay } from "date-fns";
+import { addMonths, subMonths, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameMonth, isSameDay } from "date-fns";
 import { es } from 'date-fns/locale';
+import { format } from '../../../utils/utils';
 import SmallCalendarServer from "./smallCaldendarServer";
 import { useRouter, useSearchParams } from "next/navigation";
 const DATE_FORMAT = 'yyyy-MM-dd';
@@ -12,20 +13,28 @@ const SmallCalendar = ({ date }) => {
   const { replace } = useRouter();
   const searchParams = useSearchParams();
 
-  useEffect(() => {
+  const moveTo = (newMont) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set('date', format(currentMonth , DATE_FORMAT));
+    params.set('date', format(newMont , DATE_FORMAT));
     replace(`?${params.toString()}`);
-  }, [ currentMonth ]);
+  };
 
   const renderHeader = () => {
     return (
       <div className="flex justify-between items-center mb-2">
-        <button onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}>
+        <button onClick={() => {
+          const newMont = subMonths(currentMonth, 1);
+          setCurrentMonth(newMont);
+          moveTo(newMont);
+        }}>
           &#8249;
         </button>
         <span className="text-lg font-medium">{format(currentMonth, "MMMM yyyy", { locale: es }).charAt(0).toUpperCase() + format(currentMonth, "MMMM yyyy", { locale: es }).slice(1)}</span>
-        <button onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}>
+        <button onClick={() => {
+          const newMont = addMonths(currentMonth, 1);
+          setCurrentMonth(newMont);
+          moveTo(newMont);
+        }}>
           &#8250;
         </button>
       </div>
@@ -70,7 +79,11 @@ const SmallCalendar = ({ date }) => {
                       "bg-blue-500 hover:bg-blue-200 text-white" : ""
             }
             cursor-pointer`}
-            onClick={() => setCurrentMonth(cloneDay)}
+            onClick={() => {
+              const newMont = cloneDay;
+              setCurrentMonth(newMont);
+              moveTo(newMont);
+            }}
           >
             {format(day, "d", { locale: es })}
           </div>
