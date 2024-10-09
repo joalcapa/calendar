@@ -1,6 +1,11 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "entryPoints": ["./src/index.ts", "./src/secondary-entry.ts"],
-  "out": "doc"
+  "entryPoints": ["app/*", "libs/*", "prisma/*", "repositories/*", "services/*", "types/*", "utils/*"],
+  "out": "doc",
+  "skipErrorChecking": true,
+  "compilerOptions": {
+    "strictNullChecks": false,
+    "skipLibCheck": true
+  }
 }
 
