@@ -18,7 +18,9 @@ además con los datos meteorológicos poder crear eventos en su calendario, perm
 - [Instalación](#instalación)
 - [Configuración](#configuración)
 - [Uso](#uso)
+- [Doc](#doc)
 - [Estructura del Proyecto](#estructura-del-proyecto)
+- [Testing](#testing)
 
 ## Características
 
@@ -147,6 +149,7 @@ calendar/
     │ └── layout.tsx # Layout principal 
     │ └── global.css # CSS global 
     │ └──  page.tsx # Página principal 
+    ├── doc/ # Documentación generada por Typedoc
     ├── libs/ # Librerías reutilizables 
     ├── prisma/ # Configuración de Prisma 
     ├── repositories/ # Repositorios para el acceso a datos 
@@ -215,6 +218,9 @@ Para ejecutar los tests:
 npm run test
 ```
 
+### Doc
+
+La documentación la puedes encontrar en la carpeta **doc**, alli se detalla mediante la ayuda de typedoc, cada una de las funciones, componentes, hooks, etc
 ### Testing
 
 Este proyecto cuenta con un enfoque sólido para garantizar la calidad mediante diversas pruebas, incluyendo pruebas de componentes, hooks, y funciones.
