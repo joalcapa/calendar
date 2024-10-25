@@ -1,11 +1,5 @@
 # Calendar APP
 
-# DEMO LIVE VERCEL
-Calendar APP esta desplegado en VERCEL, con la siguiente URL:
-
-
-https://calendar-beige-sigma.vercel.app/
-
 ![image GIF Meuler](https://dl.dropboxusercontent.com/scl/fi/bycsyzdtm3yp11b2cfoog/Calendar1.gif?rlkey=xv42jj0vwh5w4e3jqyzthwkxr&st=3ua8vl4j)
 
 Esta aplicación web está construida con Next.js v14 y se conecta a una base de datos PostgreSQL mediante Prisma. 
